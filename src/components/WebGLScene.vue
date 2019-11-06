@@ -7,11 +7,12 @@ import Vue from "vue";
 import WebGL from "@/webGL";
 export default {
   name: "WebglScene",
+  created() {},
   mounted() {
     // Init webgl
+
     this.$nextTick(() => {
       Vue.prototype.$webgl = Vue.prototype.$webgl || new WebGL(this.$el);
-      // Check if mounted
       this.$webgl.init();
     });
   },

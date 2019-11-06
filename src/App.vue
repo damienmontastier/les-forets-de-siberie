@@ -6,12 +6,18 @@
 </template>
 
 <script>
+import Vue from "vue";
 import WebGLScene from "@/components/WebGLScene";
+
+import Events from "@/assets/js/events.js";
+Vue.use(Events);
+
 export default {
   name: "app",
   components: {
     WebGLScene
-  }
+  },
+  created() {}
 };
 </script>
 
