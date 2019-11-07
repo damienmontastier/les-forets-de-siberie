@@ -7,6 +7,7 @@ const parameters = {
   height: window.innerHeight,
   resolution: window.devicePixelRatio || 1,
   autoResize: true,
+  resizeTo: window,
   antialias: true
 }
 
