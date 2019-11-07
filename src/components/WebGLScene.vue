@@ -10,11 +10,8 @@ export default {
   created() {},
   mounted() {
     // Init webgl
-
-    this.$nextTick(() => {
-      Vue.prototype.$webgl = Vue.prototype.$webgl || new WebGL(this.$el)
-      this.$webgl.init()
-    })
+    Vue.prototype.$webgl = Vue.prototype.$webgl || new WebGL(this.$el)
+    this.$webgl.init()
   },
   beforeDestroy() {
     this.$webgl.destroy()

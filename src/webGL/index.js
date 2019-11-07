@@ -2,6 +2,8 @@ import * as PIXI from 'pixi.js'
 import AssetManager from '@/services/AssetsManager'
 import events from '@/plugins/events.js'
 
+import Intro from './stages/Intro'
+
 const parameters = {
   width: window.innerWidth,
   height: window.innerHeight,
@@ -19,9 +21,16 @@ export default class WebGL extends PIXI.Application {
       ...parameters,
       view
     })
+
+    this.stages = {
+      Intro
+    }
   }
 
   init() {
-    AssetManager.getGroup('stage1').then((assets)=>{})
+    Intro.init()
+    this.stage.addChild(Intro)
+
+    console.log(this)
   }
 }
