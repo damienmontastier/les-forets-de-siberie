@@ -26,12 +26,8 @@ export default {
   components: {
     WebGLScene
   },
-<<<<<<< HEAD
   created() {
   }
-=======
-  created() {}
->>>>>>> 3f864eec5dc200554ef2382103d166dae201b4fc
 }
 </script>
 
