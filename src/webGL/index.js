@@ -1,17 +1,19 @@
 import * as PIXI from 'pixi.js'
 import Vue from 'vue'
-import events from '@/assets/js/events.js'
+import events from '@/assets/js/events'
+import AssetManager from '@/services/AssetsManager'
+
+const parameters = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+  resolution: window.devicePixelRatio || 1,
+  autoResize: true,
+  antialias: true
+}
 
 export default class WebGL extends PIXI.Application {
   constructor(
-    view,
-    parameters = {
-      width: window.innerWidth,
-      height: window.innerHeight,
-      resolution: window.devicePixelRatio || 1,
-      autoResize: true,
-      antialias: true
-    }
+    view
   ) {
     super({
       ...parameters,
@@ -19,5 +21,9 @@ export default class WebGL extends PIXI.Application {
     })
   }
 
-  init() {}
+  init() {
+    AssetManager.getGroup('stage1').then((assets)=>{
+      console.log('webgl',assets)
+    })
+  }
 }
