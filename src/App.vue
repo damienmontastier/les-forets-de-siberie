@@ -1,10 +1,10 @@
 <template>
   <div id="app">
     <router-view />
-    <WebGLScene v-if="isMobile" />
-    <div v-else id="mobile">
+    <WebGLScene />
+    <!-- <div v-else id="mobile">
       <div>You're not on mobile</div>
-    </div>
+    </div> -->
   </div>
 </template>
 
