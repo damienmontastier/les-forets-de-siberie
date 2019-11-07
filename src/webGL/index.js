@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
 import Vue from 'vue'
-import events from '@/assets/js/events.js'
+import events from '@/plugins/events.js'
 
 export default class WebGL extends PIXI.Application {
   constructor(
