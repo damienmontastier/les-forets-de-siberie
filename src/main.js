@@ -21,8 +21,6 @@ GUI.add(test, 'bool').listen()
 GUI.add(test, 'array', ['pizza', 'chrome', 'hooray'])
 GUI.addColor(test, 'color0')
 
-console.log(GUI)
-
 Vue.config.productionTip = false
 
 new Vue({
