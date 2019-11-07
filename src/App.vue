@@ -6,24 +6,26 @@
 </template>
 
 <script>
-import Vue from "vue";
-import WebGLScene from "@/components/WebGLScene";
+import Vue from 'vue'
+import WebGLScene from '@/components/WebGLScene'
 
-import Events from "@/assets/js/events.js";
-Vue.use(Events);
+import Events from '@/assets/js/events.js'
+Vue.use(Events)
 
 export default {
-  name: "app",
+  name: 'app',
   components: {
     WebGLScene
   },
-  created() {}
-};
+  created() {
+    console.log(this)
+  }
+}
 </script>
 
 <style lang="scss">
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
