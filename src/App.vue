@@ -9,7 +9,7 @@
 import Vue from 'vue'
 import WebGLScene from '@/components/WebGLScene'
 
-import Events from '@/assets/js/events.js'
+import Events from '@/plugins/events.js'
 Vue.use(Events)
 
 export default {
@@ -18,7 +18,6 @@ export default {
     WebGLScene
   },
   created() {
-    console.log(this)
   }
 }
 </script>

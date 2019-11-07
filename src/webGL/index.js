@@ -1,7 +1,6 @@
 import * as PIXI from 'pixi.js'
-import Vue from 'vue'
-import events from '@/assets/js/events'
 import AssetManager from '@/services/AssetsManager'
+import events from '@/plugins/events.js'
 
 const parameters = {
   width: window.innerWidth,
@@ -22,8 +21,6 @@ export default class WebGL extends PIXI.Application {
   }
 
   init() {
-    AssetManager.getGroup('stage1').then((assets)=>{
-      console.log('webgl',assets)
-    })
+    AssetManager.getGroup('stage1').then((assets)=>{})
   }
 }
