@@ -20,12 +20,9 @@ class Intro extends PIXI.Container {
   }
 
   start() {
-    console.log(this.assets)
-    let sprite = new PIXI.Sprite(this.assets['feuille1'].texture)
-    console.log(sprite.width, sprite.height)
+    let sprite = new PIXI.Sprite(this.assets['bunny'].texture)
+    
     this.addChild(sprite)
-    sprite.position.x = window.innerWidth / 2
-    sprite.position.y = window.innerHeight / 2
   }
 }
 

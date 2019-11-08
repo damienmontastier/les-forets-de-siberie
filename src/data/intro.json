@@ -28,6 +28,10 @@
     {
       "name" : "feuille4",
       "path" : "/intro/images/intro_feuille_4.png"
+    },
+    {
+      "name" : "bunny",
+      "path" : "/intro/images/bunny.png"
     }
   ]
 }

@@ -8,8 +8,8 @@ const parameters = {
   width: window.innerWidth,
   height: window.innerHeight,
   resolution: window.devicePixelRatio || 1,
-  // autoResize: true,
-  // resizeTo: window,
+  autoResize: true,
+  resizeTo: window,
   antialias: true
 }
 
@@ -28,16 +28,12 @@ export default class WebGL extends PIXI.Application {
   }
 
   _resize() {
-    this.stage.scale.x = this.stage.scale.y =
-      window.innerWidth / window.innerHeight
-    this.renderer.resize(window.innerWidth, window.innerHeight)
+    this.stage.position.x = window.innerWidth / 2
+    this.stage.position.y = window.innerHeight / 2
   }
 
   init() {
     Intro.init()
-    console.log(Intro)
     this.stage.addChild(Intro)
-
-    console.log(this)
   }
 }
