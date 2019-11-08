@@ -3,6 +3,8 @@ const OrbitControls = require('three-orbitcontrols')
 
 import Intro from './stages/Intro'
 
+import events from '@/plugins/events'
+
 export default class WebGL {
   constructor(canvas, container = document.body) {
     this.canvas = canvas
@@ -16,6 +18,8 @@ export default class WebGL {
       this.onMouseMove.bind(this),
       false
     )
+
+    this.handleEvents()
 
     // renderer
     this.renderer = new THREE.WebGLRenderer({
@@ -93,6 +97,19 @@ export default class WebGL {
     let height = 2 * Math.tan(vFov / 2) * distance
     let width = height * this.viewport.aspectRatio
     return { width, height, vFov }
+  }
+
+  initStage(name) {
+    console.log('route changed: ' + name)
+    // TODO : init Stage with this name if exists
+  }
+
+  handleEvents() {
+    // console.log('handleEvents')
+    events.on('route changed', function(name) {
+      console.log('route changed: ' + name)
+      // TODO : remove current and init Stage with this name if exists
+    })
   }
 
   destroy() {
