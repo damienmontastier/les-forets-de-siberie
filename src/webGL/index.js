@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+const OrbitControls = require('three-orbitcontrols')
 
 export default class WebGL {
   constructor(canvas,container = document.body) {
@@ -35,8 +36,17 @@ export default class WebGL {
     )
     this.camera.position.set(0, 0, 10)
 
+    //controls
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement)
+    this.controls.enableDamping = true
+    this.controls.dampingFactor = 0.25
+    this.controls.enableZoom = false
+
     //mouse
     this.mouse = new THREE.Vector2()
+
+    //axes
+    this.scene.add(new THREE.AxesHelper(5))
 
     // animation loop
     this.renderer.setAnimationLoop(this.render.bind(this))
