@@ -1,0 +1,13 @@
+{
+  "name": "stage1",
+  "files": [
+    {
+      "name" : "asset1",
+      "path" : "/images/asset1.jpg"
+    },
+    {
+      "name" : "asset2",
+      "path" : "/images/asset2.jpg"
+    }
+  ]
+}

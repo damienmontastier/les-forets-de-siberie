@@ -2,6 +2,9 @@
   <div id="app">
     <router-view />
     <WebGLScene />
+    <!-- <div v-else id="mobile">
+      <div>You're not on mobile</div>
+    </div> -->
   </div>
 </template>
 
@@ -9,16 +12,21 @@
 import Vue from 'vue'
 import WebGLScene from '@/components/WebGLScene'
 
-import Events from '@/assets/js/events.js'
-Vue.use(Events)
+import Events from '@/plugins/events.js'
+
+import { isMobile } from 'mobile-device-detect'
 
 export default {
   name: 'app',
+  data() {
+    return {
+      isMobile: isMobile
+    }
+  },
   components: {
     WebGLScene
   },
   created() {
-    console.log(this)
   }
 }
 </script>
@@ -30,7 +38,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background: $primary;
 }
 
 #nav {
