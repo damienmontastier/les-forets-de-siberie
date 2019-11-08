@@ -1,8 +1,9 @@
 import * as THREE from 'three'
 const OrbitControls = require('three-orbitcontrols')
+import chapter1 from '@/webGL/chapter1.js'
 
 export default class WebGL {
-  constructor(canvas,container = document.body) {
+  constructor(canvas, container = document.body) {
     this.canvas = canvas
     this.container = container
   }
@@ -50,6 +51,11 @@ export default class WebGL {
 
     // animation loop
     this.renderer.setAnimationLoop(this.render.bind(this))
+
+    chapter1.init()
+
+    // let test = chapter1.start()
+    this.scene.add(chapter1)
   }
 
   render() {
