@@ -1,0 +1,277 @@
+{
+  "frames": [
+    {
+      "filename": "Sans titre - 1-02.png",
+      "frame": { "x": 468, "y": 782, "w": 257, "h": 505 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 224, "y": 69, "w": 257, "h": 505 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "Sans titre - 1-03.png",
+      "frame": { "x": 645, "y": 254, "w": 336, "h": 450 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 232, "y": 143, "w": 336, "h": 450 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "Sans titre - 1-04.png",
+      "frame": { "x": 0, "y": 1652, "w": 526, "h": 287 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 99, "y": 179, "w": 526, "h": 287 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "Sans titre - 1-05.png",
+      "frame": { "x": 1360, "y": 776, "w": 265, "h": 444 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 220, "y": 100, "w": 265, "h": 444 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "Sans titre - 1-06.png",
+      "frame": { "x": 412, "y": 1287, "w": 218, "h": 282 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 255, "y": 181, "w": 218, "h": 282 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "Sans titre - 1-07.png",
+      "frame": { "x": 0, "y": 254, "w": 645, "h": 528 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 39, "y": 53, "w": 645, "h": 528 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "Sans titre - 1-08.png",
+      "frame": { "x": 981, "y": 516, "w": 639, "h": 260 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 35, "y": 190, "w": 639, "h": 260 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "Sans titre - 1-09.png",
+      "frame": { "x": 0, "y": 782, "w": 468, "h": 452 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 131, "y": 75, "w": 468, "h": 452 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "Sans titre - 1-10.png",
+      "frame": { "x": 1252, "y": 1220, "w": 462, "h": 263 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 112, "y": 214, "w": 462, "h": 263 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "Sans titre - 1-11.png",
+      "frame": { "x": 0, "y": 1939, "w": 380, "h": 86 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 162, "y": 258, "w": 380, "h": 86 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "Sans titre - 1-12.png",
+      "frame": { "x": 598, "y": 1701, "w": 377, "h": 84 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 176, "y": 259, "w": 377, "h": 84 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "Sans titre - 1-13.png",
+      "frame": { "x": 1736, "y": 1711, "w": 189, "h": 159 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 301, "y": 256, "w": 189, "h": 159 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "Sans titre - 1-14.png",
+      "frame": { "x": 598, "y": 1936, "w": 217, "h": 98 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 243, "y": 299, "w": 217, "h": 98 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "Sans titre - 1-15.png",
+      "frame": { "x": 1554, "y": 1683, "w": 182, "h": 170 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 277, "y": 248, "w": 182, "h": 170 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "Sans titre - 1-16.png",
+      "frame": { "x": 1764, "y": 1603, "w": 195, "h": 108 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 281, "y": 260, "w": 195, "h": 108 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "Sans titre - 1-17.png",
+      "frame": { "x": 725, "y": 1199, "w": 527, "h": 243 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 90, "y": 218, "w": 527, "h": 243 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "Sans titre - 1-18.png",
+      "frame": { "x": 630, "y": 1442, "w": 446, "h": 259 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 141, "y": 211, "w": 446, "h": 259 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "Sans titre - 1-19.png",
+      "frame": { "x": 598, "y": 1785, "w": 310, "h": 151 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 227, "y": 238, "w": 310, "h": 151 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "Sans titre - 1-20.png",
+      "frame": { "x": 1750, "y": 0, "w": 284, "h": 294 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 209, "y": 167, "w": 284, "h": 294 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "Sans titre - 1-21.png",
+      "frame": { "x": 1554, "y": 1483, "w": 210, "h": 200 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 260, "y": 214, "w": 210, "h": 200 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "Sans titre - 1-22.png",
+      "frame": { "x": 1764, "y": 1479, "w": 268, "h": 124 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 229, "y": 252, "w": 268, "h": 124 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "Sans titre - 1-23.png",
+      "frame": { "x": 1714, "y": 1106, "w": 278, "h": 373 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 214, "y": 127, "w": 278, "h": 373 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "Sans titre - 1-24.png",
+      "frame": { "x": 1707, "y": 294, "w": 309, "h": 401 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 211, "y": 114, "w": 309, "h": 401 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "Sans titre - 1-25.png",
+      "frame": { "x": 1625, "y": 695, "w": 386, "h": 411 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 189, "y": 166, "w": 386, "h": 411 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "Sans titre - 1-26.png",
+      "frame": { "x": 1334, "y": 1483, "w": 220, "h": 453 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 241, "y": 145, "w": 220, "h": 453 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "window2.png",
+      "frame": { "x": 960, "y": 776, "w": 400, "h": 423 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 166, "y": 160, "w": 400, "h": 423 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "window1.png",
+      "frame": { "x": 0, "y": 1234, "w": 412, "h": 418 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 157, "y": 163, "w": 412, "h": 418 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "Sans titre - 1-29.png",
+      "frame": { "x": 526, "y": 1569, "w": 72, "h": 453 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 317, "y": 145, "w": 72, "h": 453 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "Sans titre - 1-30.png",
+      "frame": { "x": 725, "y": 704, "w": 235, "h": 495 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 248, "y": 124, "w": 235, "h": 495 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "Sans titre - 1-31.png",
+      "frame": { "x": 1024, "y": 0, "w": 726, "h": 258 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 0, "y": 361, "w": 726, "h": 258 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "Sans titre - 1-32.png",
+      "frame": { "x": 981, "y": 258, "w": 726, "h": 258 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 0, "y": 361, "w": 726, "h": 258 },
+      "sourceSize": { "w": 726, "h": 726 }
+    },
+    {
+      "filename": "Sans titre - 1-34.png",
+      "frame": { "x": 0, "y": 0, "w": 1024, "h": 254 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 1024, "h": 254 },
+      "sourceSize": { "w": 1024, "h": 254 }
+    },
+    {
+      "filename": "Sans titre - 1_Plan de travail 1.png",
+      "frame": { "x": 1076, "y": 1483, "w": 258, "h": 467 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 254, "y": 88, "w": 258, "h": 467 },
+      "sourceSize": { "w": 726, "h": 726 }
+    }
+  ],
+  "meta": {
+    "app": "https://www.codeandweb.com/texturepacker",
+    "version": "1.0",
+    "image": "level.png",
+    "format": "RGBA8888",
+    "size": { "w": 2048, "h": 2048 },
+    "scale": "0.68",
+    "smartupdate": "$TexturePacker:SmartUpdate:a05805f6d90a3397279b81631bfa548f:041f66737f5c4aabd962f9c040db08de:131701cb6c4e8d84a5be75f0cc65185d$"
+  }
+}

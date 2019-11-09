@@ -2,13 +2,17 @@ import * as THREE from 'three'
 const OrbitControls = require('three-orbitcontrols')
 import chapter1 from '@/webGL/chapter1.js'
 
+import Intro from './stages/Intro'
+
+import events from '@/plugins/events'
+
 export default class WebGL {
   constructor(canvas, container = document.body) {
     this.canvas = canvas
     this.container = container
-  }
 
-  init() {
+    this.playing = true
+
     window.addEventListener('resize', this.onWindowResize.bind(this), false)
     this.container.addEventListener(
       'mousemove',
@@ -16,13 +20,14 @@ export default class WebGL {
       false
     )
 
+    this.handleEvents()
+
     // renderer
     this.renderer = new THREE.WebGLRenderer({
       antialias: true,
       canvas: this.canvas
     })
     this.renderer.setSize(this.viewport.width, this.viewport.height)
-    console.log(this.viewport)
     this.renderer.setPixelRatio = window.devicePixelRatio
 
     // scene
@@ -48,6 +53,11 @@ export default class WebGL {
 
     //axes
     this.scene.add(new THREE.AxesHelper(5))
+  }
+
+  init() {
+    this.scene.add(Intro)
+    Intro.init()
 
     // animation loop
     this.renderer.setAnimationLoop(this.render.bind(this))
@@ -60,6 +70,7 @@ export default class WebGL {
 
   render() {
     // called every frame
+    if (!this.playing) return
     this.renderer.render(this.scene, this.camera)
   }
 
@@ -92,5 +103,22 @@ export default class WebGL {
     let height = 2 * Math.tan(vFov / 2) * distance
     let width = height * this.viewport.aspectRatio
     return { width, height, vFov }
+  }
+
+  initStage(name) {
+    console.log('route changed: ' + name)
+    // TODO : init Stage with this name if exists
+  }
+
+  handleEvents() {
+    // console.log('handleEvents')
+    events.on('route changed', function(name) {
+      console.log('route changed: ' + name)
+      // TODO : remove current and init Stage with this name if exists
+    })
+  }
+
+  destroy() {
+    this.playing = false
   }
 }

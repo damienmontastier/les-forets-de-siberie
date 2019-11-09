@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import events from '@/plugins/events'
 
 Vue.use(VueRouter)
 
@@ -25,6 +26,10 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.afterEach((to, from, next) => {
+  events.emit('route changed', to.path.replace('/', ''))
 })
 
 export default router
