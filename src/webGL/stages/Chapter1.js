@@ -11,7 +11,7 @@ class Chapter1 extends THREE.Object3D {
   }
   init() {
     this.loadAssets().then(textureAtlas => {
-      const layer = new Layer(textureAtlas)
+      const layer = new Layer({ textureAtlas })
     })
 
     // const layer = new Layer()

@@ -58,10 +58,9 @@ export default class WebGL {
   init() {
     // this.scene.add(Intro)
     // Intro.init()
+    Chapter1.init()
 
     this.scene.add(Chapter1)
-    Chapter1.init()
-    // console.log(Chapter1)
 
     // animation loop
     this.renderer.setAnimationLoop(this.render.bind(this))
