@@ -15,7 +15,7 @@ export default class TextureAtlas {
       t.offset.x = data.x / image.width
       t.offset.y = 1 - data.h / image.height - data.y / image.height
       t.needsUpdate = true
-
+      t.name = frame.filename
       t._size = { width: data.w, height: data.h }
 
       let id = frame.filename.replace('.png', '').toLowerCase()

@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 const OrbitControls = require('three-orbitcontrols')
-import chapter1 from '@/webGL/chapter1.js'
+import Chapter1 from '@/webGL/stages/Chapter1'
 
 import Intro from './stages/Intro'
 
@@ -56,16 +56,15 @@ export default class WebGL {
   }
 
   init() {
-    this.scene.add(Intro)
-    Intro.init()
+    // this.scene.add(Intro)
+    // Intro.init()
+
+    this.scene.add(Chapter1)
+    Chapter1.init()
+    // console.log(Chapter1)
 
     // animation loop
     this.renderer.setAnimationLoop(this.render.bind(this))
-
-    chapter1.init()
-
-    // let test = chapter1.start()
-    this.scene.add(chapter1)
   }
 
   render() {
@@ -102,7 +101,11 @@ export default class WebGL {
     let vFov = (this.camera.fov * Math.PI) / 180
     let height = 2 * Math.tan(vFov / 2) * distance
     let width = height * this.viewport.aspectRatio
-    return { width, height, vFov }
+    return {
+      width,
+      height,
+      vFov
+    }
   }
 
   initStage(name) {
