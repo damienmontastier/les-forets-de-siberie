@@ -7,14 +7,14 @@ export default class Layer extends THREE.Object3D {
   constructor() {
     super()
 
-    this.layers = []
+    this.layersPosition = []
     this.init()
   }
   init() {
     this.loadAssets()
       .then(() => this.sortLayer())
       .then(() => {
-        this.layers.forEach(element => {
+        this.layersPosition.forEach(element => {
           this.children.push(element)
         })
       })
@@ -47,14 +47,14 @@ export default class Layer extends THREE.Object3D {
         let idLayer = name.slice(0, 1)
 
         if (idLayer != lastIdLayer) {
-          this.layers[idLayer] = new Array()
+          this.layersPosition[idLayer] = new Array()
         }
 
-        this.layers[idLayer].push(sprite)
+        this.layersPosition[idLayer].push(sprite)
 
         lastIdLayer = idLayer
 
-        resolve(this.layers)
+        resolve(this.layersPosition)
         // }
       })
     })

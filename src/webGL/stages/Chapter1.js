@@ -1,35 +1,19 @@
 import * as THREE from 'three'
 import TweenMax from 'gsap'
 import Layer from '@/webGL/utils/Layer'
-import TextureAtlas from '../utils/TextureAtlas'
-
-import atlasJSON from '@/assets/chapter1/test.json'
 
 class Chapter1 extends THREE.Object3D {
   constructor() {
     super()
   }
   init() {
-    this.loadAssets().then(textureAtlas => {
-      const layer = new Layer({ textureAtlas })
+    return new Promise(resolve => {
+      const layer = new Layer()
+      resolve(layer)
     })
 
-    // const layer = new Layer()
     // document.addEventListener('touchmove', this.handleScroll.bind(this))
     // document.addEventListener('touchstart', this.handleStart.bind(this))
-
-    this.start()
-  }
-
-  loadAssets() {
-    return new Promise((resolve, reject) => {
-      let loader = new THREE.TextureLoader()
-
-      loader.load('/assets/intro/atlas/atlas.png', texture => {
-        this.textureAtlas = new TextureAtlas(atlasJSON, texture.image)
-        resolve(this.textureAtlas)
-      })
-    })
   }
 
   start() {
