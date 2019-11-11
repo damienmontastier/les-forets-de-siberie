@@ -1,6 +1,6 @@
 import * as THREE from 'three'
-import TextureAtlas from '../utils/TextureAtlas'
-import Sprite from '../utils/Sprite'
+import TextureAtlas from './TextureAtlas'
+import Sprite from './Sprite'
 import atlasJSON from '@/assets/chapter1/test.json'
 
 export default class Layer extends THREE.Object3D {
