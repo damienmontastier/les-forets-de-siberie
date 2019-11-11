@@ -5,6 +5,8 @@ body {
   width: 100vw;
   height: 100vh;
   overscroll-behavior-y: contain;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 canvas.webGLScene {
