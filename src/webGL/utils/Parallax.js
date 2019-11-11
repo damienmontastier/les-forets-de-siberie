@@ -26,7 +26,7 @@ export default class Parallax {
     let touches = event.touches[0]
 
     this.delta = touches.pageY - this.startPosition.y
-
+    console.log(this.delta)
     Object.values(this.layer.children).forEach((element, index) => {
       let speed = index + 1
       TweenMax.to(element.position, 0.8, {
