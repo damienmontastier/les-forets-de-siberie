@@ -9,7 +9,8 @@ class Chapter1 extends THREE.Object3D {
   init() {
     return new Promise(resolve => {
       const layer = new Layer()
-      resolve(layer)
+      this.add(layer)
+      resolve()
     })
 
     // document.addEventListener('touchmove', this.handleScroll.bind(this))

@@ -47,10 +47,11 @@ export default class Layer extends THREE.Object3D {
         let idLayer = name.slice(0, 1)
 
         if (idLayer != lastIdLayer) {
-          this.layersPosition[idLayer] = new Array()
+          this.layersPosition[idLayer] = new THREE.Object3D()
         }
 
-        this.layersPosition[idLayer].push(sprite)
+        this.layersPosition[idLayer].add(sprite)
+        this.layersPosition[idLayer].positionLayer = idLayer
 
         lastIdLayer = idLayer
 
