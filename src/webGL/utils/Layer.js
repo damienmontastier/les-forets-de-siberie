@@ -32,12 +32,14 @@ export default class Layer extends THREE.Object3D {
   }
   sortLayer() {
     let lastIdLayer
-    let promise = new Promise((resolve, reject) => {
+
+    return new Promise((resolve, reject) => {
       Object.entries(this.textures).forEach(([key, value], index) => {
         let sprite = new Sprite({
           texture: this.textureAtlas.getTexture(key),
           size: this.textureAtlas.getSize(key)
         })
+        sprite.position.y = Math.random() * 20
 
         // if (key.includes('layer')) {
         // let name = key.split(/-|_/)[0]
@@ -48,6 +50,7 @@ export default class Layer extends THREE.Object3D {
 
         if (idLayer != lastIdLayer) {
           this.layersPosition[idLayer] = new THREE.Object3D()
+          this.layersPosition[idLayer].position.z = -idLayer
         }
 
         this.layersPosition[idLayer].add(sprite)
@@ -59,6 +62,5 @@ export default class Layer extends THREE.Object3D {
         // }
       })
     })
-    return promise
   }
 }

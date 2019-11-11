@@ -61,6 +61,7 @@ export default class WebGL {
 
     Chapter1.init().then(() => {
       this.scene.add(Chapter1)
+      // console.log(this.scene)
     })
 
     // animation loop

@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import TweenMax from 'gsap'
 import Layer from '@/webGL/utils/Layer'
+import Parallax from '@/webGL/utils/Parallax'
 
 class Chapter1 extends THREE.Object3D {
   constructor() {
@@ -10,6 +11,7 @@ class Chapter1 extends THREE.Object3D {
     return new Promise(resolve => {
       const layer = new Layer()
       this.add(layer)
+      const parallax = new Parallax({ layer })
       resolve()
     })
 
