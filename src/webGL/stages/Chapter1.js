@@ -2,6 +2,8 @@ import * as THREE from 'three'
 import TweenMax from 'gsap'
 import Layers from '@/webGL/utils/Layers'
 import Parallax from '@/webGL/utils/Parallax'
+import TextureAtlas from '@//webGL/utils/TextureAtlas'
+import atlasJSON from '@/assets/chapter1/test.json'
 
 class Chapter1 extends THREE.Object3D {
   constructor() {
@@ -9,14 +11,30 @@ class Chapter1 extends THREE.Object3D {
   }
   init() {
     return new Promise(resolve => {
-      const layers = new Layers()
-      this.add(layers)
-      const parallax = new Parallax({ layers })
-      resolve()
-    })
+      this.loadAssets().then(() => {
+        const layers = new Layers({
+          textures: this.textures,
+          textureAtlas: this.textureAtlas,
+        })
+        this.add(layers)
+        const parallax = new Parallax({ layers })
+        resolve()
+      })
 
-    // document.addEventListener('touchmove', this.handleScroll.bind(this))
-    // document.addEventListener('touchstart', this.handleStart.bind(this))
+      // document.addEventListener('touchmove', this.handleScroll.bind(this))
+      // document.addEventListener('touchstart', this.handleStart.bind(this))
+    })
+  }
+  loadAssets() {
+    return new Promise((resolve, reject) => {
+      let loader = new THREE.TextureLoader()
+
+      loader.load('/assets/intro/atlas/atlas.png', texture => {
+        this.textureAtlas = new TextureAtlas(atlasJSON, texture.image)
+        this.textures = this.textureAtlas.textures
+        resolve(this.textures, this.textureAtlas)
+      })
+    })
   }
 
   start() {
@@ -31,7 +49,7 @@ class Chapter1 extends THREE.Object3D {
   }
   handleScroll(e) {
     TweenMax.to(this.position, 1, {
-      y: 2
+      y: 2,
     })
   }
   handleStart(e) {
