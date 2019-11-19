@@ -27,6 +27,7 @@ export default class Layer extends THREE.Object3D {
           size: this.textureAtlas.getSize(key),
         })
         sprite.position.y = Math.random() * 20
+        sprite.renderOrder = index
 
         // if (key.includes('layer')) {
         // let name = key.split(/-|_/)[0]
@@ -41,6 +42,7 @@ export default class Layer extends THREE.Object3D {
         }
 
         this.layersPosition[idLayer].add(sprite)
+
         this.layersPosition[idLayer].positionLayer = idLayer
 
         lastIdLayer = idLayer

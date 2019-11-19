@@ -9,8 +9,9 @@ export default class Sprite extends THREE.Object3D {
     this.geometry = new THREE.PlaneBufferGeometry(1, 1, 1, 1)
     this.material = new THREE.MeshBasicMaterial({
       map: texture,
-      transparent: true
+      transparent: true,
     })
+
     this.mesh = new THREE.Mesh(this.geometry, this.material)
     this.mesh.scale.set(this.ratio, 1, 1)
     this.add(this.mesh)
