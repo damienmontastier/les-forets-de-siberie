@@ -23,9 +23,12 @@ class Intro extends THREE.Object3D {
     document.addEventListener('touchstart', this.handleTouchStart.bind(this))
     document.addEventListener('touchend', this.handleTouchEnd.bind(this))
     document.addEventListener('touchmove', this.handleTouchMove.bind(this))
-    document.addEventListener('touchleave', this.handleTouchLeave.bind(this))
   }
   handleTouchStart(e) {
+    this.mouse = {
+      x: (e.touches[0].clientX / window.innerWidth) * 2 - 1,
+      y: -(e.touches[0].clientY / window.innerHeight) * 2 + 1,
+    }
     this.raycaster.setFromCamera(this.mouse, Camera)
     const intersects = this.raycaster.intersectObjects(this.children, true)
     let order = null
@@ -36,6 +39,11 @@ class Intro extends THREE.Object3D {
       intersects.filter(intersect => {
         if (order != 'null' && intersect.object.parent.renderOrder >= order) {
           this.selectedObject = intersect.object.parent
+          this.selectedObject.position.applyAxisAngle(
+            new THREE.Vector3(1.1, 0, 0),
+            0.5
+          )
+          console.log(this.selectedObject.position)
         }
         order = intersect.object.parent.renderOrder
       })
@@ -44,22 +52,19 @@ class Intro extends THREE.Object3D {
   handleTouchEnd(e) {
     this.targetSprite = false
   }
-  handleTouchLeave(e) {
-    console.log('yah')
-  }
+
   handleTouchMove(e) {
     this.mouse = {
       x: (e.touches[0].clientX / window.innerWidth) * 2 - 1,
       y: -(e.touches[0].clientY / window.innerHeight) * 2 + 1,
     }
-    if (this.targetSprite) {
-      TweenMax.to(this.selectedObject.position, 2, {
-        x: this.mouse.x,
-        y: this.mouse.y,
-        ease: Power4.easeOut,
-      })
-      console.log('move sprite')
-    }
+    // if (this.targetSprite) {
+    //   TweenMax.to(this.selectedObject.position, 0.8, {
+    //     x: (this.mouse.x * this.viewSize.width) / 2,
+    //     y: (this.mouse.y * this.viewSize.height) / 2,
+    //     ease: Power4.easeOut,
+    //   })
+    // }
   }
   loadAssets() {
     return new Promise((resolve, reject) => {
