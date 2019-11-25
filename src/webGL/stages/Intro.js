@@ -14,7 +14,8 @@ class Intro extends THREE.Object3D {
   init() {
     this.targetSprite = false
     this.raycaster = new THREE.Raycaster()
-    this.mouse = new THREE.Vector2()
+    this.touchStartPosition = new THREE.Vector3(0, 0, 0)
+    this.touchMovePosition = new THREE.Vector3(0, 0, 0)
     this.selectedObject
     console.log('viewport : ', this.viewport)
     console.log('viewsize : ', this.viewSize)
@@ -25,11 +26,13 @@ class Intro extends THREE.Object3D {
     document.addEventListener('touchmove', this.handleTouchMove.bind(this))
   }
   handleTouchStart(e) {
-    this.mouse = {
-      x: (e.touches[0].clientX / window.innerWidth) * 2 - 1,
-      y: -(e.touches[0].clientY / window.innerHeight) * 2 + 1,
-    }
-    this.raycaster.setFromCamera(this.mouse, Camera)
+    this.touchStartPosition.x =
+      (e.touches[0].clientX / window.innerWidth) * 2 - 1
+    this.touchStartPosition.y =
+      -(e.touches[0].clientY / window.innerHeight) * 2 + 1
+    this.touchStartPosition.z = 0
+
+    this.raycaster.setFromCamera(this.touchStartPosition, Camera)
     const intersects = this.raycaster.intersectObjects(this.children, true)
     let order = null
     if (intersects.length == 0) return
@@ -39,11 +42,12 @@ class Intro extends THREE.Object3D {
       intersects.filter(intersect => {
         if (order != 'null' && intersect.object.parent.renderOrder >= order) {
           this.selectedObject = intersect.object.parent
-          this.selectedObject.position.applyAxisAngle(
-            new THREE.Vector3(1.1, 0, 0),
-            0.5
-          )
-          console.log(this.selectedObject.position)
+
+          this.selectedObject.vectorNormalized = new THREE.Vector2(
+            this.selectedObject.position.x,
+            this.selectedObject.position.y
+          ).normalize()
+          // .multiplyScalar(5)
         }
         order = intersect.object.parent.renderOrder
       })
@@ -54,17 +58,21 @@ class Intro extends THREE.Object3D {
   }
 
   handleTouchMove(e) {
-    this.mouse = {
-      x: (e.touches[0].clientX / window.innerWidth) * 2 - 1,
-      y: -(e.touches[0].clientY / window.innerHeight) * 2 + 1,
+    if (this.targetSprite) {
+      this.touchMovePosition.x =
+        (e.touches[0].clientX / window.innerWidth) * 2 - 1
+      this.touchMovePosition.y =
+        -(e.touches[0].clientY / window.innerHeight) * 2 + 1
+      this.touchMovePosition.z = 0
+
+      console.log(this.touchMovePosition.y)
+
+      TweenMax.to(this.selectedObject.position, 5, {
+        x: this.touchMovePosition.x,
+        y: this.touchMovePosition.y,
+        ease: Power4.easeOut,
+      })
     }
-    // if (this.targetSprite) {
-    //   TweenMax.to(this.selectedObject.position, 0.8, {
-    //     x: (this.mouse.x * this.viewSize.width) / 2,
-    //     y: (this.mouse.y * this.viewSize.height) / 2,
-    //     ease: Power4.easeOut,
-    //   })
-    // }
   }
   loadAssets() {
     return new Promise((resolve, reject) => {
@@ -86,7 +94,7 @@ class Intro extends THREE.Object3D {
           texture: this.textureAtlas.getTexture(element[0]),
           size: this.textureAtlas.getSize(element[0]),
         })
-        sprite.scale.set(2, 2, 2)
+        sprite.scale.set(1, 1, 1)
 
         let positionSpriteX = this.faceToFace(
           this.viewSize.width - sprite.geometry.parameters.width / 2
@@ -127,6 +135,8 @@ class Intro extends THREE.Object3D {
   randomBetweenTwoValues = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min
   }
+  dist = (x1, y1, x2, y2) =>
+    Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2))
 }
 
 export default new Intro()
