@@ -14,8 +14,10 @@ export default class WebGL {
     this.renderer = new THREE.WebGLRenderer({
       antialias: true,
       canvas: this.canvas,
+      alpha: true,
     })
     this.renderer.setSize(Viewport.width, Viewport.height)
+    this.renderer.setClearColor(0x00000, 0) // second param is opacity, 0 => transparent
     this.renderer.setPixelRatio = window.devicePixelRatio
 
     // scene
