@@ -16,8 +16,6 @@ class Intro extends THREE.Object3D {
     this.targetSprite = false
     this.mouse = new THREE.Vector3()
     this.selectedObject
-    console.log('viewport : ', Viewport)
-    console.log('viewsize : ', Viewsize)
     // loading assets
     this.loadAssets().then(this.start.bind(this))
     document.addEventListener('touchstart', this.handleTouchStart.bind(this))
@@ -29,7 +27,6 @@ class Intro extends THREE.Object3D {
         .normalize()
         .multiplyScalar(10)
 
-      console.log(dirPosition)
       gsap.to(sprite.position, {
         delay: index * 0.15,
         duration: 1,

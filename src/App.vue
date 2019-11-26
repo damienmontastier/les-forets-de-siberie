@@ -20,13 +20,12 @@ export default {
   name: 'app',
   data() {
     return {
-      isMobile: isMobile
+      isMobile: isMobile,
     }
   },
   components: {
-    WebGLScene
+    WebGLScene,
   },
-  created() {}
 }
 </script>
 
