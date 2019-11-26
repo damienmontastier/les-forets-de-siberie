@@ -1,12 +1,12 @@
 class Viewport {
-  constructor() {
-    window.addEventListener('resize', this.onWindowResize)
-    this.onWindowResize()
+  get width() {
+    return window.innerWidth
   }
-  onWindowResize = () => {
-    this.width = window.innerWidth
-    this.height = window.innerHeight
-    this.ratio = this.width / this.height
+  get height() {
+    return window.innerHeight
+  }
+  get ratio() {
+    return this.width / this.height
   }
 }
 
