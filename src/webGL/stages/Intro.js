@@ -29,7 +29,6 @@ class Intro extends THREE.Object3D {
         .normalize()
         .multiplyScalar(10)
 
-      console.log(dirPosition)
       gsap.to(sprite.position, {
         delay: index * 0.15,
         duration: 1,
@@ -63,34 +62,42 @@ class Intro extends THREE.Object3D {
           texture: this.textureAtlas.getTexture(element[0]),
           size: this.textureAtlas.getSize(element[0]),
         })
-        sprite.scale.set(3, 3, 3)
+        sprite.scale.set(2, 2, 2)
 
         let position = new THREE.Vector3()
 
-        // if (Math.round(Math.random())) {
-        let x = this.randomBetweenTwoValues(
-          -Viewsize.width - sprite.scale.x,
-          Viewsize.width - sprite.scale.x
-        )
-        let y = this.faceToFace(Viewsize.height - sprite.scale.y)
-        position.x = x
-        position.y = y
-        // } else {
-        //   let x = this.faceToFace(
-        //     Viewsize.width - sprite.geometry.parameters.width / 2
-        //   )
-        //   let y = this.randomBetweenTwoValues(
-        //     -Viewsize.height / 2 + sprite.geometry.parameters.height,
-        //     Viewsize.height / 2 + +sprite.geometry.parameters.height
-        //   )
-        //   position.x = x
-        //   position.y = y
-        //   position.z = 0
-        // }
+        if (Math.round(Math.random())) {
+          let x = this.randomBetweenTwoValues(
+            -Viewsize.width + sprite.scale.x / 2,
+            Viewsize.width - sprite.scale.x / 2
+          )
+          let y = this.faceToFace(Viewsize.height - sprite.scale.y)
+          position.x = x
+          position.y = y
+          position.z = 0
+        } else {
+          let x = this.faceToFace(Viewsize.width - sprite.scale.x / 2)
+          let y = this.randomBetweenTwoValues(
+            -Viewsize.height + sprite.scale.y / 2,
+            Viewsize.height - sprite.scale.y / 2
+          )
+          position.x = x
+          position.y = y
+          position.z = 0
+          // console.log('y variable, x pile ou face')
+        }
 
         this.add(sprite)
-
         sprite.position.copy(position)
+
+        let test =
+          this.find_angle(
+            new THREE.Vector3(0, 0, 0),
+            sprite.position,
+            new THREE.Vector3(sprite.position.x, 0, 0)
+          ) * Math.sign(sprite.position.x)
+
+        sprite.rotation.set(0, 0, test)
 
         sprite.renderOrder = index
       }
@@ -103,6 +110,12 @@ class Intro extends THREE.Object3D {
 
   randomBetweenTwoValues = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min
+  }
+  find_angle = (A, B, C) => {
+    var AB = Math.sqrt(Math.pow(B.x - A.x, 2) + Math.pow(B.y - A.y, 2))
+    var BC = Math.sqrt(Math.pow(B.x - C.x, 2) + Math.pow(B.y - C.y, 2))
+    var AC = Math.sqrt(Math.pow(C.x - A.x, 2) + Math.pow(C.y - A.y, 2))
+    return Math.acos((BC * BC + AB * AB - AC * AC) / (2 * BC * AB))
   }
 }
 
