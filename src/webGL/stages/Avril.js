@@ -10,6 +10,7 @@ class Chapter1 extends THREE.Object3D {
     super()
   }
   init() {
+    console.log('init')
     return new Promise(resolve => {
       this.loadAssets().then(() => {
         const layers = new Layers({
