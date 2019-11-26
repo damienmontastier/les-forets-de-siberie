@@ -1,5 +1,8 @@
 import * as THREE from 'three'
 const OrbitControls = require('three-orbitcontrols')
+import Camera from './utils/Camera'
+
+import Chapter1 from '@/webGL/stages/Chapter1'
 
 import Intro from './stages/Intro'
 
@@ -24,7 +27,7 @@ export default class WebGL {
     // renderer
     this.renderer = new THREE.WebGLRenderer({
       antialias: true,
-      canvas: this.canvas
+      canvas: this.canvas,
     })
     this.renderer.setSize(this.viewport.width, this.viewport.height)
     this.renderer.setPixelRatio = window.devicePixelRatio
@@ -33,16 +36,10 @@ export default class WebGL {
     this.scene = new THREE.Scene()
 
     // camera
-    this.camera = new THREE.PerspectiveCamera(
-      40,
-      this.viewport.aspectRatio,
-      0.1,
-      100
-    )
-    this.camera.position.set(0, 0, 10)
+    Camera
 
     //controls
-    this.controls = new OrbitControls(this.camera, this.renderer.domElement)
+    this.controls = new OrbitControls(Camera, this.renderer.domElement)
     this.controls.enableDamping = true
     this.controls.dampingFactor = 0.25
     this.controls.enableZoom = false
@@ -58,6 +55,11 @@ export default class WebGL {
     this.scene.add(Intro)
     Intro.init()
 
+    // Chapter1.init().then(() => {
+    //   this.scene.add(Chapter1)
+    //   // console.log(this.scene)
+    // })
+
     // animation loop
     this.renderer.setAnimationLoop(this.render.bind(this))
   }
@@ -65,7 +67,7 @@ export default class WebGL {
   render() {
     // called every frame
     if (!this.playing) return
-    this.renderer.render(this.scene, this.camera)
+    this.renderer.render(this.scene, Camera)
   }
 
   onMouseMove(event) {
@@ -75,8 +77,8 @@ export default class WebGL {
   }
 
   onWindowResize() {
-    this.camera.aspect = this.viewport.aspectRatio
-    this.camera.updateProjectionMatrix()
+    Camera.aspect = this.viewport.aspectRatio
+    Camera.updateProjectionMatrix()
     this.renderer.setSize(this.viewport.width, this.viewport.height)
   }
 
@@ -87,16 +89,20 @@ export default class WebGL {
     return {
       width,
       height,
-      aspectRatio
+      aspectRatio,
     }
   }
 
   get viewSize() {
-    let distance = this.camera.position.z
-    let vFov = (this.camera.fov * Math.PI) / 180
+    let distance = Camera.position.z
+    let vFov = (Camera.fov * Math.PI) / 180
     let height = 2 * Math.tan(vFov / 2) * distance
     let width = height * this.viewport.aspectRatio
-    return { width, height, vFov }
+    return {
+      width,
+      height,
+      vFov,
+    }
   }
 
   initStage(name) {

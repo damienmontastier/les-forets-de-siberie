@@ -4,7 +4,7 @@
     <WebGLScene />
     <!-- <div v-else id="mobile">
       <div>You're not on mobile</div>
-    </div> -->
+    </div>-->
   </div>
 </template>
 
@@ -26,8 +26,7 @@ export default {
   components: {
     WebGLScene
   },
-  created() {
-  }
+  created() {}
 }
 </script>
 
