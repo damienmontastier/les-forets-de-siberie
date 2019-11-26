@@ -16,6 +16,8 @@ class Intro extends THREE.Object3D {
     this.targetSprite = false
     this.mouse = new THREE.Vector3()
     this.selectedObject
+    console.log('viewport : ', Viewport)
+    console.log('viewsize : ', Viewsize)
     // loading assets
     this.loadAssets().then(this.start.bind(this))
     document.addEventListener('touchstart', this.handleTouchStart.bind(this))
@@ -94,6 +96,7 @@ class Intro extends THREE.Object3D {
             sprite.position,
             new THREE.Vector3(sprite.position.x, 0, 0)
           ) * Math.sign(sprite.position.x)
+        console.log(test)
 
         sprite.rotation.set(0, 0, test)
 
