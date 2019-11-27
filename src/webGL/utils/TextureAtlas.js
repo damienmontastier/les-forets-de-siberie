@@ -6,7 +6,7 @@ export default class TextureAtlas {
     let texture = new THREE.Texture(image)
     texture.needsUpdate = true
 
-    let frames = json.frames
+    let frames = json
     Object.keys(frames).forEach((key, i) => {
       let frame = frames[key]
       let t = texture.clone()
@@ -29,5 +29,9 @@ export default class TextureAtlas {
 
   getSize(id) {
     return this.textures[id]._size
+  }
+
+  getTextureAndSize(id) {
+    return { texture: this.getTexture(id), size: this.getSize(id) }
   }
 }

@@ -1,62 +1,90 @@
 import * as THREE from 'three'
-import TweenMax from 'gsap'
-import Layers from '@/webGL/utils/Layers'
-import Parallax from '@/webGL/utils/Parallax'
-import TextureAtlas from '@//webGL/utils/TextureAtlas'
-import atlasJSON from '@/assets/chapter1/test.json'
+import loadTextureAtlasFromPath from '@/webGL/utils/loadTextureAtlasFromPath'
+import Sprite from '../utils/Sprite'
+import ChapterPart from '../components/ChapterPart'
+
+// 'part1':{
+//   'part1_layer0': {
+//     'position': {
+//       'y':1
+//     }
+//   }
+// }
 
 class Chapter1 extends THREE.Object3D {
   constructor() {
     super()
   }
   init() {
-    console.log('init')
-    return new Promise(resolve => {
-      this.loadAssets().then(() => {
-        const layers = new Layers({
-          textures: this.textures,
-          textureAtlas: this.textureAtlas,
-        })
-        this.add(layers)
-        const parallax = new Parallax({ layers })
-        resolve()
-      })
+    //load tous les atlas et tous les assets
+    //load les parametres de position (part et prop)
+    //pendant ce temps -> loading
+    //puis -> prechauffage des textures
 
-      // document.addEventListener('touchmove', this.handleScroll.bind(this))
-      // document.addEventListener('touchstart', this.handleStart.bind(this))
+    //trier toutes les textures (sprite et utils)
+    //sprite -> directement add aux parties avec sa position
+    //utils -> pouvoir acceder a la texture par référence à la volée
+
+    //créer une partie pour chaque partie dans le tri contenant les layers
+    this.loadAssets().then(() => {
+      this.createParts()
     })
   }
   loadAssets() {
     return new Promise((resolve, reject) => {
-      let loader = new THREE.TextureLoader()
-
-      loader.load('/assets/intro/atlas/atlas.png', texture => {
-        this.textureAtlas = new TextureAtlas(atlasJSON, texture.image)
-        this.textures = this.textureAtlas.textures
-        resolve(this.textures, this.textureAtlas)
-      })
+      loadTextureAtlasFromPath('/assets/avril/atlases/part1/').then(
+        textureAtlas => {
+          this.addTextures(textureAtlas.textures)
+          // this.add(new Sprite(textureAtlas.getTextureAndSize('part1_layer0')))
+          resolve()
+        }
+      )
     })
   }
+  addTextures(textures) {
+    if (!this.textures) this.textures = {}
+    this.textures = { ...this.textures, ...textures }
+    console.log(this.textures)
+  }
+  createParts() {
+    console.log(this.partedTextures)
+    this.parts = {}
+    for (let [name, part] of Object.entries(this.textures)) {
+      console.log(part)
+      // this.parts[name] = part
+    }
+    // Objectthis.partedTextures
+    // this.parts = {}
+    // this.parts['part1'] = new ChapterPart({layers:
+    //   [
+    //     {
+    //       "part1_layer0": {
+    //         texture
+    //         position
+    //       }
+    //     }
+    //   ]
+    // })
+  }
 
-  start() {
-    // var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
-    // var geometry = new THREE.BoxGeometry(1, 1, 1)
-    // for (let index = 0; index < 10; index++) {
-    //   let cube = new THREE.Mesh(geometry, material)
-    //   cube.position.set(1, 1 * index, 1)
-    //   cube.material.color = THREE.Color(0xffffff)
-    //   this.add(cube)
-    // }
-  }
-  handleScroll(e) {
-    TweenMax.to(this.position, 1, {
-      y: 2,
-    })
-  }
-  handleStart(e) {
-    console.log(e)
+  start() {}
+
+  get partedTextures() {
+    let parts = {}
+    for (let [name, texture] of Object.entries(this.textures)) {
+      let partIndex = name
+        .split('_')
+        .filter(index => index.includes('part'))[0]
+        .replace('part', '')
+      let layerIndex = name
+        .split('_')
+        .filter(index => index.includes('layer'))[0]
+        .replace('layer', '')
+      if (!parts['part' + partIndex]) parts['part' + partIndex] = {}
+      parts['part' + partIndex]['layer' + layerIndex] = texture
+    }
+    return parts
   }
 }
 
-const stage1 = new Chapter1()
-export default stage1
+export default new Chapter1()
