@@ -14,17 +14,22 @@ class Intro extends THREE.Object3D {
   }
 
   init() {
-    this.targetSprite = false
+    this.animationPlayed = false
     console.log('viewport : ', Viewport)
     console.log('viewsize : ', Viewsize)
 
     this.loadAssets().then(this.start.bind(this))
     document.addEventListener('touchstart', this.handleTouchStart.bind(this))
-    document.addEventListener('touchend', this.handleTouchEnd.bind(this))
+
+    VirtualScroll.on(e => {
+      console.log('event', e)
+    })
   }
 
   handleTouchStart(e) {
-    this.targetSprite = true
+    if (this.animationPlayed) return
+
+    this.animationPlayed = true
 
     const position = this.children
       .sort((a, b) => b.renderOrder - a.renderOrder)
@@ -49,10 +54,6 @@ class Intro extends THREE.Object3D {
       .then(() => {
         this.endIntro()
       })
-  }
-
-  handleTouchEnd() {
-    this.targetSprite = false
   }
 
   loadAssets() {
