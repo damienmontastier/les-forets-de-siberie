@@ -1,15 +1,20 @@
 <template>
   <div class="intro">
     <div class="intro--inner">
-      <h1>Introduction</h1>
+      <fevrierTitle></fevrierTitle>
     </div>
   </div>
 </template>
 
 <script>
 import Intro from '@/webGL/stages/Intro'
+import fevrierTitle from '@/components/svg/FevrierTitle'
+
 export default {
   name: 'intro',
+  components: {
+    fevrierTitle,
+  },
   mounted() {
     this.$nextTick(() => {
       this.$webgl.add('intro', Intro)
@@ -25,8 +30,9 @@ export default {
   top: 50%;
   transform: translate(-50%, -50%);
   &--inner {
-    color: red;
-    font-size: 60px;
+    svg {
+      width: 100%;
+    }
   }
 }
 </style>
