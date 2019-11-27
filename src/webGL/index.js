@@ -3,6 +3,8 @@ const OrbitControls = require('three-orbitcontrols')
 import Camera from './utils/Camera'
 import Viewport from './utils/Viewport'
 import TouchEvent from '../plugins/touch-events'
+import Viewsize from './utils/Viewsize'
+import gsap from 'gsap'
 
 export default class WebGL {
   constructor(canvas, container = document.body) {
@@ -10,8 +12,6 @@ export default class WebGL {
     this.container = container
 
     window.addEventListener('resize', this.onWindowResize.bind(this), false)
-
-    console.log(TouchEvent.test)
 
     // renderer
     this.renderer = new THREE.WebGLRenderer({
@@ -25,6 +25,32 @@ export default class WebGL {
 
     // scene
     this.scene = new THREE.Scene()
+
+    document.addEventListener('touchstart', e => {
+      let mousex = (e.touches[0].clientX / window.innerWidth) * 2 - 1
+      let mousey = -(e.touches[0].clientY / window.innerHeight) * 2 + 1
+      var geometry = new THREE.PlaneBufferGeometry(0.5, 0.5, 32)
+      var material = new THREE.MeshBasicMaterial({
+        color: 0xffff00,
+        side: THREE.DoubleSide,
+      })
+      var plane = new THREE.Mesh(geometry, material)
+      let x = this.map(mousex, -1, 1, -Viewsize.width / 2, Viewsize.width / 2)
+      console.log(x)
+
+      let y = this.map(mousey, -1, 1, -Viewsize.height / 2, Viewsize.height / 2)
+      plane.position.set(x, y, 0)
+      console.log('here')
+      gsap.to(plane.position, {
+        y: -10,
+        duration: 10,
+        onComplete: () => {
+          console.log(this.scene.remove(plane))
+        },
+      })
+      this.scene.add(plane)
+      console.log(this.scene)
+    })
 
     //controls
     this.controls = new OrbitControls(Camera, this.renderer.domElement)
@@ -45,6 +71,8 @@ export default class WebGL {
     this.scenes = {}
     this.renderer.setAnimationLoop(this.render.bind(this))
   }
+
+  map = (value, x1, y1, x2, y2) => ((value - x1) * (y2 - x2)) / (y1 - x1) + x2
 
   add(id, group) {
     this.scenes[id] = group
