@@ -2,6 +2,7 @@ import * as THREE from 'three'
 const OrbitControls = require('three-orbitcontrols')
 import Camera from './utils/Camera'
 import Viewport from './utils/Viewport'
+import TouchEvent from '../plugins/touch-events'
 
 export default class WebGL {
   constructor(canvas, container = document.body) {
@@ -9,6 +10,8 @@ export default class WebGL {
     this.container = container
 
     window.addEventListener('resize', this.onWindowResize.bind(this), false)
+
+    console.log(TouchEvent.test)
 
     // renderer
     this.renderer = new THREE.WebGLRenderer({
