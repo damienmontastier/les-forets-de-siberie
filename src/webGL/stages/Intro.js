@@ -4,6 +4,7 @@ import atlasJSON from '@/assets/intro/intro_branches_sprite.json'
 import Sprite from '../utils/Sprite'
 import Viewport from '../utils/Viewport'
 import Viewsize from '../utils/Viewsize'
+import Camera from '../utils/Camera'
 import gsap from 'gsap'
 
 class Intro extends THREE.Object3D {
@@ -30,18 +31,25 @@ class Intro extends THREE.Object3D {
     const dirPosition = this.children.map(sprite => {
       return new THREE.Vector2(sprite.position.x, sprite.position.y)
         .normalize()
-        .multiplyScalar(Viewsize.height + 1)
+        .multiplyScalar(Viewsize.height)
     })
 
-    gsap.to(position, {
-      duration: 1,
-      ease: 'power4.inOut',
-      stagger: index => index * 0.25,
-      x: index => dirPosition[index].x,
-      y: index => dirPosition[index].y,
-    })
+    gsap
+      .to(position, {
+        duration: 0.5,
+        ease: 'power4.in',
+        stagger: {
+          amount: 3,
+        },
+        x: index => dirPosition[index].x,
+        y: index => dirPosition[index].y,
+      })
+      .then(() => {
+        this.endIntro()
+      })
   }
-  handleTouchEnd(e) {
+
+  handleTouchEnd() {
     this.targetSprite = false
   }
 
@@ -54,6 +62,10 @@ class Intro extends THREE.Object3D {
         resolve()
       })
     })
+  }
+
+  endIntro() {
+    console.log('coucou')
   }
 
   start() {
