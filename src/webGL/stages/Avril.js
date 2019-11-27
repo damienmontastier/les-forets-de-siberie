@@ -3,7 +3,7 @@ import TweenMax from 'gsap'
 import Layers from '@/webGL/utils/Layers'
 import Parallax from '@/webGL/utils/Parallax'
 import TextureAtlas from '@//webGL/utils/TextureAtlas'
-import atlasJSON from '@/assets/chapter1/test.json'
+import atlasJSON from '@/assets/intro/intro_branches_sprite.json'
 
 class Chapter1 extends THREE.Object3D {
   constructor() {
@@ -23,10 +23,12 @@ class Chapter1 extends THREE.Object3D {
     })
   }
   loadAssets() {
+    console.log('layers')
+
     return new Promise((resolve, reject) => {
       let loader = new THREE.TextureLoader()
 
-      loader.load('/assets/intro/atlas/atlas.png', texture => {
+      loader.load('/assets/intro/atlas/intro_branches_sprite.png', texture => {
         this.textureAtlas = new TextureAtlas(atlasJSON, texture.image)
         this.textures = this.textureAtlas.textures
         resolve(this.textures, this.textureAtlas)

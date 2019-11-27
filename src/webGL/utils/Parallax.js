@@ -1,4 +1,5 @@
 import TweenMax, { Power4 } from 'gsap'
+import VirtualScroll from '../../plugins/virtual-scroll'
 
 export default class Parallax {
   constructor({ layers }) {
