@@ -5,6 +5,7 @@ import Sprite from '../utils/Sprite'
 import Viewport from '../utils/Viewport'
 import Viewsize from '../utils/Viewsize'
 import Camera from '../utils/Camera'
+import VirtualScroll from '../../plugins/virtual-scroll'
 import gsap from 'gsap'
 
 class Intro extends THREE.Object3D {
@@ -21,6 +22,7 @@ class Intro extends THREE.Object3D {
     document.addEventListener('touchstart', this.handleTouchStart.bind(this))
     document.addEventListener('touchend', this.handleTouchEnd.bind(this))
   }
+
   handleTouchStart(e) {
     this.targetSprite = true
 
@@ -65,7 +67,7 @@ class Intro extends THREE.Object3D {
   }
 
   endIntro() {
-    console.log('coucou')
+    console.log('intro animation is finish')
   }
 
   start() {
