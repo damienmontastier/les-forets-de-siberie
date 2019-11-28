@@ -26,11 +26,27 @@ class Avril extends THREE.Object3D {
 
       this.initParts()
 
-      var geometry = new THREE.BoxGeometry(1, 1, 1)
-      var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
-      var cube = new THREE.Mesh(geometry, material)
+      //LAKE REFLECT
+      this.lake = new LakeReflect({
+        map: this.utilsTextures['utils_montagne-reflet'].texture,
+        alphaMap: this.utilsTextures['utils_montagne-reflet-alpha'].texture,
+      })
 
-      // this.parts['part1'].addToLayer(0, cube)
+      this.lake.scale.setScalar(Viewport.width + 10)
+
+      //this.add(this.lake)
+      //LAKE REFLECT
+
+      //WIND
+      this.wind = new Wind({ map: this.utilsTextures['utils_wind'].texture })
+      this.wind.scale.setScalar(Viewport.width)
+
+      // this.wind2 = new Wind({ map: this.utilsTextures['utils_wind'].texture })
+      // this.wind2.scale.setScalar(Viewport.width - 10)
+      // this.wind2.position.y = 50
+      this.add(this.wind)
+      // this.add(this.wind2)
+      //WIND
     })
   }
   loadAssets() {
@@ -89,25 +105,3 @@ class Avril extends THREE.Object3D {
 
 const avril = new Avril()
 export default avril
-
-//LAKE REFLECT
-this.lake = new LakeReflect({
-  map: this.utilsTextures['utils_montagne-reflet'].texture,
-  alphaMap: this.utilsTextures['utils_montagne-reflet-alpha'].texture,
-})
-
-this.lake.scale.setScalar(Viewport.width + 10)
-
-//this.add(this.lake)
-//LAKE REFLECT
-
-//WIND
-this.wind = new Wind({ map: this.utilsTextures['utils_wind'].texture })
-this.wind.scale.setScalar(Viewport.width)
-
-// this.wind2 = new Wind({ map: this.utilsTextures['utils_wind'].texture })
-// this.wind2.scale.setScalar(Viewport.width - 10)
-// this.wind2.position.y = 50
-this.add(this.wind)
-// this.add(this.wind2)
-//WIND
