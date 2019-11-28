@@ -37,9 +37,14 @@ class Avril extends THREE.Object3D {
   }
   initParts() {
     this.parts = {}
+    let folder
     for (let [name, layers] of Object.entries(this.partedTextures)) {
-      GUI.addFolder(name)
+      folder = GUI.addFolder(name)
       let part = new Part({ name, layers })
+      folder
+        .add(part.position, 'y')
+        .step(1)
+        .name('position y part')
       part.name = name
       this.parts[name] = part
       this.add(part)

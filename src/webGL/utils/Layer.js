@@ -21,7 +21,7 @@ export default class Layer extends THREE.Object3D {
     folder
       .add(mesh.position, 'y')
       .step(1)
-      .name('y position')
+      .name('y')
       .listen()
   }
 }
