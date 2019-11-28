@@ -1,9 +1,9 @@
 import * as THREE from 'three'
 import gsap from 'gsap'
-import Layers from '@/webGL/utils/Layers'
 import Parallax from '@/webGL/utils/Parallax'
 import loadSeveralTextureAtlasFromPathes from '@/webGL/utils/loadSeveralTextureAtlasFromPathes'
 import Part from '@/webGL/utils/Part'
+import GUI from '@/plugins/dat-gui.js'
 
 const pathesArray = [
   '/assets/avril/atlases/part1/',
@@ -11,7 +11,7 @@ const pathesArray = [
   '/assets/avril/atlases/part3/',
 ]
 
-class Chapter1 extends THREE.Object3D {
+class Avril extends THREE.Object3D {
   constructor() {
     super()
   }
@@ -39,12 +39,16 @@ class Chapter1 extends THREE.Object3D {
   }
   initParts() {
     this.parts = {}
+    let GUIPartFolder
     for (let [name, layers] of Object.entries(this.partedTextures)) {
-      this.parts[name] = new Part({ name, layers })
+      GUIPartFolder = GUI.addFolder(name)
+      let part = new Part({ name, layers })
+      this.parts[name] = part
+      this.add(part)
     }
-    //TODO add this.parts to the scene
-    // console.log(this.parts)
+    console.log(this)
   }
+
   get utilsTextures() {
     let textures = {}
     Object.keys(this.textures)
@@ -54,6 +58,7 @@ class Chapter1 extends THREE.Object3D {
       })
     return textures
   }
+
   get partedTextures() {
     let parts = {}
 
@@ -74,11 +79,11 @@ class Chapter1 extends THREE.Object3D {
         .filter(index => index.includes('layer'))[0]
         .replace('layer', '')
       if (!parts['part' + partIndex]) parts['part' + partIndex] = {}
-      parts['part' + partIndex]['layer' + layerIndex] = texture
+      parts['part' + partIndex]['layer' + layerIndex] = { texture }
     }
     return parts
   }
 }
 
-const stage1 = new Chapter1()
-export default stage1
+const avril = new Avril()
+export default avril

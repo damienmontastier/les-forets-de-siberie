@@ -13,6 +13,7 @@ export default class Sprite extends THREE.Object3D {
     })
 
     this.mesh = new THREE.Mesh(this.geometry, this.material)
+    this.name = texture.name
     this.mesh.scale.set(1, this.ratio, 1)
     this.add(this.mesh)
   }
