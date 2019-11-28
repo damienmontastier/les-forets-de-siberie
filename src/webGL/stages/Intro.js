@@ -21,9 +21,9 @@ class Intro extends THREE.Object3D {
     this.loadAssets().then(this.start.bind(this))
     document.addEventListener('touchstart', this.handleTouchStart.bind(this))
 
-    VirtualScroll.on(e => {
-      console.log('event', e.originalEvent)
-    })
+    // VirtualScroll.on(e => {
+    //   console.log('event', e.originalEvent)
+    // })
   }
 
   handleTouchStart(e) {

@@ -7,12 +7,12 @@ class TouchEvents {
   handleTouchStart = e => {
     console.log('start')
   }
-  get test() {
-    return 'coucou'
-    document.addEventListener('touchstart', e => {
-      return e
-    })
-  }
+  // get test() {
+  //   return 'coucou'
+  //   document.addEventListener('touchstart', e => {
+  //     return e
+  //   })
+  // }
 }
 
 export default new TouchEvents()
