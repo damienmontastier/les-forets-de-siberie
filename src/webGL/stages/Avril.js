@@ -6,6 +6,8 @@ import LakeReflect from '../components/LakeReflect'
 import Viewport from '../utils/Viewport'
 import Wind from '../components/Wind'
 import Fire from '../components/Fire'
+let positions = require('../../../public/assets/avril/positions/positions')
+console.log(positions)
 
 const pathesArray = [
   '/assets/avril/atlases/part1/',
@@ -66,9 +68,16 @@ class Avril extends THREE.Object3D {
   }
   initParts() {
     this.parts = {}
+    let folder
     for (let [name, layers] of Object.entries(this.partedTextures)) {
-      GUI.addFolder(name)
-      let part = new Part({ name, layers })
+      folder = GUI.addFolder(name)
+      console.log(name, positions[name])
+      let part = new Part({ name, layers, positions: positions[name] })
+      part.position.y = positions[name].y
+      folder
+        .add(part.position, 'y')
+        .step(1)
+        .name('position y part')
       part.name = name
       this.parts[name] = part
       this.add(part)

@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import TextureAtlas from '../utils/TextureAtlas'
-import atlasJSON from '@/assets/intro/intro_branches_sprite.json'
+import atlasJSON from '../../../public/assets/intro/atlas/intro_branches_sprite'
 import Sprite from '../utils/Sprite'
 import Viewport from '../utils/Viewport'
 import Viewsize from '../utils/Viewsize'
@@ -21,9 +21,9 @@ class Intro extends THREE.Object3D {
     this.loadAssets().then(this.start.bind(this))
     document.addEventListener('touchstart', this.handleTouchStart.bind(this))
 
-    VirtualScroll.on(e => {
-      console.log('event', e.originalEvent)
-    })
+    // VirtualScroll.on(e => {
+    //   console.log('event', e.originalEvent)
+    // })
   }
 
   handleTouchStart(e) {

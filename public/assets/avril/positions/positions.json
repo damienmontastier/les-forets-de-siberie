@@ -1,0 +1,40 @@
+{
+  "part1": {
+    "y": 0,
+    "sprites": {
+      "Part1_Layer0_eau.png": {
+        "y": 0,
+        "fullwidth": true
+      },
+      "Part1_Layer1.png": {
+        "y": 0,
+        "fullwidth": true
+      },
+      "Part1_Layer2.png": {
+        "y": 0,
+        "fullwidth": true
+      },
+      "Part1_Layer3.png": {
+        "y": 0,
+        "fullwidth": true
+      }
+    }
+  },
+  "part3": {
+    "y": 850,
+    "sprites": {
+      "Part3_Layer0.png": {
+        "y": 0,
+        "fullwidth": true
+      },
+      "Part3_Layer1.png": {
+        "y": 0,
+        "fullwidth": true
+      },
+      "Part3_Layer2.png": {
+        "y": 0,
+        "fullwidth": true
+      }
+    }
+  }
+}
