@@ -38,8 +38,8 @@ export default class Part extends THREE.Object3D {
 
   createLayer(idLayer) {
     this.layers[idLayer] = new Layer()
-    this.layers[idLayer].scale.x = Viewport.width / 2
-    this.layers[idLayer].scale.y = Viewport.width / 2
+    this.layers[idLayer].scale.x = Viewport.width
+    this.layers[idLayer].scale.y = Viewport.width
     this.add(this.layers[idLayer])
   }
 }
