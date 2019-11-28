@@ -1,44 +1,117 @@
-{"frames": [
-
 {
-	"filename": "intro_branche_0.png",
-	"frame": {"x":1,"y":1,"w":723,"h":1434},
-	"rotated": false,
-	"trimmed": true,
-	"spriteSourceSize": {"x":6,"y":666,"w":723,"h":1434},
-	"sourceSize": {"w":1073,"h":2100}
-},
-{
-	"filename": "intro_branche_1.png",
-	"frame": {"x":726,"y":784,"w":567,"h":530},
-	"rotated": false,
-	"trimmed": true,
-	"spriteSourceSize": {"x":74,"y":511,"w":567,"h":530},
-	"sourceSize": {"w":837,"h":1041}
-},
-{
-	"filename": "intro_branche_2.png",
-	"frame": {"x":1257,"y":1,"w":447,"h":464},
-	"rotated": false,
-	"trimmed": true,
-	"spriteSourceSize": {"x":3,"y":506,"w":447,"h":464},
-	"sourceSize": {"w":940,"h":970}
-},
-{
-	"filename": "intro_branche_3.png",
-	"frame": {"x":726,"y":1,"w":529,"h":781},
-	"rotated": false,
-	"trimmed": true,
-	"spriteSourceSize": {"x":41,"y":260,"w":529,"h":781},
-	"sourceSize": {"w":837,"h":1041}
-}],
-"meta": {
-	"app": "https://www.codeandweb.com/texturepacker",
-	"version": "1.0",
-	"image": "intro_branches_sprite0.png",
-	"format": "RGBA8888",
-	"size": {"w":1705,"h":1436},
-	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:c4ebb7acfac09e1b1faada51a0982c4a:cf7dde04d93454eff1430d7836a9f9c8:d7330c199ff5caf1ed2fecba894f18e6$"
-}
+  "frames": [
+    {
+      "filename": "intro_branche_0.png",
+      "frame": { "x": 1, "y": 1, "w": 723, "h": 1434 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 6, "y": 666, "w": 723, "h": 1434 },
+      "sourceSize": { "w": 1073, "h": 2100 }
+    },
+    {
+      "filename": "intro_branche_1.png",
+      "frame": { "x": 726, "y": 784, "w": 567, "h": 530 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 74, "y": 511, "w": 567, "h": 530 },
+      "sourceSize": { "w": 837, "h": 1041 }
+    },
+    {
+      "filename": "intro_branche_2.png",
+      "frame": { "x": 1257, "y": 1, "w": 447, "h": 464 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 3, "y": 506, "w": 447, "h": 464 },
+      "sourceSize": { "w": 940, "h": 970 }
+    },
+    {
+      "filename": "intro_branche_3.png",
+      "frame": { "x": 726, "y": 1, "w": 529, "h": 781 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 41, "y": 260, "w": 529, "h": 781 },
+      "sourceSize": { "w": 837, "h": 1041 }
+    },
+    {
+      "filename": "intro_branche_4.png",
+      "frame": { "x": 1, "y": 1, "w": 723, "h": 1434 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 6, "y": 666, "w": 723, "h": 1434 },
+      "sourceSize": { "w": 1073, "h": 2100 }
+    },
+    {
+      "filename": "intro_branche_5.png",
+      "frame": { "x": 726, "y": 784, "w": 567, "h": 530 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 74, "y": 511, "w": 567, "h": 530 },
+      "sourceSize": { "w": 837, "h": 1041 }
+    },
+    {
+      "filename": "intro_branche_6.png",
+      "frame": { "x": 1257, "y": 1, "w": 447, "h": 464 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 3, "y": 506, "w": 447, "h": 464 },
+      "sourceSize": { "w": 940, "h": 970 }
+    },
+    {
+      "filename": "intro_branche_7.png",
+      "frame": { "x": 726, "y": 1, "w": 529, "h": 781 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 41, "y": 260, "w": 529, "h": 781 },
+      "sourceSize": { "w": 837, "h": 1041 }
+    },
+    {
+      "filename": "intro_branche_8.png",
+      "frame": { "x": 726, "y": 1, "w": 529, "h": 781 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 41, "y": 260, "w": 529, "h": 781 },
+      "sourceSize": { "w": 837, "h": 1041 }
+    },
+    {
+      "filename": "intro_branche_9.png",
+      "frame": { "x": 1, "y": 1, "w": 723, "h": 1434 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 6, "y": 666, "w": 723, "h": 1434 },
+      "sourceSize": { "w": 1073, "h": 2100 }
+    },
+    {
+      "filename": "intro_branche_10.png",
+      "frame": { "x": 726, "y": 784, "w": 567, "h": 530 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 74, "y": 511, "w": 567, "h": 530 },
+      "sourceSize": { "w": 837, "h": 1041 }
+    },
+    {
+      "filename": "intro_branche_11.png",
+      "frame": { "x": 1257, "y": 1, "w": 447, "h": 464 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 3, "y": 506, "w": 447, "h": 464 },
+      "sourceSize": { "w": 940, "h": 970 }
+    },
+    {
+      "filename": "intro_branche_12.png",
+      "frame": { "x": 726, "y": 1, "w": 529, "h": 781 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 41, "y": 260, "w": 529, "h": 781 },
+      "sourceSize": { "w": 837, "h": 1041 }
+    }
+  ],
+  "meta": {
+    "app": "https://www.codeandweb.com/texturepacker",
+    "version": "1.0",
+    "image": "intro_branches_sprite0.png",
+    "format": "RGBA8888",
+    "size": { "w": 1705, "h": 1436 },
+    "scale": "1",
+    "smartupdate": "$TexturePacker:SmartUpdate:c4ebb7acfac09e1b1faada51a0982c4a:cf7dde04d93454eff1430d7836a9f9c8:d7330c199ff5caf1ed2fecba894f18e6$"
+  }
 }

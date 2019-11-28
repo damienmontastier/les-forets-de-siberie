@@ -1,5 +1,7 @@
 import * as THREE from 'three'
 import Sprite from './Sprite'
+import Viewport from './Viewport'
+import GUI from '@/plugins/dat-gui.js'
 
 export default class Layer extends THREE.Object3D {
   constructor({ textures, textureAtlas }) {
@@ -10,46 +12,50 @@ export default class Layer extends THREE.Object3D {
     this.init()
   }
   init() {
-    this.sortLayer().then(() => {
-      this.layersPosition.forEach(element => {
-        this.children.push(element)
-      })
+    this.sortLayer()
+    this.layersPosition.forEach(element => {
+      this.add(element)
     })
   }
 
   sortLayer() {
     let lastIdLayer
+    Object.entries(this.textures).forEach(([key], index) => {
+      let folder
+      let sprite = new Sprite({
+        texture: this.textureAtlas.getTexture(key),
+        size: this.textureAtlas.getSize(key),
+      })
 
-    return new Promise((resolve, reject) => {
-      Object.entries(this.textures).forEach(([key, value], index) => {
-        let sprite = new Sprite({
-          texture: this.textureAtlas.getTexture(key),
-          size: this.textureAtlas.getSize(key),
-        })
-        sprite.position.y = Math.random() * 20
-        sprite.renderOrder = index
+      if (key.includes('layer')) {
+        let name = key.split(/-|_/)[1]
+        let idLayer = name.slice(name.length - 1, name.length)
 
-        // if (key.includes('layer')) {
-        // let name = key.split(/-|_/)[0]
-        // let idLayer = name.slice(-1)
-
-        let name = key.split(/-|_/)[2]
-        let idLayer = name.slice(0, 1)
-
+        // If it's new layer
         if (idLayer != lastIdLayer) {
+          // folder = GUI.addFolder('Layer' + idLayer)
           this.layersPosition[idLayer] = new THREE.Object3D()
           this.layersPosition[idLayer].position.z = -idLayer
         }
-
-        this.layersPosition[idLayer].add(sprite)
-
         this.layersPosition[idLayer].positionLayer = idLayer
 
-        lastIdLayer = idLayer
+        this.addMesh(sprite, idLayer)
 
-        resolve(this.layersPosition)
-        // }
-      })
+        this.addLayerToGUI(sprite, folder)
+
+        lastIdLayer = idLayer
+      }
     })
+  }
+
+  addMesh(mesh, idLayer) {
+    mesh.position.y = -Viewport.height / 2 + Viewport.width / 2
+    mesh.scale.x = Viewport.width
+    mesh.scale.y = Viewport.width
+
+    this.layersPosition[idLayer].add(mesh)
+  }
+  addLayerToGUI(sprite, folder) {
+    // folder.add(sprite.position, 'y').name('y position')
   }
 }

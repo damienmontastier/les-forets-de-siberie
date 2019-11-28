@@ -1,4 +1,5 @@
 import TweenMax, { Power4 } from 'gsap'
+import VirtualScroll from '../../plugins/virtual-scroll'
 
 export default class Parallax {
   constructor({ layers }) {
@@ -7,31 +8,14 @@ export default class Parallax {
     this.init()
   }
   init() {
-    document.addEventListener('touchstart', this.handleTouchStart.bind(this))
-    document.addEventListener('touchend', this.handleTouchEnd.bind(this))
-    document.addEventListener('touchmove', this.handleTouchMove.bind(this))
-  }
-  handleTouchStart(e) {
-    let touches = e.touches[0] // measure start values
-
-    this.startPosition = {
-      x: touches.pageX,
-      y: touches.pageY,
-    }
-  }
-  handleTouchEnd(e) {}
-
-  handleTouchMove(e) {
-    if (e.touches.length > 1 || (e.scale && e.scale !== 1)) return
-    let touches = event.touches[0]
-
-    this.delta = touches.pageY - this.startPosition.y
-
-    Object.values(this.layers.children).forEach((element, index) => {
-      let speed = index + 1
-      TweenMax.to(element.position, 0.8, {
-        y: '+=' + (this.delta / 100) * speed,
-        ease: Power4.easeOut,
+    VirtualScroll.on(e => {
+      Object.values(this.layers.children).forEach((element, index) => {
+        const speed = index == 0 ? 1 * 0.09 : index * 0.09
+        console.log(speed)
+        TweenMax.to(element.position, 0.8, {
+          y: '+=' + e.deltaY * speed,
+          ease: Power4.easeOut,
+        })
       })
     })
   }

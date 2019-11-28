@@ -1,5 +1,4 @@
 import * as THREE from 'three'
-<<<<<<< HEAD
 import loadTextureAtlasFromPath from '@/webGL/utils/loadTextureAtlasFromPath'
 import Sprite from '../utils/Sprite'
 import ChapterPart from '../components/ChapterPart'
@@ -11,32 +10,12 @@ import ChapterPart from '../components/ChapterPart'
 //     }
 //   }
 // }
-=======
-import gsap from 'gsap'
-import Layers from '@/webGL/utils/Layers'
-import Parallax from '@/webGL/utils/Parallax'
-import TextureAtlas from '@/webGL/utils/TextureAtlas'
-// import atlasJSON from '@/assets/avril/avril_part1.json'
-import loadTextureAtlasFromPath from '@/webGL/utils/loadTextureAtlasFromPath'
-import loadSeveralTextureAtlasFromPathes from '@/webGL/utils/loadSeveralTextureAtlasFromPathes'
-
-// const parts = [
-//   { texture: '/assets/avril/avril_part1.png', json: atlasJSON },
-//   { texture: '/assets/avril/avril_part1.png', json: atlasJSON },
-// ]
-
-const pathesArray = [
-  '/assets/avril/atlases/part1/',
-  '/assets/avril/atlases/part2/',
-]
->>>>>>> e365035c9b45b45ae5e33c42cbdf27250561d446
 
 class Chapter1 extends THREE.Object3D {
   constructor() {
     super()
   }
   init() {
-<<<<<<< HEAD
     //load tous les atlas et tous les assets
     //load les parametres de position (part et prop)
     //pendant ce temps -> loading
@@ -49,21 +28,10 @@ class Chapter1 extends THREE.Object3D {
     //créer une partie pour chaque partie dans le tri contenant les layers
     this.loadAssets().then(() => {
       this.createParts()
-=======
-    this.loadAssets().then(() => {
-      console.log('createParts')
-      // const layers = new Layers({
-      //   textures: this.textures,
-      //   textureAtlas: this.textureAtlas,
-      // })
-      // this.add(layers)
-      // const parallax = new Parallax({ layers })
->>>>>>> e365035c9b45b45ae5e33c42cbdf27250561d446
     })
   }
   loadAssets() {
     return new Promise((resolve, reject) => {
-<<<<<<< HEAD
       loadTextureAtlasFromPath('/assets/avril/atlases/part1/').then(
         textureAtlas => {
           this.addTextures(textureAtlas.textures)
@@ -117,13 +85,6 @@ class Chapter1 extends THREE.Object3D {
     }
     return parts
   }
-=======
-      loadSeveralTextureAtlasFromPathes(pathesArray).then(textures => {
-        // console.log(textures)
-      })
-    })
-  }
->>>>>>> e365035c9b45b45ae5e33c42cbdf27250561d446
 }
 
 export default new Chapter1()
