@@ -1,4 +1,9 @@
-import loadTextureAtlasFromPath from '@/webGL/utils/loadTextureAtlasFromPath'
+class Parts {
+  constructor(textures) {
+    console.log(textures)
+  }
+  add() {}
+}
 
 export default function loadSeveralTextureAtlasFromPathes(pathes) {
   const promises = []

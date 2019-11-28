@@ -2,15 +2,8 @@ import * as THREE from 'three'
 import gsap from 'gsap'
 import Layers from '@/webGL/utils/Layers'
 import Parallax from '@/webGL/utils/Parallax'
-import TextureAtlas from '@/webGL/utils/TextureAtlas'
-// import atlasJSON from '@/assets/avril/avril_part1.json'
-import loadTextureAtlasFromPath from '@/webGL/utils/loadTextureAtlasFromPath'
 import loadSeveralTextureAtlasFromPathes from '@/webGL/utils/loadSeveralTextureAtlasFromPathes'
-
-// const parts = [
-//   { texture: '/assets/avril/avril_part1.png', json: atlasJSON },
-//   { texture: '/assets/avril/avril_part1.png', json: atlasJSON },
-// ]
+import Parts from '@/webGL/utils/Parts'
 
 const pathesArray = [
   '/assets/avril/atlases/part1/',
@@ -22,8 +15,11 @@ class Chapter1 extends THREE.Object3D {
     super()
   }
   init() {
-    this.loadAssets().then(() => {
-      console.log('createParts')
+    this.loadAssets().then(textures => {
+      console.log(textures)
+
+      //Create part
+
       // const layers = new Layers({
       //   textures: this.textures,
       //   textureAtlas: this.textureAtlas,
@@ -35,7 +31,7 @@ class Chapter1 extends THREE.Object3D {
   loadAssets() {
     return new Promise((resolve, reject) => {
       loadSeveralTextureAtlasFromPathes(pathesArray).then(textures => {
-        // console.log(textures)
+        resolve(textures)
       })
     })
   }
