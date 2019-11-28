@@ -24,11 +24,7 @@ export default function loadAtlasTextureFromPath(path) {
 
   return new Promise((resolve, reject) => {
     Promise.all(promises).then(data => {
-<<<<<<< HEAD
-      resolve(new TextureAtlas(data[0], data[1].image))
-=======
       resolve(new TextureAtlas(data[0], data[1].image).textures)
->>>>>>> e365035c9b45b45ae5e33c42cbdf27250561d446
     })
   })
 }

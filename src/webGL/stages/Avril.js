@@ -1,12 +1,11 @@
 import * as THREE from 'three'
-import gsap from 'gsap'
-import Parallax from '@/webGL/utils/Parallax'
 import loadSeveralTextureAtlasFromPathes from '@/webGL/utils/loadSeveralTextureAtlasFromPathes'
 import Part from '@/webGL/utils/Part'
 import GUI from '@/plugins/dat-gui.js'
 import LakeReflect from '../components/LakeReflect'
 import Viewport from '../utils/Viewport'
 import Wind from '../components/Wind'
+import Fire from '../components/Fire'
 
 const pathesArray = [
   '/assets/avril/atlases/part1/',
@@ -27,6 +26,7 @@ class Avril extends THREE.Object3D {
       this.initParts()
 
       //LAKE REFLECT
+      console.log(this.utilsTextures)
       this.lake = new LakeReflect({
         map: this.utilsTextures['utils_montagne-reflet'].texture,
         alphaMap: this.utilsTextures['utils_montagne-reflet-alpha'].texture,
@@ -44,9 +44,17 @@ class Avril extends THREE.Object3D {
       // this.wind2 = new Wind({ map: this.utilsTextures['utils_wind'].texture })
       // this.wind2.scale.setScalar(Viewport.width - 10)
       // this.wind2.position.y = 50
-      this.add(this.wind)
+      //this.add(this.wind)
       // this.add(this.wind2)
       //WIND
+
+      //FIRE
+      console.log(this.textures)
+      this.fire = new Fire({ map: this.textures['utils_fire'] })
+      this.fire.scale.setScalar(Viewport.width / 2)
+
+      this.add(this.fire)
+      //FIRE
     })
   }
   loadAssets() {
@@ -72,7 +80,7 @@ class Avril extends THREE.Object3D {
     Object.keys(this.textures)
       .filter(texture => texture.includes('utils'))
       .forEach(key => {
-        textures[key] = this.textures[key]
+        textures[key] = { texture: this.textures[key] }
       })
     return textures
   }

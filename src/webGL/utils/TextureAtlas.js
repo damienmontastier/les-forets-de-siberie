@@ -29,8 +29,4 @@ export default class TextureAtlas {
   getSize(id) {
     return this.textures[id]._size
   }
-
-  getTextureAndSize(id) {
-    return { texture: this.getTexture(id), size: this.getSize(id) }
-  }
 }
