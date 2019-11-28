@@ -4,15 +4,16 @@ import Layers from '@/webGL/utils/Layers'
 import Parallax from '@/webGL/utils/Parallax'
 import loadSeveralTextureAtlasFromPathes from '@/webGL/utils/loadSeveralTextureAtlasFromPathes'
 import Part from '@/webGL/utils/Part'
+import LakeReflect from '../components/LakeReflect'
+import Viewport from '../utils/Viewport'
+import Wind from '../components/Wind'
 
 const pathesArray = [
   '/assets/avril/atlases/part1/',
   '/assets/avril/atlases/part2/',
-<<<<<<< HEAD
   '/assets/avril/atlases/lake-reflect/',
-=======
   '/assets/avril/atlases/part3/',
->>>>>>> 02ad37a84e19ad569e923b3116a970ecda8edde5
+  '/assets/avril/atlases/wind/',
 ]
 
 class Chapter1 extends THREE.Object3D {
@@ -23,7 +24,33 @@ class Chapter1 extends THREE.Object3D {
     this.loadAssets().then(textures => {
       this.textures = textures
 
+      console.log(this.utilsTextures)
+
       this.initParts()
+
+      //LAKE REFLECT
+      this.lake = new LakeReflect({
+        map: this.utilsTextures['utils_montagne-reflet'].texture,
+        alphaMap: this.utilsTextures['utils_montagne-reflet-alpha'].texture,
+      })
+
+      this.lake.scale.setScalar(Viewport.width + 10)
+
+      //this.add(this.lake)
+      //LAKE REFLECT
+
+      //WIND
+      this.wind = new Wind({ map: this.utilsTextures['utils_wind'].texture })
+      this.wind.scale.setScalar(Viewport.width)
+
+      // this.wind2 = new Wind({ map: this.utilsTextures['utils_wind'].texture })
+      // this.wind2.scale.setScalar(Viewport.width - 10)
+      // this.wind2.position.y = 50
+      this.add(this.wind)
+      // this.add(this.wind2)
+      //WIND
+
+      //this.parts['parts1'].addTolayer(0, this.lake)
 
       //Create part
       // const layers = new Layers({
@@ -54,7 +81,7 @@ class Chapter1 extends THREE.Object3D {
     Object.keys(this.textures)
       .filter(texture => texture.includes('utils'))
       .forEach(key => {
-        textures[key] = this.textures[key]
+        textures[key] = { texture: this.textures[key] }
       })
     return textures
   }
@@ -78,7 +105,7 @@ class Chapter1 extends THREE.Object3D {
         .filter(index => index.includes('layer'))[0]
         .replace('layer', '')
       if (!parts['part' + partIndex]) parts['part' + partIndex] = {}
-      parts['part' + partIndex]['layer' + layerIndex] = texture
+      parts['part' + partIndex]['layer' + layerIndex] = { texture }
     }
     return parts
   }
