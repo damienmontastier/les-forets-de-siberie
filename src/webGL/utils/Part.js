@@ -5,9 +5,9 @@ import Viewport from './Viewport'
 import GUI from '@/plugins/dat-gui.js'
 
 export default class Part extends THREE.Object3D {
-  constructor({ name, layers, positions }) {
+  constructor({ name, layers }) {
     super()
-    this.positions = positions.sprites
+    // this.positions = positions.sprites
     this.namePart = name
     this.partLayer = layers
 
@@ -20,8 +20,7 @@ export default class Part extends THREE.Object3D {
         texture: texture.texture,
         size: texture.texture._size,
       })
-
-      sprite.position.y = this.positions[sprite.name].y
+      // sprite.position.y = this.positions[sprite.name].y
       this.addToLayer(key, sprite)
     })
   }

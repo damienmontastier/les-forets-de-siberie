@@ -1,0 +1,20 @@
+{"frames": [
+
+{
+	"filename": "Utils_water.png",
+	"frame": {"x":1,"y":1,"w":208,"h":801},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":208,"h":801},
+	"sourceSize": {"w":208,"h":801}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "Part4.png",
+	"format": "RGBA8888",
+	"size": {"w":1024,"h":1024},
+	"scale": "0.5",
+	"smartupdate": "$TexturePacker:SmartUpdate:55d8d6a56490248d80775b81473e5afd:10f528d917fc2bb1329d5bee1b56c953:383cb1a5d7bdbfb038d57f1efa6ee44c$"
+}
+}
