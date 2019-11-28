@@ -26,31 +26,31 @@ export default class WebGL {
     // scene
     this.scene = new THREE.Scene()
 
-    document.addEventListener('touchstart', e => {
-      let mousex = (e.changedTouches[0].clientX / window.innerWidth) * 2 - 1
-      let mousey = -(e.changedTouches[0].clientY / window.innerHeight) * 2 + 1
-      var geometry = new THREE.PlaneBufferGeometry(0.5, 0.5, 32)
-      var material = new THREE.MeshBasicMaterial({
-        color: 0xffff00,
-        side: THREE.DoubleSide,
-      })
-      var plane = new THREE.Mesh(geometry, material)
-      let x = this.map(mousex, -1, 1, -Viewsize.width / 2, Viewsize.width / 2)
-      console.log(x)
+    // document.addEventListener('touchstart', e => {
+    //   let mousex = (e.changedTouches[0].clientX / window.innerWidth) * 2 - 1
+    //   let mousey = -(e.changedTouches[0].clientY / window.innerHeight) * 2 + 1
+    //   var geometry = new THREE.PlaneBufferGeometry(0.5, 0.5, 32)
+    //   var material = new THREE.MeshBasicMaterial({
+    //     color: 0xffff00,
+    //     side: THREE.DoubleSide,
+    //   })
+    //   var plane = new THREE.Mesh(geometry, material)
+    //   let x = this.map(mousex, -1, 1, -Viewsize.width / 2, Viewsize.width / 2)
+    //   console.log(x)
 
-      let y = this.map(mousey, -1, 1, -Viewsize.height / 2, Viewsize.height / 2)
-      plane.position.set(x, y, 0)
-      console.log('here')
-      gsap.to(plane.position, {
-        y: -10,
-        duration: 10,
-        onComplete: () => {
-          console.log(this.scene.remove(plane))
-        },
-      })
-      this.scene.add(plane)
-      console.log(this.scene)
-    })
+    //   let y = this.map(mousey, -1, 1, -Viewsize.height / 2, Viewsize.height / 2)
+    //   plane.position.set(x, y, 0)
+    //   console.log('here')
+    //   gsap.to(plane.position, {
+    //     y: -10,
+    //     duration: 10,
+    //     onComplete: () => {
+    //       console.log(this.scene.remove(plane))
+    //     },
+    //   })
+    //   this.scene.add(plane)
+    //   console.log(this.scene)
+    // })
 
     //controls
     this.controls = new OrbitControls(Camera, this.renderer.domElement)

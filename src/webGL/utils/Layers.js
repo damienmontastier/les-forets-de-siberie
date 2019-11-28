@@ -33,7 +33,7 @@ export default class Layer extends THREE.Object3D {
 
         // If it's new layer
         if (idLayer != lastIdLayer) {
-          folder = GUI.addFolder('Layer' + idLayer)
+          // folder = GUI.addFolder('Layer' + idLayer)
           this.layersPosition[idLayer] = new THREE.Object3D()
           this.layersPosition[idLayer].position.z = -idLayer
         }
@@ -56,6 +56,6 @@ export default class Layer extends THREE.Object3D {
     this.layersPosition[idLayer].add(mesh)
   }
   addLayerToGUI(sprite, folder) {
-    folder.add(sprite.position, 'y').name('y position')
+    // folder.add(sprite.position, 'y').name('y position')
   }
 }

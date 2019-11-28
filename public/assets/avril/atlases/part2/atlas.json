@@ -1,0 +1,21 @@
+{
+  "frames": [
+    {
+      "filename": "Utils_Wind.png",
+      "frame": { "x": 1, "y": 1, "w": 216, "h": 730 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 216, "h": 730 },
+      "sourceSize": { "w": 216, "h": 730 }
+    }
+  ],
+  "meta": {
+    "app": "https://www.codeandweb.com/texturepacker",
+    "version": "1.0",
+    "image": "Part2.png",
+    "format": "RGBA8888",
+    "size": { "w": 1024, "h": 1024 },
+    "scale": "0.5",
+    "smartupdate": "$TexturePacker:SmartUpdate:c6af9588d6e5cd7bf432848f039b9847:973fb83a12dc48545cd9008e948b3060:3218bff8a73ca19b65733b798c23a87b$"
+  }
+}
