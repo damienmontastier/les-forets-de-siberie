@@ -1,0 +1,23 @@
+{
+  "part1": {
+    "y": 0,
+    "sprites": {
+      "Part1_Layer0_eau.png": {
+        "y": 0,
+        "fullwidth": true
+      },
+      "Part1_Layer1.png": {
+        "y": 0,
+        "fullwidth": true
+      },
+      "Part1_Layer2.png": {
+        "y": 0,
+        "fullwidth": true
+      },
+      "Part1_Layer3.png": {
+        "y": 0,
+        "fullwidth": true
+      }
+    }
+  }
+}

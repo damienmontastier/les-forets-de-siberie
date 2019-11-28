@@ -4,6 +4,9 @@ import Parallax from '@/webGL/utils/Parallax'
 import loadSeveralTextureAtlasFromPathes from '@/webGL/utils/loadSeveralTextureAtlasFromPathes'
 import Part from '@/webGL/utils/Part'
 import GUI from '@/plugins/dat-gui.js'
+import positions from '../../../public/assets/avril/positions/positions'
+
+console.log(positions)
 
 const pathesArray = [
   '/assets/avril/atlases/part1/',
