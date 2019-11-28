@@ -21,13 +21,11 @@ class Avril extends THREE.Object3D {
 
       this.initParts()
 
-      //Create part
-      // const layers = new Layers({
-      //   textures: this.textures,
-      //   textureAtlas: this.textureAtlas,
-      // })
-      // this.add(layers)
-      // const parallax = new Parallax({ layers })
+      var geometry = new THREE.BoxGeometry(1, 1, 1)
+      var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+      var cube = new THREE.Mesh(geometry, material)
+
+      // this.parts['part1'].addToLayer(0, cube)
     })
   }
   loadAssets() {
@@ -39,14 +37,13 @@ class Avril extends THREE.Object3D {
   }
   initParts() {
     this.parts = {}
-    let GUIPartFolder
     for (let [name, layers] of Object.entries(this.partedTextures)) {
-      GUIPartFolder = GUI.addFolder(name)
+      GUI.addFolder(name)
       let part = new Part({ name, layers })
+      part.name = name
       this.parts[name] = part
       this.add(part)
     }
-    console.log(this)
   }
 
   get utilsTextures() {

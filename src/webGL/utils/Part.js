@@ -26,20 +26,20 @@ export default class Part extends THREE.Object3D {
 
   addToLayer(idLayer, mesh) {
     let layer = this.layers[idLayer]
-    let folder
-
+    let layerFolder
     if (!layer) {
       this.createLayer(idLayer)
-      GUI.__folders[this.namePart].addFolder('layer ' + idLayer)
+      layerFolder = GUI.__folders[this.namePart].addFolder('layer ' + idLayer)
+      layerFolder.open()
     }
 
-    this.layers[idLayer].addMesh(mesh)
+    this.layers[idLayer].addMesh(mesh, layerFolder)
   }
 
   createLayer(idLayer) {
     this.layers[idLayer] = new Layer()
-    this.layers[idLayer].scale.x = 1
-    this.layers[idLayer].scale.y = 1
+    this.layers[idLayer].scale.x = Viewport.width / 2
+    this.layers[idLayer].scale.y = Viewport.width / 2
     this.add(this.layers[idLayer])
   }
 }

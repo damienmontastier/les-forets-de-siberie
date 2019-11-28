@@ -2,24 +2,26 @@ import * as THREE from 'three'
 import Viewport from './Viewport'
 
 export default class Layer extends THREE.Object3D {
-  constructor(meshes) {
+  constructor() {
     super()
 
     this.addLayer()
   }
 
   addLayer() {
-    return new THREE.Object3D()
+    return this
   }
 
-  addMesh(mesh) {
+  addMesh(mesh, folder) {
     this.add(mesh)
-    mesh.scale.x = Viewport.width
-    mesh.scale.y = Viewport.width
-    // this.layersPosition[idLayer].add(mesh)
+    this.addLayerToGUI(mesh, folder)
   }
 
-  addLayerToGUI(sprite, folder) {
-    // folder.add(sprite.position, 'y').name('y position')
+  addLayerToGUI(mesh, folder) {
+    folder
+      .add(mesh.position, 'y')
+      .step(1)
+      .name('y position')
+      .listen()
   }
 }
