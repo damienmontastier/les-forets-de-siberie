@@ -51,7 +51,7 @@ class Avril extends THREE.Object3D {
       //FIRE
       console.log(this.textures)
       this.fire = new Fire({ map: this.textures['utils_fire'] })
-      this.fire.scale.setScalar(Viewport.width / 2)
+      this.fire.scale.setScalar(Viewport.width / 5)
 
       this.add(this.fire)
       //FIRE
