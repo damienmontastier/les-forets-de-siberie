@@ -8,6 +8,7 @@ import Parts from '@/webGL/utils/Parts'
 const pathesArray = [
   '/assets/avril/atlases/part1/',
   '/assets/avril/atlases/part2/',
+  '/assets/avril/atlases/lake-reflect/',
 ]
 
 class Chapter1 extends THREE.Object3D {
