@@ -1,9 +1,9 @@
 import * as THREE from 'three'
 import gsap from 'gsap'
-import Layers from '@/webGL/utils/Layers'
 import Parallax from '@/webGL/utils/Parallax'
 import loadSeveralTextureAtlasFromPathes from '@/webGL/utils/loadSeveralTextureAtlasFromPathes'
 import Part from '@/webGL/utils/Part'
+import GUI from '@/plugins/dat-gui.js'
 import LakeReflect from '../components/LakeReflect'
 import Viewport from '../utils/Viewport'
 import Wind from '../components/Wind'
@@ -16,7 +16,7 @@ const pathesArray = [
   '/assets/avril/atlases/wind/',
 ]
 
-class Chapter1 extends THREE.Object3D {
+class Avril extends THREE.Object3D {
   constructor() {
     super()
   }
@@ -24,41 +24,13 @@ class Chapter1 extends THREE.Object3D {
     this.loadAssets().then(textures => {
       this.textures = textures
 
-      console.log(this.utilsTextures)
-
       this.initParts()
 
-      //LAKE REFLECT
-      this.lake = new LakeReflect({
-        map: this.utilsTextures['utils_montagne-reflet'].texture,
-        alphaMap: this.utilsTextures['utils_montagne-reflet-alpha'].texture,
-      })
+      var geometry = new THREE.BoxGeometry(1, 1, 1)
+      var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+      var cube = new THREE.Mesh(geometry, material)
 
-      this.lake.scale.setScalar(Viewport.width + 10)
-
-      //this.add(this.lake)
-      //LAKE REFLECT
-
-      //WIND
-      this.wind = new Wind({ map: this.utilsTextures['utils_wind'].texture })
-      this.wind.scale.setScalar(Viewport.width)
-
-      // this.wind2 = new Wind({ map: this.utilsTextures['utils_wind'].texture })
-      // this.wind2.scale.setScalar(Viewport.width - 10)
-      // this.wind2.position.y = 50
-      this.add(this.wind)
-      // this.add(this.wind2)
-      //WIND
-
-      //this.parts['parts1'].addTolayer(0, this.lake)
-
-      //Create part
-      // const layers = new Layers({
-      //   textures: this.textures,
-      //   textureAtlas: this.textureAtlas,
-      // })
-      // this.add(layers)
-      // const parallax = new Parallax({ layers })
+      // this.parts['part1'].addToLayer(0, cube)
     })
   }
   loadAssets() {
@@ -71,20 +43,24 @@ class Chapter1 extends THREE.Object3D {
   initParts() {
     this.parts = {}
     for (let [name, layers] of Object.entries(this.partedTextures)) {
-      this.parts[name] = new Part({ name, layers })
+      GUI.addFolder(name)
+      let part = new Part({ name, layers })
+      part.name = name
+      this.parts[name] = part
+      this.add(part)
     }
-    //TODO add this.parts to the scene
-    // console.log(this.parts)
   }
+
   get utilsTextures() {
     let textures = {}
     Object.keys(this.textures)
       .filter(texture => texture.includes('utils'))
       .forEach(key => {
-        textures[key] = { texture: this.textures[key] }
+        textures[key] = this.textures[key]
       })
     return textures
   }
+
   get partedTextures() {
     let parts = {}
 
@@ -111,5 +87,27 @@ class Chapter1 extends THREE.Object3D {
   }
 }
 
-const stage1 = new Chapter1()
-export default stage1
+const avril = new Avril()
+export default avril
+
+//LAKE REFLECT
+this.lake = new LakeReflect({
+  map: this.utilsTextures['utils_montagne-reflet'].texture,
+  alphaMap: this.utilsTextures['utils_montagne-reflet-alpha'].texture,
+})
+
+this.lake.scale.setScalar(Viewport.width + 10)
+
+//this.add(this.lake)
+//LAKE REFLECT
+
+//WIND
+this.wind = new Wind({ map: this.utilsTextures['utils_wind'].texture })
+this.wind.scale.setScalar(Viewport.width)
+
+// this.wind2 = new Wind({ map: this.utilsTextures['utils_wind'].texture })
+// this.wind2.scale.setScalar(Viewport.width - 10)
+// this.wind2.position.y = 50
+this.add(this.wind)
+// this.add(this.wind2)
+//WIND

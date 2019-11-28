@@ -1,3 +1,48 @@
+<<<<<<< HEAD
+{"frames": [
+
+{
+	"filename": "Part1_Layer0.png",
+	"frame": {"x":1,"y":1,"w":802,"h":692},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":802,"h":692},
+	"sourceSize": {"w":802,"h":692}
+},
+{
+	"filename": "Part1_Layer1.png",
+	"frame": {"x":321,"y":1069,"w":642,"h":349},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":642,"h":349},
+	"sourceSize": {"w":642,"h":349}
+},
+{
+	"filename": "Part1_Layer2.png",
+	"frame": {"x":1,"y":695,"w":318,"h":1340},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":318,"h":1340},
+	"sourceSize": {"w":318,"h":1340}
+},
+{
+	"filename": "Part1_Layer3.png",
+	"frame": {"x":321,"y":695,"w":683,"h":372},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":683,"h":372},
+	"sourceSize": {"w":683,"h":372}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "empreinte.png",
+	"format": "RGBA8888",
+	"size": {"w":1024,"h":2048},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:97c02e42a9735e3c542c3eb0b2970029:fdbe5fefd235b3526fec34419c3cf967:afcd83ab213fd506c75d8e671b6d6c83$"
+}
+=======
 {
   "frames": [
     {
@@ -42,4 +87,5 @@
     "scale": "1",
     "smartupdate": "$TexturePacker:SmartUpdate:7844d597bd8a380d87cafbd437f6218a:e01a4dc8187139c419aec28f9bd1ac45:1be4e0487f6ba704f20c11f78938b530$"
   }
+>>>>>>> e365035c9b45b45ae5e33c42cbdf27250561d446
 }
