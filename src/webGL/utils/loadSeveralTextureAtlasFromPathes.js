@@ -1,16 +1,24 @@
-import TextureAtlas from '@/webGL/utils/TextureAtlas'
-import * as THREE from 'three'
 import loadTextureAtlasFromPath from '@/webGL/utils/loadTextureAtlasFromPath'
 
 export default function loadSeveralTextureAtlasFromPathes(pathes) {
   const promises = []
+  let textures = {}
 
   pathes.forEach(path => {
     let promise = new Promise((resolve, reject) => {
-      loadTextureAtlasFromPath(path).then(resolve)
+      loadTextureAtlasFromPath(path).then(texturesAtlas => {
+        resolve(texturesAtlas)
+      })
     })
     promises.push(promise)
   })
 
-  return Promise.all(promises)
+  // return new Promise((resolve, reject) => {
+  return Promise.all(promises).then(test => {
+    textures = { ...textures, ...test }
+
+    console.log(test)
+    // resolve(textures)
+  })
+  // })
 }

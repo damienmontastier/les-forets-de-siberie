@@ -35,33 +35,9 @@ class Chapter1 extends THREE.Object3D {
   loadAssets() {
     return new Promise((resolve, reject) => {
       loadSeveralTextureAtlasFromPathes(pathesArray).then(textures => {
-        this.addTextures(textures)
+        // console.log(textures)
       })
-
-      // loadTextureAtlasFromPath('/assets/avril/atlases/part1/').then(
-      //   textureAtlas => {
-      //     this.addTextures(textureAtlas.textures)
-      //     // this.add(new Sprite(textureAtlas.getTextureAndSize('part1_layer0')))
-      //     resolve()
-      //   }
-      // )
     })
-
-    // //Load tout les assets des parties
-
-    // return new Promise((resolve, reject) => {
-    //   let loader = new THREE.TextureLoader()
-
-    //   loader.load('/assets/avril/avril_part1.png', texture => {
-    //     this.textureAtlas = new TextureAtlas(atlasJSON, texture.image)
-    //     this.textures = this.textureAtlas.textures
-    //     resolve(this.textures, this.textureAtlas)
-    //   })
-    // })
-  }
-  addTextures(textures) {
-    if (!this.textures) this.textures = {}
-    this.textures = { ...this.textures, ...textures }
   }
 }
 
