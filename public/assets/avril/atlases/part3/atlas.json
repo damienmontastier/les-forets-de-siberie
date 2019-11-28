@@ -1,0 +1,36 @@
+{"frames": [
+
+{
+	"filename": "Part3_Layer0.png",
+	"frame": {"x":1,"y":440,"w":195,"h":372},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":80,"w":195,"h":372},
+	"sourceSize": {"w":195,"h":455}
+},
+{
+	"filename": "Part3_Layer1.png",
+	"frame": {"x":1,"y":1,"w":386,"h":437},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":49,"w":386,"h":437},
+	"sourceSize": {"w":386,"h":486}
+},
+{
+	"filename": "Part3_Layer2.png",
+	"frame": {"x":198,"y":440,"w":127,"h":288},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":29,"w":127,"h":288},
+	"sourceSize": {"w":127,"h":322}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "Part3.png",
+	"format": "RGBA8888",
+	"size": {"w":1024,"h":1024},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:accdba218f4a799b12ebe5cc23b7cea3:f62e6cb3b45c5a0badf96aaded1da161:8c65f9b118beaa1de5a36ea46d1a4a98$"
+}
+}
