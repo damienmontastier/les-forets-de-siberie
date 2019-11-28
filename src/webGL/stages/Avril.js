@@ -4,13 +4,9 @@ import Parallax from '@/webGL/utils/Parallax'
 import loadSeveralTextureAtlasFromPathes from '@/webGL/utils/loadSeveralTextureAtlasFromPathes'
 import Part from '@/webGL/utils/Part'
 import GUI from '@/plugins/dat-gui.js'
-import positions from '../../../public/assets/avril/positions/positions'
-
-console.log(positions)
-
+let positions = require('../../../public/assets/avril/positions/positions')
 const pathesArray = [
   '/assets/avril/atlases/part1/',
-  '/assets/avril/atlases/part2/',
   '/assets/avril/atlases/part3/',
 ]
 
@@ -43,7 +39,8 @@ class Avril extends THREE.Object3D {
     let folder
     for (let [name, layers] of Object.entries(this.partedTextures)) {
       folder = GUI.addFolder(name)
-      let part = new Part({ name, layers })
+      let part = new Part({ name, layers, positions: positions[name] })
+      part.position.y = positions[name].y
       folder
         .add(part.position, 'y')
         .step(1)
