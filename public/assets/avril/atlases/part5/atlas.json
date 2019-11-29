@@ -1,0 +1,20 @@
+{"frames": [
+
+{
+	"filename": "Utils_Sun.png",
+	"frame": {"x":1,"y":1,"w":161,"h":163},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":161,"h":163},
+	"sourceSize": {"w":161,"h":163}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "Part5.png",
+	"format": "RGBA8888",
+	"size": {"w":256,"h":256},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:a2dcfe4740b2fd046bebc6ce162ca09a:5ec52d5d702c5a766c50b30cb06c1fcb:bff2d0c2a5e3547039437d97c3ff1c71$"
+}
+}

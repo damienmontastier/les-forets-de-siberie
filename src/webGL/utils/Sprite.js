@@ -22,4 +22,8 @@ export default class Sprite extends THREE.Object3D {
     this.ratio = size.height / size.width
     this.mesh.scale.set(1, this.ratio, 1)
   }
+  fullwidth(bool) {
+    if (bool) this.mesh.scale.set(this.ratio, 1, 1)
+    else this.mesh.scale.set(1, this.ratio, 1)
+  }
 }

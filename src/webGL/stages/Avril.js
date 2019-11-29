@@ -20,12 +20,14 @@ const pathesArray = [
 class Avril extends THREE.Object3D {
   constructor() {
     super()
+
+    this.scale.setScalar(Viewport.width)
   }
   init() {
     this.loadAssets().then(textures => {
       this.textures = textures
 
-      //this.initParts()
+      this.initParts()
 
       //LAKE REFLECT
       this.lake = new LakeReflect({
@@ -51,7 +53,7 @@ class Avril extends THREE.Object3D {
 
       //FIRE
       this.fire = new Fire({ map: this.textures['utils_fire'] })
-      this.fire.scale.setScalar(Viewport.width / 5)
+      //this.fire.scale.setScalar(Viewport.width / 5)
 
       this.add(this.fire)
 
@@ -71,16 +73,23 @@ class Avril extends THREE.Object3D {
   initParts() {
     this.parts = {}
     let folder
+
     for (let [name, layers] of Object.entries(this.partedTextures)) {
       folder = GUI.addFolder(name)
-      let part = new Part({ name, layers, positions: positions[name] })
-      part.position.y = positions[name].y
+
+      let part = new Part({ name, layers })
+
+      let positionY = positions[name] ? positions[name].y : 0
+      part.position.y = positionY
+
       folder
         .add(part.position, 'y')
         .step(1)
         .name('position y part')
+
       part.name = name
       this.parts[name] = part
+
       this.add(part)
     }
   }
@@ -97,8 +106,8 @@ class Avril extends THREE.Object3D {
 
   get partedTextures() {
     let parts = {}
-
     let textures = {}
+
     Object.keys(this.textures)
       .filter(texture => !texture.includes('utils'))
       .forEach(key => {
@@ -114,8 +123,14 @@ class Avril extends THREE.Object3D {
         .split('_')
         .filter(index => index.includes('layer'))[0]
         .replace('layer', '')
+
+      let params =
+        positions['part' + partIndex] !== undefined
+          ? positions['part' + partIndex].sprites[texture.name]
+          : { y: 0, fullwidth: false }
+
       if (!parts['part' + partIndex]) parts['part' + partIndex] = {}
-      parts['part' + partIndex]['layer' + layerIndex] = { texture }
+      parts['part' + partIndex]['layer' + layerIndex] = { texture, params }
     }
     return parts
   }

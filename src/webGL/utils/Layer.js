@@ -18,10 +18,16 @@ export default class Layer extends THREE.Object3D {
   }
 
   addLayerToGUI(mesh, folder) {
+    this.fullwidth = false
+
     folder
       .add(mesh.position, 'y')
       .step(1)
       .name('y')
-      .listen()
+
+    folder.add(this, 'fullwidth').onChange(bool => {
+      if (bool) mesh.scale.set(mesh.ratio, 1, 1)
+      else mesh.scale.set(1, mesh.ratio, 1)
+    })
   }
 }
