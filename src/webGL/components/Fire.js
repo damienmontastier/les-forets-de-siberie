@@ -102,6 +102,7 @@ export default class Fire extends THREE.Object3D {
       material: this.material,
     })
     this.add(this.sprite)
+    this.sprite.mesh.scale.set(1, this.sprite.ratio, 1)
 
     setInterval(() => {
       this.uniforms.uTime.value += 0.01

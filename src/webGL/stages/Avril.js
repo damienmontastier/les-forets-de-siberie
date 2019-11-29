@@ -6,8 +6,8 @@ import LakeReflect from '../components/LakeReflect'
 import Viewport from '../utils/Viewport'
 import Wind from '../components/Wind'
 import Fire from '../components/Fire'
+import Stars from '../components/Stars'
 let positions = require('../../../public/assets/avril/positions/positions')
-console.log(positions)
 
 const pathesArray = [
   '/assets/avril/atlases/part1/',
@@ -25,10 +25,9 @@ class Avril extends THREE.Object3D {
     this.loadAssets().then(textures => {
       this.textures = textures
 
-      this.initParts()
+      //this.initParts()
 
       //LAKE REFLECT
-      console.log(this.utilsTextures)
       this.lake = new LakeReflect({
         map: this.utilsTextures['utils_montagne-reflet'].texture,
         alphaMap: this.utilsTextures['utils_montagne-reflet-alpha'].texture,
@@ -47,15 +46,18 @@ class Avril extends THREE.Object3D {
       // this.wind2.scale.setScalar(Viewport.width - 10)
       // this.wind2.position.y = 50
       //this.add(this.wind)
-      // this.add(this.wind2)
+      //this.add(this.wind)
       //WIND
 
       //FIRE
-      console.log(this.textures)
       this.fire = new Fire({ map: this.textures['utils_fire'] })
       this.fire.scale.setScalar(Viewport.width / 5)
 
       this.add(this.fire)
+
+      this.stars = new Stars()
+      this.stars.scale.setScalar(Viewport.width)
+      //this.add(this.stars)
       //FIRE
     })
   }
@@ -71,7 +73,6 @@ class Avril extends THREE.Object3D {
     let folder
     for (let [name, layers] of Object.entries(this.partedTextures)) {
       folder = GUI.addFolder(name)
-      console.log(name, positions[name])
       let part = new Part({ name, layers, positions: positions[name] })
       part.position.y = positions[name].y
       folder

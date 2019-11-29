@@ -20,6 +20,6 @@ export default class Sprite extends THREE.Object3D {
     this.add(this.mesh)
 
     this.ratio = size.height / size.width
-    this.mesh.scale.set(this.ratio, 1, 1)
+    this.mesh.scale.set(1, this.ratio, 1)
   }
 }
