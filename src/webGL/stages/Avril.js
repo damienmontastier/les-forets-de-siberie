@@ -97,9 +97,9 @@ class Avril extends THREE.Object3D {
         .replace('layer', '')
 
       let params =
-        positions[partIndex] != undefined
-          ? positions[partIndex].sprites[texture.name]
-          : { y: 0, fullwidth: true }
+        positions['part' + partIndex] !== undefined
+          ? positions['part' + partIndex].sprites[texture.name]
+          : { y: 0, fullwidth: false }
 
       if (!parts['part' + partIndex]) parts['part' + partIndex] = {}
       parts['part' + partIndex]['layer' + layerIndex] = { texture, params }

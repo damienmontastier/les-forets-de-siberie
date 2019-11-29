@@ -19,7 +19,9 @@ export default class Part extends THREE.Object3D {
         texture: layers.texture,
         size: layers.texture._size,
       })
+
       if (layers.params.fullwidth) sprite.fullwidth(true)
+
       sprite.position.y = layers.params.y
 
       this.addToLayer(key, sprite)

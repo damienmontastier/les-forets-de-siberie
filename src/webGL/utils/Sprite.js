@@ -14,11 +14,11 @@ export default class Sprite extends THREE.Object3D {
 
     this.mesh = new THREE.Mesh(this.geometry, this.material)
     this.name = texture.name
-    this.mesh.scale.set(this.ratio, 1, 1)
+    this.mesh.scale.set(1, this.ratio, 1)
     this.add(this.mesh)
   }
   fullwidth(bool) {
-    if (bool) this.mesh.scale.set(1, this.ratio, 1)
-    else this.mesh.scale.set(this.ratio, 1, 1)
+    if (bool) this.mesh.scale.set(this.ratio, 1, 1)
+    else this.mesh.scale.set(1, this.ratio, 1)
   }
 }
