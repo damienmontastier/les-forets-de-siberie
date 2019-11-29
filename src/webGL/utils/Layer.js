@@ -21,10 +21,7 @@ export default class Layer extends THREE.Object3D {
     this.fullwidth = false
     this.anchor = 'center'
 
-    folder
-      .add(mesh.position, 'y')
-      .step(1)
-      .name('y')
+    folder.add(mesh.position, 'y').name('y')
 
     folder.add(this, 'fullwidth').onChange(bool => {
       mesh.fullwidth(bool)

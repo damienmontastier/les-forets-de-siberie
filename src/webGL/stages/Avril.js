@@ -7,6 +7,9 @@ import Viewport from '../utils/Viewport'
 import Wind from '../components/Wind'
 import Fire from '../components/Fire'
 import Stars from '../components/Stars'
+import Parallax from '@/webGL/utils/Parallax'
+import VirtualScroll from '../../plugins/virtual-scroll'
+
 let positions = require('../../../public/assets/avril/positions/positions')
 
 const pathesArray = [
@@ -21,9 +24,14 @@ class Avril extends THREE.Object3D {
   constructor() {
     super()
 
-    this.scale.setScalar(Viewport.width)
+    this.scale.setScalar(Viewport.width + Viewport.width * 0.06)
   }
   init() {
+    VirtualScroll.on(e => {
+      console.log(e)
+      this.position.y += e.deltaY
+    })
+
     this.loadAssets().then(textures => {
       this.textures = textures
 
@@ -52,7 +60,7 @@ class Avril extends THREE.Object3D {
       //WIND
 
       //FIRE
-      this.fire = new Fire({ map: this.textures['utils_fire'] })
+      // this.fire = new Fire({ map: this.textures['utils_fire'] })
       //this.fire.scale.setScalar(Viewport.width / 5)
 
       this.add(this.fire)
@@ -82,10 +90,8 @@ class Avril extends THREE.Object3D {
       let positionY = positions[name] ? positions[name].y : 0
       part.position.y = positionY
 
-      folder
-        .add(part.position, 'y')
-        .step(1)
-        .name('position y part')
+      folder.add(part.position, 'y').name('position y part')
+      folder.add(part, 'visible')
 
       part.name = name
       this.parts[name] = part

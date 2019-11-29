@@ -24,6 +24,8 @@ export default class Part extends THREE.Object3D {
 
       sprite.position.y = layers.params.y
 
+      if (layers.params.anchor) sprite.setAnchor(layers.params.anchor)
+
       this.addToLayer(key, sprite)
     })
   }
@@ -33,15 +35,14 @@ export default class Part extends THREE.Object3D {
     let layerFolder
     if (!layer) {
       this.createLayer(idLayer)
-      layerFolder = GUI.__folders[this.namePart].addFolder('layer ' + idLayer)
-      layerFolder.open()
+      layerFolder = GUI.__folders[this.namePart].addFolder(mesh.name)
     }
     this._layers[idLayer].addMesh(mesh, layerFolder)
   }
 
   createLayer(idLayer) {
     this._layers[idLayer] = new Layer()
-
+    this._layers[idLayer].position.z = -idLayer * 0.01
     this.add(this._layers[idLayer])
   }
 }
