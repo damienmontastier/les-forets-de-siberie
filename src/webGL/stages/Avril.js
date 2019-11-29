@@ -7,6 +7,7 @@ import Viewport from '../utils/Viewport'
 import Wind from '../components/Wind'
 import Fire from '../components/Fire'
 import Stars from '../components/Stars'
+import AuroreBoreale from '../components/AuroreBoreale'
 let positions = require('../../../public/assets/avril/positions/positions')
 
 const pathesArray = [
@@ -27,7 +28,7 @@ class Avril extends THREE.Object3D {
     this.loadAssets().then(textures => {
       this.textures = textures
 
-      this.initParts()
+      //this.initParts()
 
       //LAKE REFLECT
       this.lake = new LakeReflect({
@@ -42,25 +43,35 @@ class Avril extends THREE.Object3D {
 
       //WIND
       this.wind = new Wind({ map: this.utilsTextures['utils_wind'].texture })
-      this.wind.scale.setScalar(Viewport.width)
+      //this.wind.scale.setScalar(Viewport.width)
 
       // this.wind2 = new Wind({ map: this.utilsTextures['utils_wind'].texture })
-      // this.wind2.scale.setScalar(Viewport.width - 10)
+      //this.wind2.scale.setScalar(Viewport.width - 10)
       // this.wind2.position.y = 50
       //this.add(this.wind)
       //this.add(this.wind)
       //WIND
 
       //FIRE
-      this.fire = new Fire({ map: this.textures['utils_fire'] })
-      //this.fire.scale.setScalar(Viewport.width / 5)
-
-      this.add(this.fire)
+      let loader = new THREE.TextureLoader().load(
+        '/assets/avril/sprites/fire/sprite.png',
+        texture => {
+          this.fire = new Fire({
+            map: texture,
+            horizontalTiles: 4,
+            verticalTiles: 4,
+          })
+          //this.add(this.fire)
+        }
+      )
 
       this.stars = new Stars()
-      this.stars.scale.setScalar(Viewport.width)
+      // this.stars.scale.setScalar(Viewport.width)
       //this.add(this.stars)
       //FIRE
+
+      this.auroreBoreale = new AuroreBoreale()
+      this.add(this.auroreBoreale)
     })
   }
   loadAssets() {
