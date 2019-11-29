@@ -19,6 +19,7 @@ export default class Layer extends THREE.Object3D {
 
   addLayerToGUI(mesh, folder) {
     this.fullwidth = false
+    this.anchor = 'center'
 
     folder
       .add(mesh.position, 'y')
@@ -26,8 +27,13 @@ export default class Layer extends THREE.Object3D {
       .name('y')
 
     folder.add(this, 'fullwidth').onChange(bool => {
-      if (bool) mesh.scale.set(mesh.ratio, 1, 1)
-      else mesh.scale.set(1, mesh.ratio, 1)
+      mesh.fullwidth(bool)
+    })
+
+    folder.add(this, 'visible')
+
+    folder.add(this, 'anchor', ['left', 'center', 'right']).onChange(anchor => {
+      mesh.setAnchor(anchor)
     })
   }
 }
