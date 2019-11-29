@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import Layer from './Layer'
+import Layerr from './Layer'
 import Sprite from './Sprite'
 import Viewport from './Viewport'
 import GUI from '@/plugins/dat-gui.js'
@@ -18,7 +18,9 @@ export default class Part extends THREE.Object3D {
         texture: layers.texture,
         size: layers.texture._size,
       })
-      sprite.position.y = layers.position.y
+      if (layers.params.fullwidth) sprite.fullwidth(true)
+      console.log(layers.params)
+      sprite.position.y = layers.params.y
       this.addToLayer(key, sprite)
     })
   }
@@ -36,7 +38,7 @@ export default class Part extends THREE.Object3D {
   }
 
   createLayer(idLayer) {
-    this.layersPart[idLayer] = new Layer()
+    this.layersPart[idLayer] = new Layerr()
     this.layersPart[idLayer].scale.x = Viewport.width
     this.layersPart[idLayer].scale.y = Viewport.width
     this.add(this.layersPart[idLayer])

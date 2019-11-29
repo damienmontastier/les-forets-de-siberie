@@ -44,18 +44,18 @@ class Avril extends THREE.Object3D {
     let folder
 
     for (let [name, layers] of Object.entries(this.partedTextures)) {
-      console.log('layers', layers)
-
       folder = GUI.addFolder(name)
 
       let part = new Part({ name, layers })
 
-      // part.position.y = positions[name].y
+      let positionY = positions[name] ? positions[name].y : 0
+      part.position.y = positionY
 
       folder
         .add(part.position, 'y')
         .step(1)
         .name('position y part')
+
       part.name = name
       this.parts[name] = part
       this.add(part)
@@ -74,7 +74,6 @@ class Avril extends THREE.Object3D {
 
   get partedTextures() {
     let parts = {}
-    let position
     let textures = {}
 
     Object.keys(this.textures)
@@ -93,13 +92,13 @@ class Avril extends THREE.Object3D {
         .filter(index => index.includes('layer'))[0]
         .replace('layer', '')
 
-      position =
+      let params =
         positions[partIndex] != undefined
           ? positions[partIndex].sprites[texture.name]
           : { y: 0, fullwidth: true }
 
       if (!parts['part' + partIndex]) parts['part' + partIndex] = {}
-      parts['part' + partIndex]['layer' + layerIndex] = { texture, position }
+      parts['part' + partIndex]['layer' + layerIndex] = { texture, params }
     }
     return parts
   }

@@ -1,8 +1,10 @@
 import * as THREE from 'three'
 
 export default class Sprite extends THREE.Object3D {
-  constructor({ texture, size, fullwidth = true }) {
+  constructor({ texture, size }) {
     super()
+
+    // console.log(size)
 
     this.ratio = size.height / size.width
 
@@ -14,7 +16,11 @@ export default class Sprite extends THREE.Object3D {
 
     this.mesh = new THREE.Mesh(this.geometry, this.material)
     this.name = texture.name
-    this.mesh.scale.set(1, 1, 1)
+    this.mesh.scale.set(this.ratio, 1, 1)
     this.add(this.mesh)
+  }
+  fullwidth(bool) {
+    if (bool) this.mesh.scale.set(1, this.ratio, 1)
+    else this.mesh.scale.set(this.ratio, 1, 1)
   }
 }
