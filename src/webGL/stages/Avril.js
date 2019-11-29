@@ -44,12 +44,18 @@ class Avril extends THREE.Object3D {
     let folder
 
     for (let [name, layers] of Object.entries(this.partedTextures)) {
+      console.log('layers', layers)
+
+      folder = GUI.addFolder(name)
+
       let part = new Part({ name, layers })
+
       // part.position.y = positions[name].y
-      // folder
-      //   .add(part.position, 'y')
-      //   .step(1)
-      //   .name('position y part')
+
+      folder
+        .add(part.position, 'y')
+        .step(1)
+        .name('position y part')
       part.name = name
       this.parts[name] = part
       this.add(part)
@@ -68,8 +74,9 @@ class Avril extends THREE.Object3D {
 
   get partedTextures() {
     let parts = {}
+    let position
     let textures = {}
-    let position = {}
+
     Object.keys(this.textures)
       .filter(texture => !texture.includes('utils'))
       .forEach(key => {
@@ -80,28 +87,19 @@ class Avril extends THREE.Object3D {
       let partIndex = name
         .split('_')
         .filter(index => index.includes('part'))[0]
-        .replace('Part', '')
-
+        .replace('part', '')
       let layerIndex = name
         .split('_')
         .filter(index => index.includes('layer'))[0]
-        .replace('Layer', '')
+        .replace('layer', '')
 
-      setTimeout(() => {
-        //LOWER CASE IN TEXTUREATLAS CLASS
-
-        // console.log(positions['part' + partIndex].sprites)
-        console.log(name)
-
-        // let position = positions['part' + partIndex]
-        //   ? positions['part' + partIndex].sprites[name]
-        //   : { y: '0', fullwidth: 'true' }
-
-        // console.log(position)
-      }, 1000)
+      position =
+        positions[partIndex] != undefined
+          ? positions[partIndex].sprites[texture.name]
+          : { y: 0, fullwidth: true }
 
       if (!parts['part' + partIndex]) parts['part' + partIndex] = {}
-      parts['part' + partIndex]['layer' + layerIndex] = { texture }
+      parts['part' + partIndex]['layer' + layerIndex] = { texture, position }
     }
     return parts
   }

@@ -7,26 +7,24 @@ import GUI from '@/plugins/dat-gui.js'
 export default class Part extends THREE.Object3D {
   constructor({ name, layers }) {
     super()
-    // this.positions = positions.sprites
     this.namePart = name
-    this.partLayer = layers
-
+    this.layersPart = layers
     this.init()
   }
 
   init() {
-    Object.values(this.partLayer).forEach((texture, key) => {
+    Object.values(this.layersPart).forEach((layers, key) => {
       let sprite = new Sprite({
-        texture: texture.texture,
-        size: texture.texture._size,
+        texture: layers.texture,
+        size: layers.texture._size,
       })
-      // sprite.position.y = this.positions[sprite.name].y
+      sprite.position.y = layers.position.y
       this.addToLayer(key, sprite)
     })
   }
 
   addToLayer(idLayer, mesh) {
-    let layer = this.layers[idLayer]
+    let layer = this.layersPart[idLayer]
     let layerFolder
     if (!layer) {
       this.createLayer(idLayer)
@@ -34,13 +32,13 @@ export default class Part extends THREE.Object3D {
       layerFolder.open()
     }
 
-    this.layers[idLayer].addMesh(mesh, layerFolder)
+    this.layersPart[idLayer].addMesh(mesh, layerFolder)
   }
 
   createLayer(idLayer) {
-    this.layers[idLayer] = new Layer()
-    this.layers[idLayer].scale.x = Viewport.width
-    this.layers[idLayer].scale.y = Viewport.width
-    this.add(this.layers[idLayer])
+    this.layersPart[idLayer] = new Layer()
+    this.layersPart[idLayer].scale.x = Viewport.width
+    this.layersPart[idLayer].scale.y = Viewport.width
+    this.add(this.layersPart[idLayer])
   }
 }
