@@ -4,12 +4,13 @@ import Parallax from '@/webGL/utils/Parallax'
 import loadSeveralTextureAtlasFromPathes from '@/webGL/utils/loadSeveralTextureAtlasFromPathes'
 import Part from '@/webGL/utils/Part'
 import GUI from '@/plugins/dat-gui.js'
+import Viewport from '../utils/Viewport'
 const positions = require('../../../public/assets/avril/positions/positions')
 
 const pathesArray = [
   '/assets/avril/atlases/part1/',
-  '/assets/avril/atlases/part2/',
-  '/assets/avril/atlases/part3/',
+  // '/assets/avril/atlases/part2/',
+  // '/assets/avril/atlases/part3/',
   // '/assets/avril/atlases/part4/',
   // '/assets/avril/atlases/part5/',
   // '/assets/avril/atlases/part6/',
@@ -18,6 +19,8 @@ const pathesArray = [
 class Avril extends THREE.Object3D {
   constructor() {
     super()
+
+    this.scale.setScalar(Viewport.width)
   }
   init() {
     this.loadAssets().then(textures => {
@@ -58,6 +61,7 @@ class Avril extends THREE.Object3D {
 
       part.name = name
       this.parts[name] = part
+
       this.add(part)
     }
   }

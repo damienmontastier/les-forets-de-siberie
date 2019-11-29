@@ -4,8 +4,6 @@ export default class Sprite extends THREE.Object3D {
   constructor({ texture, size }) {
     super()
 
-    // console.log(size)
-
     this.ratio = size.height / size.width
 
     this.geometry = new THREE.PlaneBufferGeometry(1, 1, 10, 10)
