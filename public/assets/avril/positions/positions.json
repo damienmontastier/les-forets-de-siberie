@@ -48,5 +48,38 @@
         "anchor": "right"
       }
     }
+  },
+  "part6": {
+    "y": 8,
+    "sprites": {
+      "Part6_Layer0.png": {
+        "y": 0.25,
+        "fullwidth": true
+      },
+      "Part6_Layer1.png": {
+        "y": 0,
+        "fullwidth": true
+      },
+      "Part6_Layer2.png": {
+        "y": 0.75,
+        "fullwidth": true
+      },
+      "Part6_Layer3.png": {
+        "y": 1.25,
+        "fullwidth": true
+      },
+      "Part6_Layer4.png": {
+        "y": 1.5,
+        "fullwidth": true
+      },
+      "Part6_Layer5.png": {
+        "y": 0.5,
+        "fullwidth": true
+      },
+      "Part6_Layer6.png": {
+        "y": 1,
+        "fullwidth": true
+      }
+    }
   }
 }

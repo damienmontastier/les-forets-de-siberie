@@ -9,6 +9,7 @@ import Fire from '../components/Fire'
 import Stars from '../components/Stars'
 import Parallax from '@/webGL/utils/Parallax'
 import VirtualScroll from '../../plugins/virtual-scroll'
+import gsap from 'gsap'
 
 let positions = require('../../../public/assets/avril/positions/positions')
 
@@ -17,6 +18,7 @@ const pathesArray = [
   '/assets/avril/atlases/part2/',
   '/assets/avril/atlases/lake-reflect/',
   '/assets/avril/atlases/part3/',
+  '/assets/avril/atlases/part6/',
   '/assets/avril/atlases/wind/',
 ]
 
@@ -29,7 +31,10 @@ class Avril extends THREE.Object3D {
   init() {
     VirtualScroll.on(e => {
       console.log(e)
-      this.position.y += e.deltaY
+      gsap.to(this.position, {
+        y: '+=' + e.deltaY,
+        duration: 1,
+      })
     })
 
     this.loadAssets().then(textures => {
