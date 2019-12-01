@@ -30,13 +30,18 @@ export default class Part extends THREE.Object3D {
     })
   }
 
-  addToLayer(idLayer, mesh) {
-    let layer = this._layers[idLayer]
+  addToLayer(idLayer, mesh, fullwidth = false) {
     let layerFolder
-    if (!layer) {
-      this.createLayer(idLayer)
-      layerFolder = GUI.__folders[this.namePart].addFolder(mesh.name)
-    }
+
+    if (fullwidth) mesh.children[0].fullwidth(true)
+
+    // let layer = this._layers[idLayer]
+
+    // if (!layer) {
+    this.createLayer(idLayer)
+    layerFolder = GUI.__folders[this.namePart].addFolder(mesh.name)
+    // }
+
     this._layers[idLayer].addMesh(mesh, layerFolder)
   }
 

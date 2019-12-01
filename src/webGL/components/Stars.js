@@ -77,12 +77,6 @@ export default class Stars extends THREE.Object3D {
   }
 
   initMesh() {
-    var geometry = new THREE.PlaneBufferGeometry(1, 1, 1, 1)
-    var material = new THREE.MeshBasicMaterial({ color: 0xffffff })
-    var cube = new THREE.Mesh(geometry, material)
-
-    console.log('geometry:', this.geometry, 'material:', this.material)
-
     this.mesh = new THREE.Points(this.geometry, this.material)
     this.add(this.mesh)
     this.mesh.position.set(-0.5, -0.5, 0)
@@ -90,7 +84,5 @@ export default class Stars extends THREE.Object3D {
     setInterval(() => {
       this.uniforms.uTime.value += 0.001
     }, 14)
-
-    // this.add(cube)
   }
 }

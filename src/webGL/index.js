@@ -78,21 +78,17 @@ export default class WebGL {
     this.scenes[id] = group
 
     this.scene.add(group)
-    group.init()
+    group.init({ renderer: this.renderer })
   }
 
   render() {
     // called every frame
+    this.renderer.setRenderTarget(null)
     this.renderer.render(this.scene, Camera)
   }
 
   onWindowResize() {
     this.renderer.setSize(Viewport.width, Viewport.height)
-  }
-
-  initStage(name) {
-    console.log('route changed: ' + name)
-    // TODO : init Stage with this name if exists
   }
 
   destroy() {}

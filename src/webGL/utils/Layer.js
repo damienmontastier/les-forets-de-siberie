@@ -13,6 +13,8 @@ export default class Layer extends THREE.Object3D {
   }
 
   addMesh(mesh, folder) {
+    // console.log(mesh, folder)
+
     this.add(mesh)
     this.addLayerToGUI(mesh, folder)
   }
@@ -23,7 +25,6 @@ export default class Layer extends THREE.Object3D {
 
     folder.add(mesh.position, 'y').name('y')
 
-    console.log(this)
     folder.add(this, 'fullwidth').onChange(bool => {
       mesh.fullwidth(bool)
     })
