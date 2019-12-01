@@ -8,6 +8,7 @@ import Wind from '../components/Wind'
 import Fire from '../components/Fire'
 import Stars from '../components/Stars'
 import AuroreBoreale from '../components/AuroreBoreale'
+import Frost from '../components/Frost'
 let positions = require('../../../public/assets/avril/positions/positions')
 
 const pathesArray = [
@@ -37,13 +38,13 @@ class Avril extends THREE.Object3D {
         alphaMap: this.utilsTextures['utils_montagne-reflet-alpha'].texture,
       })
 
-      this.lake.scale.setScalar(Viewport.width + 10)
+      //this.lake.scale.setScalar(Viewport.width + 10)
 
       //this.add(this.lake)
       //LAKE REFLECT
 
       //WIND
-      this.wind = new Wind({ map: this.utilsTextures['utils_wind'].texture })
+      //this.wind = new Wind({ map: this.utilsTextures['utils_wind'].texture })
       //this.wind.scale.setScalar(Viewport.width)
 
       // this.wind2 = new Wind({ map: this.utilsTextures['utils_wind'].texture })
@@ -53,18 +54,17 @@ class Avril extends THREE.Object3D {
       //this.add(this.wind)
       //WIND
 
+      let loader = new THREE.TextureLoader()
+
       //FIRE
-      let loader = new THREE.TextureLoader().load(
-        '/assets/avril/sprites/fire/sprite.png',
-        texture => {
-          this.fire = new Fire({
-            map: texture,
-            horizontalTiles: 4,
-            verticalTiles: 4,
-          })
-          //this.add(this.fire)
-        }
-      )
+      loader.load('/assets/avril/sprites/fire/sprite.png', texture => {
+        this.fire = new Fire({
+          map: texture,
+          horizontalTiles: 4,
+          verticalTiles: 4,
+        })
+        //this.add(this.fire)
+      })
 
       this.stars = new Stars()
       // this.stars.scale.setScalar(Viewport.width)
@@ -72,9 +72,14 @@ class Avril extends THREE.Object3D {
       //FIRE
 
       this.auroreBoreale = new AuroreBoreale({ renderer: this.renderer })
-      this.add(this.auroreBoreale)
+      //this.add(this.auroreBoreale)
 
       this.auroreBoreale.position.z = 0.001
+
+      loader.load('/assets/avril/textures/frost.jpg', texture => {
+        this.frost = new Frost({ renderer: this.renderer, map: texture })
+        this.add(this.frost)
+      })
     })
   }
   loadAssets() {
