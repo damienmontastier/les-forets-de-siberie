@@ -95,7 +95,8 @@ export default class AuroreBoreale extends THREE.Object3D {
           vec3 flow = texture2D(uFlow, vUv).rgb;
 
           // Use flow to adjust the uv lookup of a texture
-          vec2 uv = gl_FragCoord.xy / 600.0;
+          //vec2 uv = gl_FragCoord.xy / 600.0;
+          vec2 uv = vUv;
           uv += flow.xy * 0.15;
           vec3 tex = texture2D(uMap, uv).rgb;
 
