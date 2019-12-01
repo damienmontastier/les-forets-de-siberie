@@ -30,7 +30,6 @@ class Avril extends THREE.Object3D {
   }
   init() {
     VirtualScroll.on(e => {
-      console.log(e)
       gsap.to(this.position, {
         y: '+=' + e.deltaY,
         duration: 1,
@@ -60,9 +59,19 @@ class Avril extends THREE.Object3D {
       // this.wind2 = new Wind({ map: this.utilsTextures['utils_wind'].texture })
       // this.wind2.scale.setScalar(Viewport.width - 10)
       // this.wind2.position.y = 50
-      //this.add(this.wind)
-      //this.add(this.wind)
+      // this.add(this.wind)
+      // this.add(this.wind)
       //WIND
+
+      var geometry = new THREE.BoxGeometry(0.05, 0.05, 0.05)
+      var material = new THREE.MeshBasicMaterial({
+        color: 0x00ff00,
+        side: THREE.DoubleSide,
+      })
+      var cube = new THREE.Mesh(geometry, material)
+      cube.position.z = 0
+      cube.position.y = 2
+      this.add(cube)
 
       //FIRE
       // this.fire = new Fire({ map: this.textures['utils_fire'] })
@@ -92,6 +101,8 @@ class Avril extends THREE.Object3D {
 
       let part = new Part({ name, layers })
 
+      console.log(this.boudingBoxPart)
+
       let positionY = positions[name] ? positions[name].y : 0
       part.position.y = positionY
 
@@ -103,6 +114,19 @@ class Avril extends THREE.Object3D {
 
       this.add(part)
     }
+  }
+
+  get boudingBoxPart() {
+    let arraytest = []
+
+    Object.values(this.parts).forEach(element => {
+      element.children.forEach(test => {
+        console.log(test.children[0])
+        // arraytest.push(test.children[0])
+      })
+    })
+    // console.log(arraytest)
+    return 'test'
   }
 
   get utilsTextures() {

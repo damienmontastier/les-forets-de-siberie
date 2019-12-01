@@ -42,7 +42,8 @@ export default class Part extends THREE.Object3D {
 
   createLayer(idLayer) {
     this._layers[idLayer] = new Layer()
-    this._layers[idLayer].position.z = -idLayer * 0.01
+
+    this._layers[idLayer].position.z = -idLayer * 0.1
     this.add(this._layers[idLayer])
   }
 }
