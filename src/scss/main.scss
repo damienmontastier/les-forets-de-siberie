@@ -23,3 +23,11 @@ canvas.webGLScene {
 .dg.ac {
   z-index: 9999;
 }
+
+.fbo__debugger {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 200px !important;
+  height: 200px !important;
+}

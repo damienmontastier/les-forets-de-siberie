@@ -24,7 +24,8 @@ class Avril extends THREE.Object3D {
 
     this.scale.setScalar(Viewport.width)
   }
-  init() {
+  init({ renderer }) {
+    this.renderer = renderer
     this.loadAssets().then(textures => {
       this.textures = textures
 
@@ -70,8 +71,10 @@ class Avril extends THREE.Object3D {
       //this.add(this.stars)
       //FIRE
 
-      this.auroreBoreale = new AuroreBoreale()
+      this.auroreBoreale = new AuroreBoreale({ renderer: this.renderer })
       this.add(this.auroreBoreale)
+
+      this.auroreBoreale.position.z = 0.001
     })
   }
   loadAssets() {

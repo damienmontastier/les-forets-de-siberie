@@ -1,28 +1,133 @@
 import * as THREE from 'three'
+import Viewport from '../utils/Viewport'
+import { Flowmap } from './FlowMap'
+import Mouse from '../../plugins/Mouse'
 
 export default class AuroreBoreale extends THREE.Object3D {
-  constructor() {
+  constructor({ renderer }) {
     super()
 
+    this.renderer = renderer
+
+    this.camera = new THREE.OrthographicCamera(
+      Viewport.width / -2,
+      Viewport.width / 2,
+      Viewport.height / 2,
+      Viewport.height / -2,
+      1,
+      1000
+    )
+    this.camera.position.z = 2
+
+    this.initBufferTexture()
     this.initGeometry()
     this.initMaterial()
     this.initMesh()
 
     setInterval(() => {
-      this.uniforms.uTime.value += 0.01
+      this.update()
     }, 14)
   }
 
+  update() {
+    this.bufferMaterial.uniforms.uTime.value += 0.01
+    this.material.uniforms.uTime.value += 0.01
+    this.render()
+  }
+
+  render() {
+    this.flowmap.velocity.lerp(
+      Mouse.velocity,
+      Mouse.velocity.length() ? 0.5 : 0.1
+    )
+
+    this.flowmap.mouse.copy(Mouse.normalized)
+
+    this.flowmap.update()
+
+    this.renderer.setRenderTarget(this.bufferTexture)
+    this.renderer.render(this.bufferScene, this.camera)
+
+    this.renderer.setRenderTarget(null)
+    this.renderer.render(this.bufferScene, this.camera)
+  }
+
   initGeometry() {
-    this.geometry = new THREE.PlaneBufferGeometry(1, 1, 1, 1)
+    this.geometry = new THREE.PlaneBufferGeometry(
+      1,
+      Viewport.height / Viewport.width,
+      1,
+      1
+    )
   }
 
   initMaterial() {
-    this.uniforms = {
-      uTime: { value: 0 },
-    }
     this.material = new THREE.ShaderMaterial({
-      uniforms: this.uniforms,
+      uniforms: {
+        uMap: {
+          value: this.bufferTexture.texture,
+        },
+        uFlow: {
+          value: this.flowmap.textureB.texture,
+        },
+        uTime: {
+          value: 0,
+        },
+      },
+      vertexShader: `
+        varying vec2 vUv;
+
+        void main() {
+          vUv = uv;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+        }
+      `,
+      fragmentShader: `
+        varying vec2 vUv;
+
+        uniform sampler2D uMap;
+        uniform sampler2D uFlow;
+        uniform float uTime;
+
+        void main() {
+          // R and G values are velocity in the x and y direction
+          // B value is the velocity length
+          vec3 flow = texture2D(uFlow, vUv).rgb;
+
+          // Use flow to adjust the uv lookup of a texture
+          vec2 uv = gl_FragCoord.xy / 600.0;
+          uv += flow.xy * 0.15;
+          vec3 tex = texture2D(uMap, uv).rgb;
+
+          // tex = mix(tex, flow * 0.5 + 0.5, smoothstep( -0.3, 0.7, sin(uTime)));
+
+          gl_FragColor = vec4(tex,1.0);
+        }
+      `,
+    })
+  }
+
+  initMesh() {
+    this.mesh = new THREE.Mesh(this.geometry, this.material)
+    this.add(this.mesh)
+  }
+
+  initBufferTexture() {
+    this.flowmap = new Flowmap({
+      renderer: this.renderer,
+      dissipation: 0.002,
+      falloff: 0.2,
+    })
+    this.bufferScene = new THREE.Scene()
+    this.bufferTexture = new THREE.WebGLRenderTarget(256, 256, {
+      minFilter: THREE.LinearFilter,
+      magFilter: THREE.NearestFilter,
+      format: THREE.RGBFormat,
+    })
+    this.bufferMaterial = new THREE.ShaderMaterial({
+      uniforms: {
+        uTime: { value: 0 },
+      },
       vertexShader: `
         varying vec2 vUv;
 
@@ -41,7 +146,6 @@ export default class AuroreBoreale extends THREE.Object3D {
             p3 += dot(p3, p3.yzx + 33.33);
             return fract((p3.x + p3.y) * p3.z);
         }
-        
         
         vec3 noise(vec2 p) {
           vec2 i = floor(p);
@@ -116,17 +220,15 @@ export default class AuroreBoreale extends THREE.Object3D {
         }
           
         void main() {
-          vec3 dUv = noise(vUv) / 10. * uTime;
+          vec3 dUv = noise(gl_FragCoord.xy) / 10. * uTime;
           vec3 color = setSkyColor(vec3(vUv,1.0));
           gl_FragColor = vec4(color,1.0);
         }
       `,
       transparent: true,
     })
-  }
-
-  initMesh() {
-    this.mesh = new THREE.Mesh(this.geometry, this.material)
-    this.add(this.mesh)
+    const plane = new THREE.PlaneBufferGeometry(Viewport.width, Viewport.height)
+    this.bufferObject = new THREE.Mesh(plane, this.bufferMaterial)
+    this.bufferScene.add(this.bufferObject)
   }
 }

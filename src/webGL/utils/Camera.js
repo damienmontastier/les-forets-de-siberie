@@ -10,7 +10,7 @@ const camera = new THREE.OrthographicCamera(
   1000
 )
 
-camera.position.set(0, 0, 1)
+camera.position.set(0, 0, 10)
 
 window.addEventListener('resize', () => {
   camera.aspect = Viewport.ratio

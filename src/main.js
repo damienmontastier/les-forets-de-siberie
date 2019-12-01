@@ -2,7 +2,9 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import GUI from '@/plugins/dat-gui.js'
+import { MousePlugin } from './plugins/Mouse'
+
+Vue.use(MousePlugin)
 
 Vue.config.productionTip = false
 
