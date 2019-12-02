@@ -1,6 +1,6 @@
 {
   "part1": {
-    "y": 0.3,
+    "y": 0,
     "sprites": {
       "Part1_Layer0_eau.png": {
         "y": 0,
@@ -11,7 +11,7 @@
         "fullwidth": false
       },
       "Part1_Layer2.png": {
-        "y": 0,
+        "y": 0.2,
         "fullwidth": true
       },
       "Part1_Layer3.png": {
