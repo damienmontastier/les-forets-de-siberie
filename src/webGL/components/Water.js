@@ -86,6 +86,7 @@ export default class Water extends THREE.Object3D {
       material: this.material,
     })
     this.add(this.sprite)
+    this.sprite.fullwidth(true)
 
     setInterval(() => {
       this.uniforms.uTime.value += 0.01
