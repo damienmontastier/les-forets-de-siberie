@@ -102,12 +102,12 @@ class Avril extends THREE.Object3D {
         }
       )
 
-      // this.stars = new Stars()
-      // this.stars.name = 'Stars'
-      // this.parts['part6'].addToLayer({
-      //   indexLayer: 0,
-      //   mesh: this.stars,
-      // })
+      this.stars = new Stars()
+      this.stars.name = 'Stars'
+      this.parts['part6'].addToLayer({
+        indexLayer: 0,
+        mesh: this.stars,
+      })
 
       this.auroreBoreale = new AuroreBoreale({ renderer: this.renderer })
       this.auroreBoreale.name = 'Aurore Boreale'
@@ -115,6 +115,14 @@ class Avril extends THREE.Object3D {
       this.parts['part3'].addToLayer({
         indexLayer: 4,
         mesh: this.auroreBoreale,
+      })
+
+      Object.values(this.parts).forEach(element => {
+        let bouding = this.getBoudingBoxPart(element)
+        // console.log(bouding)
+        let helper = new THREE.Box3Helper(bouding, 0xff0000)
+        this.add(helper)
+        console.log(element.name, bouding)
       })
     })
   }
@@ -147,12 +155,6 @@ class Avril extends THREE.Object3D {
       this.parts[name] = part
 
       this.add(part)
-
-      let bouding = this.getBoudingBoxPart(part)
-      console.log(bouding)
-      let helper = new THREE.Box3Helper(bouding, 0xff0000)
-      this.add(helper)
-      // console.log(name, bouding)
     }
   }
 
@@ -170,6 +172,17 @@ class Avril extends THREE.Object3D {
         boundingBox.max.y += part.position.y
         boundingBox.min.z = 0
         boundingBox.max.z = 1
+
+        // let height = boundingBox.max.y - boundingBox.min.y
+        // let planeGeometry = new THREE.PlaneBufferGeometry(1, 1, 1, 1)
+        // let planeMaterial = new THREE.MeshBasicMaterial({
+        //   color: 0xffffff,
+        // })
+        // let plane = new THREE.Mesh(planeGeometry, planeMaterial)
+        // this.add(plane)
+        // plane.position.z = -0.1
+        // plane.position.y = boundingBox.min.y + height / 2
+        // plane.scale.set(1, height, 1)
 
         array.push(boundingBox.min, boundingBox.max)
       }
