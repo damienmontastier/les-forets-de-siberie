@@ -50,15 +50,23 @@ class Avril extends THREE.Object3D {
         map: this.utilsTextures['utils_montagne-reflet'].texture,
         alphaMap: this.utilsTextures['utils_montagne-reflet-alpha'].texture,
       })
-      this.lake.fullwidth = true
+      // this.lake.fullwidth = true
       this.lake.name = this.lake.children[0].name
-      this.parts['part1'].addToLayer(0, this.lake, true)
+      this.parts['part1'].addToLayer({
+        indexLayer: 0,
+        mesh: this.lake,
+        fullwidth: true,
+      })
       //LAKE REFLECT
 
       //WIND
       this.wind = new Wind({ map: this.utilsTextures['utils_wind'].texture })
       this.wind.name = this.wind.children[0].name
-      this.parts['part2'].addToLayer(0, this.wind, true)
+      this.parts['part2'].addToLayer({
+        indexLayer: 0,
+        mesh: this.wind,
+        fullwidth: true,
+      })
 
       // this.wind2 = new Wind({ map: this.utilsTextures['utils_wind'].texture })
       //this.wind2.scale.setScalar(Viewport.width - 10)
@@ -77,21 +85,29 @@ class Avril extends THREE.Object3D {
             verticalTiles: 4,
           })
           this.fire.name = 'Fire'
-          this.parts['part1'].addToLayer(1, this.fire)
-          console.log(this.fire)
-          this.fire.position.y = 1
+          this.parts['part1'].addToLayer({
+            indexLayer: 2,
+            mesh: this.fire,
+          })
+          this.fire.position.y = 1.5
           this.fire.scale.set(2, 1.5, 1)
         }
       )
 
       this.stars = new Stars()
       this.stars.name = 'Stars'
-      this.parts['part6'].addToLayer(0, this.stars)
+      this.parts['part6'].addToLayer({
+        indexLayer: 0,
+        mesh: this.stars,
+      })
 
       this.auroreBoreale = new AuroreBoreale({ renderer: this.renderer })
       this.auroreBoreale.name = 'Aurore Boreale'
       this.auroreBoreale.fullwidth = true
-      this.parts['part3'].addToLayer(4, this.auroreBoreale)
+      this.parts['part3'].addToLayer({
+        indexLayer: 4,
+        mesh: this.auroreBoreale,
+      })
     })
   }
   loadAssets() {
@@ -118,7 +134,7 @@ class Avril extends THREE.Object3D {
       var box = new THREE.Box3().setFromArray(bouding)
 
       let height = box.max.y - box.min.y
-      // console.log(height, name)
+      console.log(height, name)
 
       var geometry = new THREE.BoxGeometry(1, height, 0.05)
       var material = new THREE.MeshBasicMaterial({
@@ -134,7 +150,7 @@ class Avril extends THREE.Object3D {
       this.add(this.cube)
 
       var box = new THREE.Box3().setFromObject(this.cube)
-      console.log('position y min and max de toutes les parties', box)
+      console.log(name, 'position y min and max de toutes les parties', box)
 
       folder.add(part.position, 'y').name('position y part')
       folder.add(part, 'visible')
@@ -150,14 +166,7 @@ class Avril extends THREE.Object3D {
     let array = []
     Object.values(part.children).forEach(element => {
       var box = new THREE.Box3().setFromObject(element.children[0])
-      array.push(
-        box.min.x,
-        box.min.y,
-        box.min.z,
-        box.max.x,
-        box.max.y,
-        box.max.z
-      )
+      array.push(box.min.x, box.min.y, box.max.x, box.max.y)
     })
     return array
   }

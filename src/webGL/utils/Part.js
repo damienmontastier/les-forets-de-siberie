@@ -26,11 +26,11 @@ export default class Part extends THREE.Object3D {
 
       if (layers.params.anchor) sprite.setAnchor(layers.params.anchor)
 
-      this.addToLayer(key, sprite)
+      this.addToLayer({ indexLayer: key, mesh: sprite })
     })
   }
 
-  addToLayer(idLayer, mesh, fullwidth = false) {
+  addToLayer({ indexLayer, mesh, fullwidth = false }) {
     let layerFolder
 
     if (fullwidth) mesh.children[0].fullwidth(true)
@@ -38,17 +38,17 @@ export default class Part extends THREE.Object3D {
     // let layer = this._layers[idLayer]
 
     // if (!layer) {
-    this.createLayer(idLayer)
+    this.createLayer(indexLayer)
     layerFolder = GUI.__folders[this.namePart].addFolder(mesh.name)
     // }
 
-    this._layers[idLayer].addMesh(mesh, layerFolder)
+    this._layers[indexLayer].addMesh(mesh, layerFolder)
   }
 
-  createLayer(idLayer) {
-    this._layers[idLayer] = new Layer()
+  createLayer(indexLayer) {
+    this._layers[indexLayer] = new Layer()
 
-    this._layers[idLayer].position.z = -idLayer * 0.1
-    this.add(this._layers[idLayer])
+    this._layers[indexLayer].position.z = -indexLayer * 0.1
+    this.add(this._layers[indexLayer])
   }
 }
