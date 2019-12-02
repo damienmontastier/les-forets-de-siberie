@@ -90,7 +90,7 @@ class Avril extends THREE.Object3D {
       this.auroreBoreale = new AuroreBoreale({ renderer: this.renderer })
       this.auroreBoreale.name = 'Aurore Boreale'
       this.auroreBoreale.fullwidth = true
-      this.parts['part3'].addToLayer(0, this.auroreBoreale)
+      this.parts['part3'].addToLayer(4, this.auroreBoreale)
     })
   }
   loadAssets() {
@@ -113,21 +113,24 @@ class Avril extends THREE.Object3D {
       let positionY = positions[name] ? positions[name].y : 0
       part.position.y = positionY
 
-      // let bouding = this.getBoudingBoxPart(part)
-      // var box = new THREE.Box3().setFromArray(bouding)
-      // console.log(box)
+      let bouding = this.getBoudingBoxPart(part)
+      var box = new THREE.Box3().setFromArray(bouding)
 
-      // let height = box.max.y - console.log(height)
+      let height = box.max.y - box.min.y
+      // console.log(height, name)
 
-      // var geometry = new THREE.BoxGeometry(1, height, 0.05)
-      // var material = new THREE.MeshBasicMaterial({
-      //   color: 0x00ff00,
-      //   side: THREE.DoubleSide,
-      // })
-      // var cube = new THREE.Mesh(geometry, material)
-      // cube.position.z = -1
-      // cube.position.y = part.position.y - box.min.y / 2
-      // this.add(cube)
+      var geometry = new THREE.BoxGeometry(1, height, 0.05)
+      var material = new THREE.MeshBasicMaterial({
+        color: 0x00ff00,
+        side: THREE.DoubleSide,
+        opacity: 0.5,
+        transparent: true,
+      })
+      var cube = new THREE.Mesh(geometry, material)
+      cube.position.z = -0.4
+      console.log('Y', name, part.position.y)
+      cube.position.y = part.position.y - box.min.y / 2
+      this.add(cube)
 
       folder.add(part.position, 'y').name('position y part')
       folder.add(part, 'visible')
