@@ -60,16 +60,6 @@ export default class Background extends THREE.Object3D {
   initMesh() {
     this.mesh = new THREE.Mesh(this.geometry, this.material)
     this.add(this.mesh)
-    this.mesh.scale.set(1, 10, 1)
-  }
-
-  initMeshes() {
-    // this.textures.forEach((texture, index) => {
-    //   let sprite = new Sprite({ texture, size: texture._size })
-    //   sprite.fullwidth(true)
-    //   //let ratio = Viewport.height / Viewport.width
-    //   sprite.position.y = index * 0.98 * sprite.ratio
-    //   this.add(sprite)
-    // })
+    this.mesh.scale.set(1, 50, 1)
   }
 }

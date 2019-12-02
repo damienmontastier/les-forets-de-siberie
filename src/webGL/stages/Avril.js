@@ -52,7 +52,7 @@ class Avril extends THREE.Object3D {
     this.loadAssets().then(textures => {
       this.textures = textures
 
-      //this.initParts()
+      this.initParts()
 
       //LAKE REFLECT
       this.lake = new LakeReflect({
@@ -175,10 +175,11 @@ class Avril extends THREE.Object3D {
       this.amountScroll = data.amountScroll
       console.log(this.amountScroll)
       gsap.to(this.position, {
-        y: this.amountScroll,
+        y: -this.amountScroll,
         duration: 1,
       })
       //console.log(this.currentPart)
+      console.log(this.currentPart.name)
     })
   }
   loadAssets() {
@@ -211,14 +212,26 @@ class Avril extends THREE.Object3D {
 
       this.add(part)
 
-      let bouding = this.getBoudingBoxPart(part)
-      let boudingParams = { bouding, height: bouding.max.y - bouding.min.y }
-      this.parts[name].boundingBox = boudingParams
+      let bounding = this.getBoudingBoxPart(part)
+      bounding.height = bounding.max.y - bounding.min.y
+      //let boudingParams = { bouding, height: bouding.max.y - bouding.min.y }
+      this.parts[name].boundingBox = bounding
     }
   }
 
   get currentPart() {
-    let currentPart
+    let downParts = Object.values(this.parts)
+      .filter(part => {
+        let partY = part.boundingBox.min.y * Viewport.width
+        // console.log(part.name, partY)
+        return partY < this.amountScroll
+      })
+      .sort((a, b) => {
+        return a.name.replace('part', '') - b.name.replace('part', '')
+      })
+
+    let length = downParts.length
+    let current = downParts[length - 1]
 
     // Object.values(this.children).forEach(element => {
     //   console.log(this.amountScroll)
@@ -235,7 +248,7 @@ class Avril extends THREE.Object3D {
     //   }
     // })
 
-    return currentPart
+    return current
   }
 
   getBoudingBoxPart(part) {

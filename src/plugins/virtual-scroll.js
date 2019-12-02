@@ -5,7 +5,7 @@ const virtualScroll = new VirtualScroll()
 let amountScroll = 0
 
 virtualScroll.on(e => {
-  amountScroll += -e.deltaY
+  amountScroll += e.deltaY
 
   Events.emit('scroll', { amountScroll, event: e })
 })
