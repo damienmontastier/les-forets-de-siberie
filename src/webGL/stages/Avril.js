@@ -7,8 +7,11 @@ import Viewport from '../utils/Viewport'
 import Wind from '../components/Wind'
 import Fire from '../components/Fire'
 import Stars from '../components/Stars'
+import Events from '../../plugins/events'
+
 import Parallax from '@/webGL/utils/Parallax'
 import VirtualScroll from '../../plugins/virtual-scroll'
+import AudioManager from '../../plugins/audio-manager'
 import gsap from 'gsap'
 
 import AuroreBoreale from '../components/AuroreBoreale'
@@ -17,6 +20,13 @@ import Water from '../components/Water'
 import Sun from '../components/Sun'
 import Background from '../components/Background'
 let positions = require('../../../public/assets/avril/positions/positions')
+
+let avril_sprites = require('../../../public/sounds/avril_sprites.mp3')
+
+AudioManager.add(avril_sprites).then(() => {
+  // console.log('ok load')
+})
+AudioManager.play('lake')
 
 const pathesArray = [
   '/assets/avril/atlases/part1/',
@@ -38,14 +48,6 @@ class Avril extends THREE.Object3D {
   }
 
   init({ renderer }) {
-    VirtualScroll.on(e => {
-      console.log(e.y)
-      gsap.to(this.position, {
-        y: '+=' + e.deltaY,
-        duration: 1,
-      })
-    })
-
     this.renderer = renderer
     this.loadAssets().then(textures => {
       this.textures = textures
@@ -149,7 +151,6 @@ class Avril extends THREE.Object3D {
       //this.add(this.sun)
       //SUN
 
-      console.log(this.utilsTextures)
       let backgroundTextures = []
       Object.keys(this.utilsTextures)
         .filter(name => {
@@ -164,8 +165,20 @@ class Avril extends THREE.Object3D {
         texture: this.utilsTextures['utils_background0'].texture,
       })
       this.add(this.background)
-      this.background.position.z = 0.5
+      this.background.position.z = -0.5
       //BACKGROUND
+      this.handleEvents()
+    })
+  }
+  handleEvents() {
+    Events.on('scroll', data => {
+      this.amountScroll = data.amountScroll
+      console.log(this.amountScroll)
+      gsap.to(this.position, {
+        y: this.amountScroll,
+        duration: 1,
+      })
+      //console.log(this.currentPart)
     })
   }
   loadAssets() {
@@ -185,30 +198,10 @@ class Avril extends THREE.Object3D {
 
       let part = new Part({ name, layers })
 
+      part.updateMatrixWorld()
+
       let positionY = positions[name] ? positions[name].y : 0
       part.position.y = positionY
-
-      let bouding = this.getBoudingBoxPart(part)
-      var box = new THREE.Box3().setFromArray(bouding)
-
-      let height = box.max.y - box.min.y
-      console.log(height, name)
-
-      var geometry = new THREE.BoxGeometry(1, height, 0.05)
-      var material = new THREE.MeshBasicMaterial({
-        color: 0x00ff00,
-        side: THREE.DoubleSide,
-        opacity: 0.5,
-        transparent: true,
-      })
-      this.cube = new THREE.Mesh(geometry, material)
-      this.cube.position.z = -0.4
-      console.log('Y', name, part.position.y)
-      this.cube.position.y = part.position.y - box.min.y / 2
-      this.add(this.cube)
-
-      var box = new THREE.Box3().setFromObject(this.cube)
-      console.log(name, 'position y min and max de toutes les parties', box)
 
       folder.add(part.position, 'y').name('position y part')
       folder.add(part, 'visible')
@@ -217,16 +210,53 @@ class Avril extends THREE.Object3D {
       this.parts[name] = part
 
       this.add(part)
+
+      let bouding = this.getBoudingBoxPart(part)
+      let boudingParams = { bouding, height: bouding.max.y - bouding.min.y }
+      this.parts[name].boundingBox = boudingParams
     }
+  }
+
+  get currentPart() {
+    let currentPart
+
+    // Object.values(this.children).forEach(element => {
+    //   console.log(this.amountScroll)
+    //   if (!this.amountScroll) {
+    //     currentPart = 1
+    //   } else {
+    //     console.log(this.amountScroll)
+    //     console.log(
+    //       this.amountScroll,
+    //       element.boundingBox.bouding.min.y,
+    //       element.boundingBox.bouding.max.y
+    //     )
+    //     currentPart = element.name
+    //   }
+    // })
+
+    return currentPart
   }
 
   getBoudingBoxPart(part) {
     let array = []
-    Object.values(part.children).forEach(element => {
-      var box = new THREE.Box3().setFromObject(element.children[0])
-      array.push(box.min.x, box.min.y, box.max.x, box.max.y)
+    part.traverse(mesh => {
+      if (mesh.geometry) {
+        mesh.geometry.computeBoundingBox()
+        let boundingBox = new THREE.Box3()
+        boundingBox.copy(mesh.geometry.boundingBox)
+        mesh.updateMatrixWorld(true)
+        boundingBox.applyMatrix4(mesh.matrixWorld)
+        boundingBox.applyMatrix4(part.matrixWorld)
+        boundingBox.min.y += part.position.y
+        boundingBox.max.y += part.position.y
+        boundingBox.min.z = 0
+        boundingBox.max.z = 1
+
+        array.push(boundingBox.min, boundingBox.max)
+      }
     })
-    return array
+    return new THREE.Box3().setFromPoints(array)
   }
 
   get utilsTextures() {

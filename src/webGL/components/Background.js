@@ -6,7 +6,6 @@ export default class Background extends THREE.Object3D {
   constructor({ texture }) {
     super()
     this.texture = texture
-    console.log(texture)
     texture.minFilter = THREE.LinearFilter
     //texture.magFilter = THREE.NearestFilter
     //texture.format = THREE.RGBFormat

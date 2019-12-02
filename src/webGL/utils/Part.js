@@ -26,21 +26,23 @@ export default class Part extends THREE.Object3D {
 
       if (layers.params.anchor) sprite.setAnchor(layers.params.anchor)
 
+      sprite.updateWorldMatrix()
+
       this.addToLayer({ indexLayer: key, mesh: sprite })
     })
   }
 
   addToLayer({ indexLayer, mesh, fullwidth = false }) {
     let layerFolder
+    let layer = this._layers[indexLayer]
 
     if (fullwidth) mesh.children[0].fullwidth(true)
 
-    // let layer = this._layers[idLayer]
+    if (!layer) {
+      this.createLayer(indexLayer)
+    }
 
-    // if (!layer) {
-    this.createLayer(indexLayer)
     layerFolder = GUI.__folders[this.namePart].addFolder(mesh.name)
-    // }
 
     this._layers[indexLayer].addMesh(mesh, layerFolder)
   }
