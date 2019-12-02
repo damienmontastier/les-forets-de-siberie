@@ -15,6 +15,7 @@ export default class Sprite extends THREE.Object3D {
       this.material = new THREE.MeshBasicMaterial({
         map: texture,
         transparent: true,
+        alphaTest: 0.01,
       })
     }
 

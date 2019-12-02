@@ -13,6 +13,9 @@ import gsap from 'gsap'
 
 import AuroreBoreale from '../components/AuroreBoreale'
 import Frost from '../components/Frost'
+import Water from '../components/Water'
+import Sun from '../components/Sun'
+import Background from '../components/Background'
 let positions = require('../../../public/assets/avril/positions/positions')
 
 const pathesArray = [
@@ -22,6 +25,9 @@ const pathesArray = [
   '/assets/avril/atlases/part3/',
   '/assets/avril/atlases/part6/',
   '/assets/avril/atlases/wind/',
+  '/assets/avril/atlases/water/',
+  '/assets/avril/atlases/sun/',
+  '/assets/avril/atlases/background/',
 ]
 
 class Avril extends THREE.Object3D {
@@ -44,13 +50,14 @@ class Avril extends THREE.Object3D {
     this.loadAssets().then(textures => {
       this.textures = textures
 
-      this.initParts()
+      //this.initParts()
 
       //LAKE REFLECT
       this.lake = new LakeReflect({
         map: this.utilsTextures['utils_montagne-reflet'].texture,
         alphaMap: this.utilsTextures['utils_montagne-reflet-alpha'].texture,
       })
+      this.lake.name = this.lake.children[0].name
 
       //this.lake.scale.setScalar(Viewport.width + 10)
 
@@ -61,27 +68,27 @@ class Avril extends THREE.Object3D {
       //this.wind = new Wind({ map: this.utilsTextures['utils_wind'].texture })
       //this.wind.scale.setScalar(Viewport.width)
       // this.lake.fullwidth = true
-      this.lake.name = this.lake.children[0].name
-      this.parts['part1'].addToLayer({
-        indexLayer: 0,
-        mesh: this.lake,
-        fullwidth: true,
-      })
+
+      // this.parts['part1'].addToLayer({
+      //   indexLayer: 0,
+      //   mesh: this.lake,
+      //   fullwidth: true,
+      // })
       //LAKE REFLECT
 
       //WIND
       this.wind = new Wind({ map: this.utilsTextures['utils_wind'].texture })
       this.wind.name = this.wind.children[0].name
-      this.parts['part2'].addToLayer({
-        indexLayer: 0,
-        mesh: this.wind,
-        fullwidth: true,
-      })
+      // this.parts['part2'].addToLayer({
+      //   indexLayer: 0,
+      //   mesh: this.wind,
+      //   fullwidth: true,
+      // })
 
       // this.wind2 = new Wind({ map: this.utilsTextures['utils_wind'].texture })
       //this.wind2.scale.setScalar(Viewport.width - 10)
       // this.wind2.position.y = 50
-      // this.add(this.wind)
+      //this.add(this.wind)
       // this.add(this.wind)
       //WIND
 
@@ -95,20 +102,22 @@ class Avril extends THREE.Object3D {
           verticalTiles: 4,
         })
         this.fire.name = 'Fire'
-        this.parts['part1'].addToLayer({
-          indexLayer: 2,
-          mesh: this.fire,
-        })
+        // this.parts['part1'].addToLayer({
+        //   indexLayer: 2,
+        //   mesh: this.fire,
+        // })
         this.fire.position.y = 1.5
         this.fire.scale.set(2, 1.5, 1)
+
+        //this.add(this.fire)
       })
 
       this.stars = new Stars()
       this.stars.name = 'Stars'
-      this.parts['part6'].addToLayer({
-        indexLayer: 0,
-        mesh: this.stars,
-      })
+      // this.parts['part6'].addToLayer({
+      //   indexLayer: 0,
+      //   mesh: this.stars,
+      // })
 
       this.auroreBoreale = new AuroreBoreale({ renderer: this.renderer })
       //this.add(this.auroreBoreale)
@@ -117,15 +126,46 @@ class Avril extends THREE.Object3D {
 
       this.auroreBoreale.name = 'Aurore Boreale'
       this.auroreBoreale.fullwidth = true
-      this.parts['part3'].addToLayer({
-        indexLayer: 4,
-        mesh: this.auroreBoreale,
-      })
+      // this.parts['part3'].addToLayer({
+      //   indexLayer: 4,
+      //   mesh: this.auroreBoreale,
+      // })
 
       loader.load('/assets/avril/textures/frost.jpg', texture => {
         this.frost = new Frost({ renderer: this.renderer, map: texture })
         //this.add(this.frost)
       })
+
+      //WATER
+      this.water = new Water({ map: this.utilsTextures['utils_water'].texture })
+      //this.add(this.water)
+      //WATER
+
+      //SUN
+      this.sun = new Sun({
+        map: this.utilsTextures['utils_sun-red'].texture,
+        map2: this.utilsTextures['utils_sun-yellow'].texture,
+      })
+      //this.add(this.sun)
+      //SUN
+
+      console.log(this.utilsTextures)
+      let backgroundTextures = []
+      Object.keys(this.utilsTextures)
+        .filter(name => {
+          return name.includes('background')
+        })
+        .forEach(key => {
+          backgroundTextures.push(this.utilsTextures[key].texture)
+        })
+
+      //BACKGROUND
+      this.background = new Background({
+        texture: this.utilsTextures['utils_background0'].texture,
+      })
+      this.add(this.background)
+      this.background.position.z = 0.5
+      //BACKGROUND
     })
   }
   loadAssets() {
