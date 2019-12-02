@@ -7,6 +7,8 @@ import Viewport from '../utils/Viewport'
 import Wind from '../components/Wind'
 import Fire from '../components/Fire'
 import Stars from '../components/Stars'
+import Events from '../../plugins/events'
+
 import Parallax from '@/webGL/utils/Parallax'
 import VirtualScroll from '../../plugins/virtual-scroll'
 import AudioManager from '../../plugins/audio-manager'
@@ -39,14 +41,6 @@ class Avril extends THREE.Object3D {
   }
 
   init({ renderer }) {
-    VirtualScroll.on(e => {
-      // console.log(e.y)
-      gsap.to(this.position, {
-        y: '+=' + e.deltaY,
-        duration: 1,
-      })
-    })
-
     this.renderer = renderer
     this.loadAssets().then(textures => {
       this.textures = textures
@@ -58,7 +52,6 @@ class Avril extends THREE.Object3D {
         map: this.utilsTextures['utils_montagne-reflet'].texture,
         alphaMap: this.utilsTextures['utils_montagne-reflet-alpha'].texture,
       })
-      // this.lake.fullwidth = true
       this.lake.name = this.lake.children[0].name
       this.parts['part1'].addToLayer({
         indexLayer: 0,
@@ -116,14 +109,17 @@ class Avril extends THREE.Object3D {
         indexLayer: 4,
         mesh: this.auroreBoreale,
       })
-
-      Object.values(this.parts).forEach(element => {
-        let bouding = this.getBoudingBoxPart(element)
-        // console.log(bouding)
-        let helper = new THREE.Box3Helper(bouding, 0xff0000)
-        this.add(helper)
-        console.log(element.name, bouding)
+      this.handleEvents()
+    })
+  }
+  handleEvents() {
+    Events.on('scroll', e => {
+      this.amountScroll = e.deltaY / Viewport.width
+      gsap.to(this.position, {
+        y: -e.amountScroll,
+        duration: 1,
       })
+      console.log(this.currentPart)
     })
   }
   loadAssets() {
@@ -155,7 +151,32 @@ class Avril extends THREE.Object3D {
       this.parts[name] = part
 
       this.add(part)
+
+      let bouding = this.getBoudingBoxPart(part)
+      let boudingParams = { bouding, height: bouding.max.y - bouding.min.y }
+      this.parts[name].boundingBox = boudingParams
     }
+  }
+
+  get currentPart() {
+    let currentPart
+
+    Object.values(this.children).forEach(element => {
+      console.log(this.amountScroll)
+      if (!this.amountScroll) {
+        currentPart = 1
+      } else {
+        console.log(this.amountScroll)
+        console.log(
+          this.amountScroll,
+          element.boundingBox.bouding.min.y,
+          element.boundingBox.bouding.max.y
+        )
+        currentPart = element.name
+      }
+    })
+
+    return currentPart
   }
 
   getBoudingBoxPart(part) {
@@ -172,17 +193,6 @@ class Avril extends THREE.Object3D {
         boundingBox.max.y += part.position.y
         boundingBox.min.z = 0
         boundingBox.max.z = 1
-
-        // let height = boundingBox.max.y - boundingBox.min.y
-        // let planeGeometry = new THREE.PlaneBufferGeometry(1, 1, 1, 1)
-        // let planeMaterial = new THREE.MeshBasicMaterial({
-        //   color: 0xffffff,
-        // })
-        // let plane = new THREE.Mesh(planeGeometry, planeMaterial)
-        // this.add(plane)
-        // plane.position.z = -0.1
-        // plane.position.y = boundingBox.min.y + height / 2
-        // plane.scale.set(1, height, 1)
 
         array.push(boundingBox.min, boundingBox.max)
       }
