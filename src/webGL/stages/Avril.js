@@ -32,6 +32,7 @@ class Avril extends THREE.Object3D {
 
   init({ renderer }) {
     VirtualScroll.on(e => {
+      console.log(e.y)
       gsap.to(this.position, {
         y: '+=' + e.deltaY,
         duration: 1,
@@ -126,11 +127,14 @@ class Avril extends THREE.Object3D {
         opacity: 0.5,
         transparent: true,
       })
-      var cube = new THREE.Mesh(geometry, material)
-      cube.position.z = -0.4
+      this.cube = new THREE.Mesh(geometry, material)
+      this.cube.position.z = -0.4
       console.log('Y', name, part.position.y)
-      cube.position.y = part.position.y - box.min.y / 2
-      this.add(cube)
+      this.cube.position.y = part.position.y - box.min.y / 2
+      this.add(this.cube)
+
+      var box = new THREE.Box3().setFromObject(this.cube)
+      console.log('position y min and max de toutes les parties', box)
 
       folder.add(part.position, 'y').name('position y part')
       folder.add(part, 'visible')
