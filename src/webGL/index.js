@@ -53,10 +53,10 @@ export default class WebGL {
     // })
 
     //controls
-    this.controls = new OrbitControls(Camera, this.renderer.domElement)
-    this.controls.enableDamping = true
-    this.controls.dampingFactor = 0.25
-    this.controls.enableZoom = false
+    // this.controls = new OrbitControls(Camera, this.renderer.domElement)
+    // this.controls.enableDamping = true
+    // this.controls.dampingFactor = 0.25
+    // this.controls.enableZoom = false
 
     //mouse
     this.mouse = new THREE.Vector2()

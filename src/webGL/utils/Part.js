@@ -24,24 +24,31 @@ export default class Part extends THREE.Object3D {
 
       sprite.position.y = layers.params.y
 
-      this.addToLayer(key, sprite)
+      if (layers.params.anchor) sprite.setAnchor(layers.params.anchor)
+
+      this.addToLayer({ indexLayer: key, mesh: sprite })
     })
   }
 
-  addToLayer(idLayer, mesh) {
-    let layer = this._layers[idLayer]
+  addToLayer({ indexLayer, mesh, fullwidth = false }) {
     let layerFolder
-    if (!layer) {
-      this.createLayer(idLayer)
-      layerFolder = GUI.__folders[this.namePart].addFolder('layer ' + idLayer)
-      layerFolder.open()
-    }
-    this._layers[idLayer].addMesh(mesh, layerFolder)
+
+    if (fullwidth) mesh.children[0].fullwidth(true)
+
+    // let layer = this._layers[idLayer]
+
+    // if (!layer) {
+    this.createLayer(indexLayer)
+    layerFolder = GUI.__folders[this.namePart].addFolder(mesh.name)
+    // }
+
+    this._layers[indexLayer].addMesh(mesh, layerFolder)
   }
 
-  createLayer(idLayer) {
-    this._layers[idLayer] = new Layer()
+  createLayer(indexLayer) {
+    this._layers[indexLayer] = new Layer()
 
-    this.add(this._layers[idLayer])
+    this._layers[indexLayer].position.z = -indexLayer * 0.1
+    this.add(this._layers[indexLayer])
   }
 }

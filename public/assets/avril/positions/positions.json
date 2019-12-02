@@ -4,19 +4,81 @@
     "sprites": {
       "Part1_Layer0_eau.png": {
         "y": 0,
-        "fullwidth": false
+        "fullwidth": true
       },
       "Part1_Layer1.png": {
-        "y": 0,
+        "y": 0.8,
         "fullwidth": false
       },
       "Part1_Layer2.png": {
-        "y": 0,
+        "y": 0.2,
         "fullwidth": true
       },
       "Part1_Layer3.png": {
-        "y": 0,
+        "y": 1.2,
         "fullwidth": false
+      }
+    }
+  },
+  "part2": {
+    "y": 5,
+    "sprites": {
+      "Part2_Layer1.png": {
+        "y": 0,
+        "fullwidth": true
+      }
+    }
+  },
+  "part3": {
+    "y": 10,
+    "sprites": {
+      "Part3_Layer0.png": {
+        "y": 0,
+        "fullwidth": false,
+        "anchor": "right"
+      },
+      "Part3_Layer1.png": {
+        "y": 0.25,
+        "fullwidth": false,
+        "anchor": "left"
+      },
+      "Part3_Layer2.png": {
+        "y": 0.75,
+        "fullwidth": false,
+        "anchor": "right"
+      }
+    }
+  },
+  "part6": {
+    "y": 15,
+    "sprites": {
+      "Part6_Layer0.png": {
+        "y": 0.25,
+        "fullwidth": true
+      },
+      "Part6_Layer1.png": {
+        "y": 0,
+        "fullwidth": true
+      },
+      "Part6_Layer2.png": {
+        "y": 0.75,
+        "fullwidth": true
+      },
+      "Part6_Layer3.png": {
+        "y": 1.25,
+        "fullwidth": true
+      },
+      "Part6_Layer4.png": {
+        "y": 1.5,
+        "fullwidth": true
+      },
+      "Part6_Layer5.png": {
+        "y": 0.5,
+        "fullwidth": true
+      },
+      "Part6_Layer6.png": {
+        "y": 1,
+        "fullwidth": true
       }
     }
   }

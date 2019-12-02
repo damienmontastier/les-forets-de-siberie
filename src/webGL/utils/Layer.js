@@ -13,21 +13,26 @@ export default class Layer extends THREE.Object3D {
   }
 
   addMesh(mesh, folder) {
+    // console.log(mesh, folder)
+
     this.add(mesh)
     this.addLayerToGUI(mesh, folder)
   }
 
   addLayerToGUI(mesh, folder) {
     this.fullwidth = false
+    this.anchor = 'center'
 
-    folder
-      .add(mesh.position, 'y')
-      .step(1)
-      .name('y')
+    folder.add(mesh.position, 'y').name('y')
 
     folder.add(this, 'fullwidth').onChange(bool => {
-      if (bool) mesh.scale.set(mesh.ratio, 1, 1)
-      else mesh.scale.set(1, mesh.ratio, 1)
+      mesh.fullwidth(bool)
+    })
+
+    folder.add(this, 'visible')
+
+    folder.add(this, 'anchor', ['left', 'center', 'right']).onChange(anchor => {
+      mesh.setAnchor(anchor)
     })
   }
 }

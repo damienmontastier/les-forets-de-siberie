@@ -29,6 +29,7 @@ export default class LakeReflect extends THREE.Object3D {
     }
     this.material = new THREE.ShaderMaterial({
       uniforms: this.uniforms,
+      transparent: true,
       vertexShader: `
         varying vec2 vUv;
     

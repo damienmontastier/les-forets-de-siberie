@@ -94,13 +94,15 @@ export default class Frost extends THREE.Object3D {
 
           // Use flow to adjust the uv lookup of a texture
           //vec2 uv = gl_FragCoord.xy / 600.0;
-          vec2 uv = vUv;
-          uv += flow.xy * 0.15;
-          vec3 tex = texture2D(uMap, uv).rgb;
+          //vec2 uv = vUv;
+          //uv += flow.xy * 0.15;
+          //vec3 tex = texture2D(uMap, uv).rgb;
 
           // tex = mix(tex, flow * 0.5 + 0.5, smoothstep( -0.3, 0.7, sin(uTime)));
 
-          gl_FragColor = vec4(texture2D(uMap, vUv).rgb,1.-flow.b);
+          vec4 texture = texture2D(uMap, vUv);
+
+          gl_FragColor = vec4(texture.rgb,min(1.-flow.b,texture.r));
         }
       `,
       transparent: true,
@@ -148,7 +150,7 @@ export default class Frost extends THREE.Object3D {
         uniform float uTime;
         uniform sampler2D uMap;
 
-        #define FROSTYNESS 2.0
+        #define FROSTYNESS 5.0
         #define COLORIZE   1.0
         #define COLOR_RGB  0.7,1.0,1.0
 
