@@ -26,6 +26,8 @@ export default class Part extends THREE.Object3D {
 
       if (layers.params.anchor) sprite.setAnchor(layers.params.anchor)
 
+      sprite.updateWorldMatrix()
+
       this.addToLayer({ indexLayer: key, mesh: sprite })
     })
   }
