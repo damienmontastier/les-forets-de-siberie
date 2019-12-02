@@ -35,7 +35,7 @@ const pathesArray = [
   '/assets/avril/atlases/part3/',
   '/assets/avril/atlases/part6/',
   '/assets/avril/atlases/wind/',
-  '/assets/avril/atlases/water/',
+  '/assets/avril/atlases/part4/',
   '/assets/avril/atlases/sun/',
   '/assets/avril/atlases/background/',
 ]
