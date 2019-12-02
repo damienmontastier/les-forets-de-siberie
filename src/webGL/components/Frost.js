@@ -37,12 +37,7 @@ export default class Frost extends THREE.Object3D {
   }
 
   render() {
-    if (Mouse.velocity.x != 0 && Mouse.velocity.x != 0) {
-      this.flowmap.velocity.lerp(
-        Mouse.velocity,
-        Mouse.velocity.length() ? 0.5 : 0.1
-      )
-    }
+    this.flowmap.velocity.copy(new THREE.Vector2(1, 1))
 
     this.flowmap.mouse.copy(Mouse.normalized)
 
