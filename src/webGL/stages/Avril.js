@@ -50,6 +50,7 @@ class Avril extends THREE.Object3D {
       this.initParts()
 
       Parallax.add(this.parts['part1'])
+      AudioManager.play('lake')
 
       //LAKE REFLECT
       this.lake = new LakeReflect({
@@ -57,32 +58,26 @@ class Avril extends THREE.Object3D {
         alphaMap: this.utilsTextures['utils_montagne-reflet-alpha'].texture,
       })
       this.lake.name = this.lake.children[0].name
-
-      //this.lake.scale.setScalar(Viewport.width + 10)
-
-      //this.add(this.lake)
+      this.parts['part1'].addToLayer({
+        indexLayer: 0,
+        mesh: this.lake,
+        fullwidth: true,
+      })
       //LAKE REFLECT
 
       //WIND
-      //this.wind = new Wind({ map: this.utilsTextures['utils_wind'].texture })
+      // this.wind = new Wind({ map: this.utilsTextures['utils_wind'].texture })
       //this.wind.scale.setScalar(Viewport.width)
       // this.lake.fullwidth = true
-
-      // this.parts['part1'].addToLayer({
-      //   indexLayer: 0,
-      //   mesh: this.lake,
-      //   fullwidth: true,
-      // })
-      //LAKE REFLECT
 
       //WIND
       this.wind = new Wind({ map: this.utilsTextures['utils_wind'].texture })
       this.wind.name = this.wind.children[0].name
-      // this.parts['part2'].addToLayer({
-      //   indexLayer: 0,
-      //   mesh: this.wind,
-      //   fullwidth: true,
-      // })
+      this.parts['part2'].addToLayer({
+        indexLayer: 0,
+        mesh: this.wind,
+        fullwidth: true,
+      })
 
       // this.wind2 = new Wind({ map: this.utilsTextures['utils_wind'].texture })
       //this.wind2.scale.setScalar(Viewport.width - 10)
@@ -101,12 +96,12 @@ class Avril extends THREE.Object3D {
           verticalTiles: 4,
         })
         this.fire.name = 'Fire'
-        // this.parts['part1'].addToLayer({
-        //   indexLayer: 2,
-        //   mesh: this.fire,
-        // })
-        this.fire.position.y = 1.5
-        this.fire.scale.set(2, 1.5, 1)
+        this.parts['part1'].addToLayer({
+          indexLayer: 0,
+          mesh: this.fire,
+        })
+        // this.fire.position.y = 1.5
+        // this.fire.scale.set(2, 1.5, 1)
 
         //this.add(this.fire)
       })
@@ -119,16 +114,15 @@ class Avril extends THREE.Object3D {
       // })
 
       this.auroreBoreale = new AuroreBoreale({ renderer: this.renderer })
-      //this.add(this.auroreBoreale)
-
       this.auroreBoreale.position.z = 0.001
-
       this.auroreBoreale.name = 'Aurore Boreale'
       this.auroreBoreale.fullwidth = true
-      // this.parts['part3'].addToLayer({
-      //   indexLayer: 4,
-      //   mesh: this.auroreBoreale,
-      // })
+      this.addPart({
+        part: 'part7',
+        name: this.auroreBoreale.name,
+        mesh: this.auroreBoreale,
+        y: 20,
+      })
 
       loader.load('/assets/avril/textures/frost.jpg', texture => {
         this.frost = new Frost({ renderer: this.renderer, map: texture })
@@ -182,6 +176,8 @@ class Avril extends THREE.Object3D {
         this.currentPartChanged({ current: this.currentPart, last: current })
       }
 
+      console.log(this.currentPart)
+
       current = this.currentPart
 
       this.doesCurrentStepChanged = current
@@ -221,14 +217,31 @@ class Avril extends THREE.Object3D {
     })
   }
 
+  addPart({ part, name, mesh, y }) {
+    GUI.addFolder(name)
+
+    this.parts[part] = new Part({
+      name: name,
+      mesh: mesh,
+    })
+
+    this.parts[part].position.y = positions[part].y
+
+    this.parts[part].boundingBox = this.getBoudingBoxPart(this.parts[part])
+    this.add(this.parts[part])
+  }
+
   initParts() {
     this.parts = {}
     let folder
 
-    for (let [name, layers] of Object.entries(this.partedTextures)) {
+    Object.entries(this.partedTextures).forEach(partedTextures => {
+      let name = partedTextures[0]
+      let texture = partedTextures[1]
+
       folder = GUI.addFolder(name)
 
-      let part = new Part({ name, layers })
+      let part = new Part({ name, texture })
 
       part.updateMatrixWorld()
 
@@ -245,9 +258,9 @@ class Avril extends THREE.Object3D {
 
       let bounding = this.getBoudingBoxPart(part)
       bounding.height = bounding.max.y - bounding.min.y
-      //let boudingParams = { bouding, height: bouding.max.y - bouding.min.y }
+
       this.parts[name].boundingBox = bounding
-    }
+    })
   }
 
   get currentPart() {

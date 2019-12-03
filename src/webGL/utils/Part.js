@@ -5,15 +5,19 @@ import Viewport from './Viewport'
 import GUI from '@/plugins/dat-gui.js'
 
 export default class Part extends THREE.Object3D {
-  constructor({ name, layers }) {
+  constructor({ name, texture, mesh }) {
     super()
     this.namePart = name
-    this.layersData = layers
+    this.layersData = texture
     this._layers = {}
-    this.init()
+
+    if (mesh) this.addToLayer({ indexLayer: 1, mesh })
+    else this.init()
   }
 
   init() {
+    console.log(this.layersData)
+
     Object.values(this.layersData).forEach((layers, key) => {
       let sprite = new Sprite({
         texture: layers.texture,

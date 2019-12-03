@@ -28,7 +28,7 @@ class AudioManager {
     this.sprite.play(id)
   }
   stop(id) {
-    this.sprite.pause(id)
+    this.sprite.stop(id)
   }
 }
 

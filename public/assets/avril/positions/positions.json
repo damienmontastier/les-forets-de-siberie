@@ -81,5 +81,8 @@
         "fullwidth": true
       }
     }
+  },
+  "part7": {
+    "y": 20
   }
 }
