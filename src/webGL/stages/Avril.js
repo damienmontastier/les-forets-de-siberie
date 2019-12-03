@@ -111,24 +111,24 @@ class Avril extends THREE.Object3D {
       //   mesh: this.stars,
       // })
 
+      // AURORE
       this.auroreBoreale = new AuroreBoreale({ renderer: this.renderer })
       this.auroreBoreale.position.z = 0.001
       this.auroreBoreale.name = 'Aurore Boreale'
-      this.parts['part7'] = new Part({ name: 'part7' })
+      this.parts['auroreBoreal'] = new Part({ name: 'auroreBoreal' })
 
-      this.parts['part7'].boundingBox = this.getBoudingBoxPart(
-        this.parts['part7']
-      )
+      this.parts['auroreBoreal'].position.y = this.getPositionY('auroreBoreal')
 
-      this.parts['part7'].position.y = positions['part7'].y
-
-      this.add(this.parts['part7'])
-      this.addGUIPart(GUI.__folders['part7'], this.parts['part7'])
-
-      this.parts['part7'].addToLayer({
+      this.add(this.parts['auroreBoreal'])
+      this.addGUIPart(GUI.__folders['auroreBoreal'], this.parts['auroreBoreal'])
+      this.parts['auroreBoreal'].addToLayer({
         indexLayer: 0,
         mesh: this.auroreBoreale,
       })
+      this.parts['auroreBoreal'].boundingBox = this.getBoudingBoxPart(
+        this.parts['auroreBoreal']
+      )
+      // AURORE
 
       loader.load('/assets/avril/textures/frost.jpg', texture => {
         this.frost = new Frost({ renderer: this.renderer, map: texture })
@@ -257,6 +257,11 @@ class Avril extends THREE.Object3D {
     })
   }
 
+  getPositionY(part) {
+    if (!positions[part]) return 0
+    else return positions[part].y
+  }
+
   get currentPart() {
     // if (this.parts) return this.parts['part1']
 
@@ -267,7 +272,7 @@ class Avril extends THREE.Object3D {
         return partY < this.amountScroll
       })
       .sort((a, b) => {
-        return a.name.replace('part', '') - b.name.replace('part', '')
+        return a.boundingBox.min.y - b.boundingBox.min.y
       })
 
     let length = downParts.length
