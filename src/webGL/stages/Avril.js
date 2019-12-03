@@ -180,6 +180,17 @@ class Avril extends THREE.Object3D {
         map: this.utilsTextures['utils_sun-red'].texture,
         map2: this.utilsTextures['utils_sun-yellow'].texture,
       })
+      this.sun.position.z = -0.1
+      this.parts['sun'] = new Part({ name: 'sun', interact: false })
+      this.parts['sun'].position.y = this.getPositionY('sun')
+      this.add(this.parts['sun'])
+      this.addGUIPart(GUI.__folders['sun'], this.parts['sun'])
+      this.parts['sun'].addToLayer({
+        indexLayer: 0,
+        mesh: this.sun,
+        parallax: false,
+      })
+      this.parts['sun'].boundingBox = this.getBoudingBoxPart(this.parts['sun'])
 
       //SUN
 
