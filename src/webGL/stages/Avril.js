@@ -96,20 +96,30 @@ class Avril extends THREE.Object3D {
           verticalTiles: 4,
         })
         this.fire.name = 'Fire'
+
         this.parts['part1'].addToLayer({
           indexLayer: 0.1,
           mesh: this.fire,
         })
         this.fire.position.y = 1.5
-        this.fire.scale.set(2, 3.5, 1)
+        this.fire.scale.set(2, 4, 1)
       })
 
+      // STARS
       this.stars = new Stars()
       this.stars.name = 'Stars'
-      // this.parts['part6'].addToLayer({
-      //   indexLayer: 0,
-      //   mesh: this.stars,
-      // })
+      this.parts['stars'] = new Part({ name: 'stars' })
+      this.parts['stars'].position.y = this.getPositionY('stars')
+      this.add(this.parts['stars'])
+      this.addGUIPart(GUI.__folders['stars'], this.parts['stars'])
+      this.parts['stars'].addToLayer({
+        indexLayer: 0,
+        mesh: this.stars,
+      })
+      this.parts['stars'].boundingBox = this.getBoudingBoxPart(
+        this.parts['stars']
+      )
+      // STARS
 
       // AURORE
       this.auroreBoreale = new AuroreBoreale({ renderer: this.renderer })
@@ -166,7 +176,7 @@ class Avril extends THREE.Object3D {
       })
       this.add(this.background)
       this.background.position.z = -1
-      this.background.position.y = 12
+      this.background.position.y = 10
       //BACKGROUND
       this.handleEvents()
     })
