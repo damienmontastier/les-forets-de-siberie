@@ -165,7 +165,7 @@ class Avril extends THREE.Object3D {
         texture: this.utilsTextures['utils_background0'].texture,
       })
       this.add(this.background)
-      this.background.position.z = -0.5
+      this.background.position.z = -1
       this.background.position.y = 12
       //BACKGROUND
       this.handleEvents()
@@ -195,7 +195,7 @@ class Avril extends THREE.Object3D {
   currentPartChanged({ current, last }) {
     console.log(current, last, this.currentPart)
 
-    AudioManager.stop(last.name)
+    AudioManager.stop()
     AudioManager.play(current.name)
     Parallax.remove(last)
     Parallax.add(current)

@@ -11,11 +11,11 @@ class AudioManager {
         sprite: {
           lake: [0, 4000],
           part1: [5000, 9000],
-          aurore: [15000, 11000],
+          auroreBoreal: [15000, 11000],
           part2: [27000, 9000],
           part3: [38000, 12000],
           part4: [52000, 8600],
-          end: [61200, 2000],
+          part6: [61200, 5000],
         },
 
         onload: () => {
@@ -27,8 +27,8 @@ class AudioManager {
   play(id) {
     this.sprite.play(id)
   }
-  stop(id) {
-    this.sprite.stop(id)
+  stop() {
+    this.sprite.stop()
   }
 }
 
