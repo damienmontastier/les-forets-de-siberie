@@ -7,28 +7,28 @@ class AudioManager {
   add(sounds) {
     return new Promise((resolve, reject) => {
       this.sprite = new Howl({
-        src: [sounds],
+        src: sounds,
         sprite: {
           lake: [0, 4000],
-          part1: [5000, 14000],
-          aurore: [15000, 26000],
-          part2: [27000, 36000],
-          part3: [38000, 50000],
-          part4: [52000, 60600],
-          end: [61200],
+          part1: [5000, 9000],
+          auroreBoreal: [15000, 11000],
+          part2: [27000, 9000],
+          part3: [38000, 12000],
+          part4: [52000, 8600],
+          part6: [61200, 5000],
         },
+
         onload: () => {
           resolve()
         },
       })
-      // this.sounds[sound.id] = howl
     })
   }
   play(id) {
     this.sprite.play(id)
   }
-  stop(id) {
-    this.sprite.stop(id)
+  stop() {
+    this.sprite.stop()
   }
 }
 

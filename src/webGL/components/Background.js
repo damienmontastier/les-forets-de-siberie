@@ -60,6 +60,6 @@ export default class Background extends THREE.Object3D {
   initMesh() {
     this.mesh = new THREE.Mesh(this.geometry, this.material)
     this.add(this.mesh)
-    this.mesh.scale.set(1, 25, 1)
+    this.mesh.scale.set(1, 20, 1)
   }
 }

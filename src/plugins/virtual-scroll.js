@@ -1,6 +1,9 @@
 import VirtualScroll from 'virtual-scroll'
 import Events from '../plugins/events'
-const virtualScroll = new VirtualScroll()
+const virtualScroll = new VirtualScroll({
+  useKeyboard: false,
+  limitInertia: true,
+})
 
 let amountScroll = 0
 

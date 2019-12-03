@@ -5,12 +5,20 @@ import Viewport from './Viewport'
 import GUI from '@/plugins/dat-gui.js'
 
 export default class Part extends THREE.Object3D {
-  constructor({ name, layers }) {
+  constructor({ name, textures = false }) {
     super()
+
     this.namePart = name
-    this.layersData = layers
+    this.layersData = textures
     this._layers = {}
-    this.init()
+
+    GUI.addFolder(name)
+
+    if (name && !textures) {
+      this.name = name
+    } else {
+      this.init()
+    }
   }
 
   init() {
@@ -33,6 +41,7 @@ export default class Part extends THREE.Object3D {
   }
 
   addToLayer({ indexLayer, mesh, fullwidth = false }) {
+    // console.log('mesh', mesh.name)
     let layerFolder
     let layer = this._layers[indexLayer]
 

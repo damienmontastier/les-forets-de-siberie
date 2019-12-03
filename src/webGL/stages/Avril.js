@@ -12,7 +12,6 @@ import Events from '../../plugins/events'
 import Renderer from '../renderer'
 
 import Parallax from '@/webGL/utils/Parallax'
-import VirtualScroll from '../../plugins/virtual-scroll'
 import AudioManager from '../../plugins/audio-manager'
 import gsap from 'gsap'
 
@@ -21,13 +20,12 @@ import Frost from '../components/Frost'
 import Water from '../components/Water'
 import Sun from '../components/Sun'
 import Background from '../components/Background'
-let positions = require('../../../public/assets/avril/positions/positions')
 
+let positions = require('../../../public/assets/avril/positions/positions')
 let avril_sprites = require('../../../public/sounds/avril_sprites.mp3')
 
 const pathesArray = [
   '/assets/avril/atlases/part1/',
-  '/assets/avril/atlases/part2/',
   '/assets/avril/atlases/lake-reflect/',
   '/assets/avril/atlases/part3/',
   '/assets/avril/atlases/part6/',
@@ -51,49 +49,43 @@ class Avril extends THREE.Object3D {
 
       this.initParts()
 
+      Parallax.add(this.parts['part1'])
+      AudioManager.play('lake')
+
       //LAKE REFLECT
       this.lake = new LakeReflect({
         map: this.utilsTextures['utils_montagne-reflet'].texture,
         alphaMap: this.utilsTextures['utils_montagne-reflet-alpha'].texture,
       })
       this.lake.name = this.lake.children[0].name
-
-      //this.lake.scale.setScalar(Viewport.width + 10)
-
-      //this.add(this.lake)
-      //LAKE REFLECT
-
-      //WIND
-      //this.wind = new Wind({ map: this.utilsTextures['utils_wind'].texture })
-      //this.wind.scale.setScalar(Viewport.width)
-      // this.lake.fullwidth = true
-
-      // this.parts['part1'].addToLayer({
-      //   indexLayer: 0,
-      //   mesh: this.lake,
-      //   fullwidth: true,
-      // })
+      this.parts['part1'].addToLayer({
+        indexLayer: 0,
+        mesh: this.lake,
+        fullwidth: true,
+      })
       //LAKE REFLECT
 
       //WIND
       this.wind = new Wind({ map: this.utilsTextures['utils_wind'].texture })
       this.wind.name = this.wind.children[0].name
-      // this.parts['part2'].addToLayer({
-      //   indexLayer: 0,
-      //   mesh: this.wind,
-      //   fullwidth: true,
-      // })
 
-      // this.wind2 = new Wind({ map: this.utilsTextures['utils_wind'].texture })
-      //this.wind2.scale.setScalar(Viewport.width - 10)
-      // this.wind2.position.y = 50
-      //this.add(this.wind)
-      // this.add(this.wind)
+      this.parts['wind'] = new Part({ name: 'wind' })
+      this.parts['wind'].position.y = this.getPositionY('wind')
+      this.add(this.parts['wind'])
+      this.addGUIPart(GUI.__folders['wind'], this.parts['wind'])
+      this.parts['wind'].addToLayer({
+        indexLayer: 0,
+        mesh: this.wind,
+        fullwidth: true,
+      })
+      this.parts['wind'].boundingBox = this.getBoudingBoxPart(
+        this.parts['wind']
+      )
       //WIND
 
+      //FIRE
       let loader = new THREE.TextureLoader()
 
-      //FIRE
       loader.load('/assets/avril/sprites/fire/sprite.png', texture => {
         this.fire = new Fire({
           map: texture,
@@ -101,35 +93,49 @@ class Avril extends THREE.Object3D {
           verticalTiles: 4,
         })
         this.fire.name = 'Fire'
-        // this.parts['part1'].addToLayer({
-        //   indexLayer: 2,
-        //   mesh: this.fire,
-        // })
-        this.fire.position.y = 1.5
-        this.fire.scale.set(2, 1.5, 1)
 
-        //this.add(this.fire)
+        this.parts['part1'].addToLayer({
+          indexLayer: 0.1,
+          mesh: this.fire,
+        })
+        this.fire.position.y = 1.5
+        this.fire.scale.set(2, 4, 1)
       })
 
+      // STARS
       this.stars = new Stars()
       this.stars.name = 'Stars'
-      this.add(this.stars)
-      // this.parts['part6'].addToLayer({
-      //   indexLayer: 0,
-      //   mesh: this.stars,
-      // })
+      this.parts['stars'] = new Part({ name: 'stars' })
+      this.parts['stars'].position.y = this.getPositionY('stars')
+      this.add(this.parts['stars'])
+      this.addGUIPart(GUI.__folders['stars'], this.parts['stars'])
+      this.parts['stars'].addToLayer({
+        indexLayer: 0,
+        mesh: this.stars,
+      })
+      this.parts['stars'].boundingBox = this.getBoudingBoxPart(
+        this.parts['stars']
+      )
+      // STARS
 
+      // AURORE
       this.auroreBoreale = new AuroreBoreale({ renderer: this.renderer })
-      this.add(this.auroreBoreale)
-
       this.auroreBoreale.position.z = 0.001
-
       this.auroreBoreale.name = 'Aurore Boreale'
-      this.auroreBoreale.fullwidth = true
-      // this.parts['part3'].addToLayer({
-      //   indexLayer: 4,
-      //   mesh: this.auroreBoreale,
-      // })
+      this.parts['auroreBoreal'] = new Part({ name: 'auroreBoreal' })
+
+      this.parts['auroreBoreal'].position.y = this.getPositionY('auroreBoreal')
+
+      this.add(this.parts['auroreBoreal'])
+      this.addGUIPart(GUI.__folders['auroreBoreal'], this.parts['auroreBoreal'])
+      this.parts['auroreBoreal'].addToLayer({
+        indexLayer: 0,
+        mesh: this.auroreBoreale,
+      })
+      this.parts['auroreBoreal'].boundingBox = this.getBoudingBoxPart(
+        this.parts['auroreBoreal']
+      )
+      // AURORE
 
       loader.load('/assets/avril/textures/frost.jpg', texture => {
         this.frost = new Frost({ renderer: this.renderer, map: texture })
@@ -138,7 +144,10 @@ class Avril extends THREE.Object3D {
 
       //WATER
       this.water = new Water({ map: this.utilsTextures['utils_water'].texture })
-      //this.add(this.water)
+      this.parts['part3'].addToLayer({
+        indexLayer: 4,
+        mesh: this.water,
+      })
       //WATER
 
       //SUN
@@ -163,9 +172,8 @@ class Avril extends THREE.Object3D {
         texture: this.utilsTextures['utils_background0'].texture,
       })
       this.add(this.background)
-      this.background.position.z = -0.5
-      this.background.position.y = 12
-
+      this.background.position.z = -1
+      this.background.position.y = 10
       //BACKGROUND
 
       //HeatWave
@@ -180,14 +188,35 @@ class Avril extends THREE.Object3D {
     })
   }
   handleEvents() {
+    let current = this.getObjectByName('part1')
+
     Events.on('scroll', data => {
       this.amountScroll = data.amountScroll
+
       gsap.to(this.position, {
         y: -this.amountScroll,
         duration: 1,
       })
+
+      if (current != this.currentPart) {
+        this.currentPartChanged({ current: this.currentPart, last: current })
+      }
+
+      current = this.currentPart
+
+      this.doesCurrentStepChanged = current
     })
   }
+
+  currentPartChanged({ current, last }) {
+    console.log(current, last, this.currentPart)
+
+    AudioManager.stop()
+    AudioManager.play(current.name)
+    Parallax.remove(last)
+    Parallax.add(current)
+  }
+
   loadAssets() {
     let promises = []
     let sounds = new Promise((resolve, reject) => {
@@ -216,22 +245,29 @@ class Avril extends THREE.Object3D {
     })
   }
 
+  addGUIPart(folder, part) {
+    folder.add(part.position, 'y').name('position y part')
+    folder.add(part, 'visible')
+  }
+
   initParts() {
     this.parts = {}
     let folder
 
-    for (let [name, layers] of Object.entries(this.partedTextures)) {
-      folder = GUI.addFolder(name)
+    Object.entries(this.partedTextures).forEach(partedTextures => {
+      let name = partedTextures[0]
+      let textures = partedTextures[1]
 
-      let part = new Part({ name, layers })
+      // folder = GUI.addFolder(name)
+
+      let part = new Part({ name, textures })
 
       part.updateMatrixWorld()
 
       let positionY = positions[name] ? positions[name].y : 0
       part.position.y = positionY
 
-      folder.add(part.position, 'y').name('position y part')
-      folder.add(part, 'visible')
+      this.addGUIPart(GUI.__folders[name], part)
 
       part.name = name
       this.parts[name] = part
@@ -240,12 +276,19 @@ class Avril extends THREE.Object3D {
 
       let bounding = this.getBoudingBoxPart(part)
       bounding.height = bounding.max.y - bounding.min.y
-      //let boudingParams = { bouding, height: bouding.max.y - bouding.min.y }
+
       this.parts[name].boundingBox = bounding
-    }
+    })
+  }
+
+  getPositionY(part) {
+    if (!positions[part]) return 0
+    else return positions[part].y
   }
 
   get currentPart() {
+    // if (this.parts) return this.parts['part1']
+
     let downParts = Object.values(this.parts)
       .filter(part => {
         let partY = part.boundingBox.min.y * Viewport.width
@@ -253,26 +296,11 @@ class Avril extends THREE.Object3D {
         return partY < this.amountScroll
       })
       .sort((a, b) => {
-        return a.name.replace('part', '') - b.name.replace('part', '')
+        return a.boundingBox.min.y - b.boundingBox.min.y
       })
 
     let length = downParts.length
     let current = downParts[length - 1]
-
-    // Object.values(this.children).forEach(element => {
-    //   console.log(this.amountScroll)
-    //   if (!this.amountScroll) {
-    //     currentPart = 1
-    //   } else {
-    //     console.log(this.amountScroll)
-    //     console.log(
-    //       this.amountScroll,
-    //       element.boundingBox.bouding.min.y,
-    //       element.boundingBox.bouding.max.y
-    //     )
-    //     currentPart = element.name
-    //   }
-    // })
 
     return current
   }
