@@ -2,7 +2,6 @@ import * as THREE from 'three'
 const OrbitControls = require('three-orbitcontrols')
 import Camera from './utils/Camera'
 import Viewport from './utils/Viewport'
-// import TouchEvent from '../plugins/touch-events'
 import Viewsize from './utils/Viewsize'
 import gsap from 'gsap'
 

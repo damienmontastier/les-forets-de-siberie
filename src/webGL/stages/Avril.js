@@ -10,7 +10,6 @@ import Stars from '../components/Stars'
 import Events from '../../plugins/events'
 
 import Parallax from '@/webGL/utils/Parallax'
-import VirtualScroll from '../../plugins/virtual-scroll'
 import AudioManager from '../../plugins/audio-manager'
 import gsap from 'gsap'
 
@@ -19,14 +18,9 @@ import Frost from '../components/Frost'
 import Water from '../components/Water'
 import Sun from '../components/Sun'
 import Background from '../components/Background'
+
 let positions = require('../../../public/assets/avril/positions/positions')
-
 let avril_sprites = require('../../../public/sounds/avril_sprites.mp3')
-
-AudioManager.add(avril_sprites).then(() => {
-  // console.log('ok load')
-})
-AudioManager.play('lake')
 
 const pathesArray = [
   '/assets/avril/atlases/part1/',
@@ -35,7 +29,7 @@ const pathesArray = [
   '/assets/avril/atlases/part3/',
   '/assets/avril/atlases/part6/',
   '/assets/avril/atlases/wind/',
-  '/assets/avril/atlases/water/',
+  '/assets/avril/atlases/part4/',
   '/assets/avril/atlases/sun/',
   '/assets/avril/atlases/background/',
 ]
@@ -49,10 +43,13 @@ class Avril extends THREE.Object3D {
 
   init({ renderer }) {
     this.renderer = renderer
+
     this.loadAssets().then(textures => {
       this.textures = textures
 
       this.initParts()
+
+      Parallax.add(this.currentPart)
 
       //LAKE REFLECT
       this.lake = new LakeReflect({
@@ -171,21 +168,55 @@ class Avril extends THREE.Object3D {
     })
   }
   handleEvents() {
+    let current = this.getObjectByName('part1')
+
     Events.on('scroll', data => {
       this.amountScroll = data.amountScroll
-      console.log(this.amountScroll)
+      // console.log(this.amountScroll)
       gsap.to(this.position, {
         y: -this.amountScroll,
         duration: 1,
       })
-      //console.log(this.currentPart)
-      console.log(this.currentPart.name)
+
+      if (current != this.currentPart) {
+        this.currentPartChanged({ current: this.currentPart, last: current })
+      }
+
+      current = this.currentPart
+
+      this.doesCurrentStepChanged = current
     })
   }
+
+  currentPartChanged({ current, last }) {
+    console.log(current, last, this.currentPart)
+
+    AudioManager.stop(last.name)
+    AudioManager.play('part2')
+    Parallax.add(current)
+    Parallax.remove(last)
+  }
+
   loadAssets() {
+    let promises = []
     return new Promise((resolve, reject) => {
-      loadSeveralTextureAtlasFromPathes(pathesArray).then(textures => {
-        resolve(textures)
+      promises.push(
+        new Promise((resolve, reject) => {
+          loadSeveralTextureAtlasFromPathes(pathesArray).then(textures => {
+            resolve(textures)
+          })
+        })
+      )
+      promises.push(
+        new Promise((resolve, reject) => {
+          AudioManager.add(avril_sprites).then(() => {
+            resolve()
+          })
+        })
+      )
+
+      Promise.all(promises).then(values => {
+        resolve(values[0])
       })
     })
   }
@@ -220,6 +251,8 @@ class Avril extends THREE.Object3D {
   }
 
   get currentPart() {
+    if (this.parts) return this.parts['part1']
+
     let downParts = Object.values(this.parts)
       .filter(part => {
         let partY = part.boundingBox.min.y * Viewport.width
@@ -232,21 +265,6 @@ class Avril extends THREE.Object3D {
 
     let length = downParts.length
     let current = downParts[length - 1]
-
-    // Object.values(this.children).forEach(element => {
-    //   console.log(this.amountScroll)
-    //   if (!this.amountScroll) {
-    //     currentPart = 1
-    //   } else {
-    //     console.log(this.amountScroll)
-    //     console.log(
-    //       this.amountScroll,
-    //       element.boundingBox.bouding.min.y,
-    //       element.boundingBox.bouding.max.y
-    //     )
-    //     currentPart = element.name
-    //   }
-    // })
 
     return current
   }
