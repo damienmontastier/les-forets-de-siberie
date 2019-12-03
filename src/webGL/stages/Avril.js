@@ -25,11 +25,6 @@ let positions = require('../../../public/assets/avril/positions/positions')
 
 let avril_sprites = require('../../../public/sounds/avril_sprites.mp3')
 
-AudioManager.add(avril_sprites).then(() => {
-  // console.log('ok load')
-})
-AudioManager.play('lake')
-
 const pathesArray = [
   '/assets/avril/atlases/part1/',
   '/assets/avril/atlases/part2/',
@@ -51,8 +46,8 @@ class Avril extends THREE.Object3D {
 
   init({ renderer }) {
     this.renderer = renderer
-    this.loadAssets().then(textures => {
-      this.textures = textures
+    this.loadAssets().then(response => {
+      this.textures = response.textures
 
       this.initParts()
 
@@ -118,6 +113,7 @@ class Avril extends THREE.Object3D {
 
       this.stars = new Stars()
       this.stars.name = 'Stars'
+      this.add(this.stars)
       // this.parts['part6'].addToLayer({
       //   indexLayer: 0,
       //   mesh: this.stars,
@@ -172,10 +168,10 @@ class Avril extends THREE.Object3D {
       //BACKGROUND
 
       //HeatWave
-      Renderer.isComposerEnabled = true
-      setTimeout(() => {
-        Renderer.HeatWaveEffect.uniforms.get('amplitude').value = 0.09
-      }, 2000)
+      // Renderer.isComposerEnabled = true
+      // setTimeout(() => {
+      //   Renderer.HeatWaveEffect.uniforms.get('amplitude').value = 0.09
+      // }, 2000)
 
       //heatwave
 
@@ -192,9 +188,29 @@ class Avril extends THREE.Object3D {
     })
   }
   loadAssets() {
-    return new Promise((resolve, reject) => {
+    let promises = []
+    let sounds = new Promise((resolve, reject) => {
+      AudioManager.add(avril_sprites).then(() => {
+        resolve({ name: 'sounds', data: null })
+      })
+    })
+
+    let atlases = new Promise((resolve, reject) => {
       loadSeveralTextureAtlasFromPathes(pathesArray).then(textures => {
-        resolve(textures)
+        resolve({ name: 'textures', data: textures })
+      })
+    })
+
+    promises.push(sounds)
+    promises.push(atlases)
+
+    return new Promise((resolve, reject) => {
+      Promise.all(promises).then(data => {
+        let response = {}
+        Object.values(data).forEach(value => {
+          response[value.name] = value.data
+        })
+        resolve(response)
       })
     })
   }
