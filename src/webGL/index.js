@@ -2,8 +2,8 @@ import * as THREE from 'three'
 const OrbitControls = require('three-orbitcontrols')
 import Camera from './utils/Camera'
 import Viewport from './utils/Viewport'
-import Viewsize from './utils/Viewsize'
-import gsap from 'gsap'
+
+import Renderer from './renderer'
 
 export default class WebGL {
   constructor(canvas, container = document.body) {
@@ -13,81 +13,66 @@ export default class WebGL {
     window.addEventListener('resize', this.onWindowResize.bind(this), false)
 
     // renderer
-    this.renderer = new THREE.WebGLRenderer({
-      antialias: true,
-      canvas: this.canvas,
-      alpha: true,
-    })
-    this.renderer.setSize(Viewport.width, Viewport.height)
-    this.renderer.setClearColor(0x00000, 0) // second param is opacity, 0 => transparent
-    this.renderer.setPixelRatio = window.devicePixelRatio
+    // this.renderer = new THREE.WebGLRenderer({
+    //   antialias: true,
+    //   canvas: this.canvas,
+    //   alpha: true,
+    // })
+    // this.renderer.setSize(Viewport.width, Viewport.height)
+    // this.renderer.setClearColor(0x00000, 0) // second param is opacity, 0 => transparent
+    // this.renderer.setPixelRatio = window.devicePixelRatio
 
     // scene
     this.scene = new THREE.Scene()
 
-    // document.addEventListener('touchstart', e => {
-    //   let mousex = (e.changedTouches[0].clientX / window.innerWidth) * 2 - 1
-    //   let mousey = -(e.changedTouches[0].clientY / window.innerHeight) * 2 + 1
-    //   var geometry = new THREE.PlaneBufferGeometry(0.5, 0.5, 32)
-    //   var material = new THREE.MeshBasicMaterial({
-    //     color: 0xffff00,
-    //     side: THREE.DoubleSide,
-    //   })
-    //   var plane = new THREE.Mesh(geometry, material)
-    //   let x = this.map(mousex, -1, 1, -Viewsize.width / 2, Viewsize.width / 2)
-    //   console.log(x)
-
-    //   let y = this.map(mousey, -1, 1, -Viewsize.height / 2, Viewsize.height / 2)
-    //   plane.position.set(x, y, 0)
-    //   console.log('here')
-    //   gsap.to(plane.position, {
-    //     y: -10,
-    //     duration: 10,
-    //     onComplete: () => {
-    //       console.log(this.scene.remove(plane))
-    //     },
-    //   })
-    //   this.scene.add(plane)
-    //   console.log(this.scene)
-    // })
-
-    //controls
-    // this.controls = new OrbitControls(Camera, this.renderer.domElement)
-    // this.controls.enableDamping = true
-    // this.controls.dampingFactor = 0.25
-    // this.controls.enableZoom = false
+    //renderer
+    this.renderer = Renderer
+    this.renderer.init({
+      canvas: this.canvas,
+      scene: this.scene,
+      camera: Camera,
+    })
 
     //mouse
     this.mouse = new THREE.Vector2()
 
     //axes
     this.scene.add(new THREE.AxesHelper(Viewport.width / 2))
+
+    //clock
+    this.clock = new THREE.Clock()
   }
 
   init() {
     // animation loop
 
     this.scenes = {}
-    this.renderer.setAnimationLoop(this.render.bind(this))
+
+    this.update()
   }
 
-  map = (value, x1, y1, x2, y2) => ((value - x1) * (y2 - x2)) / (y1 - x1) + x2
+  update() {
+    requestAnimationFrame(this.update.bind(this))
+    let delta = this.clock.getDelta()
+    this.renderer.render(delta)
+  }
 
   add(id, group) {
     this.scenes[id] = group
 
     this.scene.add(group)
-    group.init({ renderer: this.renderer })
+    group.init({ renderer: this.renderer.renderer })
   }
 
-  render() {
-    // called every frame
-    this.renderer.setRenderTarget(null)
-    this.renderer.render(this.scene, Camera)
-  }
+  // render() {
+  //   // called every frame
+  //   let delta = this.clock.getDelta()
+  //   console.log(delta)
+  //   this.renderer.render(delta)
+  // }
 
   onWindowResize() {
-    this.renderer.setSize(Viewport.width, Viewport.height)
+    // this.renderer.setSize(Viewport.width, Viewport.height)
   }
 
   destroy() {}

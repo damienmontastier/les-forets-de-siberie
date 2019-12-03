@@ -20,14 +20,8 @@
       }
     }
   },
-  "part2": {
-    "y": 9,
-    "sprites": {
-      "Part2_Layer1.png": {
-        "y": 0,
-        "fullwidth": true
-      }
-    }
+  "wind": {
+    "y": 8
   },
   "part3": {
     "y": 13,

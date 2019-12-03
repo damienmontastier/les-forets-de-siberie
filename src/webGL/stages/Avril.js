@@ -9,6 +9,8 @@ import Fire from '../components/Fire'
 import Stars from '../components/Stars'
 import Events from '../../plugins/events'
 
+import Renderer from '../renderer'
+
 import Parallax from '@/webGL/utils/Parallax'
 import AudioManager from '../../plugins/audio-manager'
 import gsap from 'gsap'
@@ -24,7 +26,6 @@ let avril_sprites = require('../../../public/sounds/avril_sprites.mp3')
 
 const pathesArray = [
   '/assets/avril/atlases/part1/',
-  '/assets/avril/atlases/part2/',
   '/assets/avril/atlases/lake-reflect/',
   '/assets/avril/atlases/part3/',
   '/assets/avril/atlases/part6/',
@@ -43,9 +44,8 @@ class Avril extends THREE.Object3D {
 
   init({ renderer }) {
     this.renderer = renderer
-
-    this.loadAssets().then(textures => {
-      this.textures = textures
+    this.loadAssets().then(response => {
+      this.textures = response.textures
 
       this.initParts()
 
@@ -73,22 +73,24 @@ class Avril extends THREE.Object3D {
       //WIND
       this.wind = new Wind({ map: this.utilsTextures['utils_wind'].texture })
       this.wind.name = this.wind.children[0].name
-      this.parts['part2'].addToLayer({
+
+      this.parts['wind'] = new Part({ name: 'wind' })
+      this.parts['wind'].position.y = this.getPositionY('wind')
+      this.add(this.parts['wind'])
+      this.addGUIPart(GUI.__folders['wind'], this.parts['wind'])
+      this.parts['wind'].addToLayer({
         indexLayer: 0,
         mesh: this.wind,
         fullwidth: true,
       })
-
-      // this.wind2 = new Wind({ map: this.utilsTextures['utils_wind'].texture })
-      //this.wind2.scale.setScalar(Viewport.width - 10)
-      // this.wind2.position.y = 50
-      //this.add(this.wind)
-      // this.add(this.wind)
+      this.parts['wind'].boundingBox = this.getBoudingBoxPart(
+        this.parts['wind']
+      )
       //WIND
 
+      //FIRE
       let loader = new THREE.TextureLoader()
 
-      //FIRE
       loader.load('/assets/avril/sprites/fire/sprite.png', texture => {
         this.fire = new Fire({
           map: texture,
@@ -178,6 +180,15 @@ class Avril extends THREE.Object3D {
       this.background.position.z = -1
       this.background.position.y = 10
       //BACKGROUND
+
+      //HeatWave
+      // Renderer.isComposerEnabled = true
+      // setTimeout(() => {
+      //   Renderer.HeatWaveEffect.uniforms.get('amplitude').value = 0.09
+      // }, 2000)
+
+      //heatwave
+
       this.handleEvents()
     })
   }
@@ -213,24 +224,28 @@ class Avril extends THREE.Object3D {
 
   loadAssets() {
     let promises = []
-    return new Promise((resolve, reject) => {
-      promises.push(
-        new Promise((resolve, reject) => {
-          loadSeveralTextureAtlasFromPathes(pathesArray).then(textures => {
-            resolve(textures)
-          })
-        })
-      )
-      promises.push(
-        new Promise((resolve, reject) => {
-          AudioManager.add(avril_sprites).then(() => {
-            resolve()
-          })
-        })
-      )
+    let sounds = new Promise((resolve, reject) => {
+      AudioManager.add(avril_sprites).then(() => {
+        resolve({ name: 'sounds', data: null })
+      })
+    })
 
-      Promise.all(promises).then(values => {
-        resolve(values[0])
+    let atlases = new Promise((resolve, reject) => {
+      loadSeveralTextureAtlasFromPathes(pathesArray).then(textures => {
+        resolve({ name: 'textures', data: textures })
+      })
+    })
+
+    promises.push(sounds)
+    promises.push(atlases)
+
+    return new Promise((resolve, reject) => {
+      Promise.all(promises).then(data => {
+        let response = {}
+        Object.values(data).forEach(value => {
+          response[value.name] = value.data
+        })
+        resolve(response)
       })
     })
   }

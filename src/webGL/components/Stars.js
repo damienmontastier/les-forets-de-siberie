@@ -3,7 +3,7 @@ import * as THREE from 'three'
 export default class Stars extends THREE.Object3D {
   constructor() {
     super()
-    this.amount = 500
+    this.amount = 1000
     this.initGeometry()
     this.initMaterial()
     this.initMesh()
@@ -17,7 +17,7 @@ export default class Stars extends THREE.Object3D {
     for (let i = 0, i2 = 0, i3 = 0; i < this.amount; i++, i2 += 2, i3 += 3) {
       const angle = Math.PI * 2 * Math.random()
       positions[i3 + 0] = Math.random() //axe X
-      positions[i3 + 1] = Math.random() //axe Y
+      positions[i3 + 1] = Math.random() * 6 //axe Y
       positions[i3 + 2] = 0 //axe Z
 
       sizes[i] = Math.random() * 3
