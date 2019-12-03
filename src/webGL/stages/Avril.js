@@ -66,11 +66,6 @@ class Avril extends THREE.Object3D {
       //LAKE REFLECT
 
       //WIND
-      // this.wind = new Wind({ map: this.utilsTextures['utils_wind'].texture })
-      //this.wind.scale.setScalar(Viewport.width)
-      // this.lake.fullwidth = true
-
-      //WIND
       this.wind = new Wind({ map: this.utilsTextures['utils_wind'].texture })
       this.wind.name = this.wind.children[0].name
 
