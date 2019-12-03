@@ -120,7 +120,7 @@ class Avril extends THREE.Object3D {
       // })
 
       this.auroreBoreale = new AuroreBoreale({ renderer: this.renderer })
-      //this.add(this.auroreBoreale)
+      this.add(this.auroreBoreale)
 
       this.auroreBoreale.position.z = 0.001
 
@@ -164,6 +164,7 @@ class Avril extends THREE.Object3D {
       })
       this.add(this.background)
       this.background.position.z = -0.5
+      this.background.position.y = 12
 
       //BACKGROUND
 

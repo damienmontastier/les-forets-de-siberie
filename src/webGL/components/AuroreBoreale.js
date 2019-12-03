@@ -102,9 +102,13 @@ export default class AuroreBoreale extends THREE.Object3D {
 
           // tex = mix(tex, flow * 0.5 + 0.5, smoothstep( -0.3, 0.7, sin(uTime)));
 
-          gl_FragColor = vec4(tex,1.0);
+          float distance = distance(vUv,vec2(0.5));
+          float alpha = 1.-(distance*2.);
+
+          gl_FragColor = vec4(tex,alpha);
         }
       `,
+      transparent: true,
     })
   }
 
@@ -221,8 +225,9 @@ export default class AuroreBoreale extends THREE.Object3D {
         }
           
         void main() {
-          vec3 dUv = noise(gl_FragCoord.xy) / 10. * uTime;
+          vec3 dUv = noise(vUv) / 10. * uTime;
           vec3 color = setSkyColor(vec3(vUv,1.0));
+
           gl_FragColor = vec4(color,1.0);
         }
       `,
