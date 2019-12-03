@@ -49,7 +49,7 @@ class Avril extends THREE.Object3D {
 
       this.initParts()
 
-      // Parallax.add(this.currentPart)
+      Parallax.add(this.parts['part1'])
 
       //LAKE REFLECT
       this.lake = new LakeReflect({
@@ -192,7 +192,7 @@ class Avril extends THREE.Object3D {
     console.log(current, last, this.currentPart)
 
     AudioManager.stop(last.name)
-    AudioManager.play('part2')
+    AudioManager.play(current.name)
     Parallax.remove(last)
     Parallax.add(current)
   }
