@@ -4,6 +4,8 @@ import Camera from './utils/Camera'
 import Viewport from './utils/Viewport'
 
 import Renderer from './renderer'
+import Clock from './utils/Clock'
+import Raf from './utils/Raf'
 
 export default class WebGL {
   constructor(canvas, container = document.body) {
@@ -48,12 +50,13 @@ export default class WebGL {
 
     this.scenes = {}
 
-    this.update()
+    // this.update()
+    Raf.add('webgl', this.update.bind(this))
   }
 
   update() {
-    requestAnimationFrame(this.update.bind(this))
-    let delta = this.clock.getDelta()
+    // requestAnimationFrame(this.update.bind(this))
+    let delta = Clock.getDelta()
     this.renderer.render(delta)
   }
 

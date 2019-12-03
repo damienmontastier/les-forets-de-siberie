@@ -2,6 +2,8 @@ import * as THREE from 'three'
 import Viewport from '../utils/Viewport'
 import { Flowmap } from './FlowMap'
 import Mouse from '../../plugins/Mouse'
+import Raf from '../utils/Raf'
+import Clock from '../utils/Clock'
 
 export default class AuroreBoreale extends THREE.Object3D {
   constructor({ renderer }) {
@@ -25,14 +27,15 @@ export default class AuroreBoreale extends THREE.Object3D {
     this.initMesh()
 
     setInterval(() => {
-      this.update()
+      this.render()
     }, 14)
+
+    Raf.add('aurore', this.update.bind(this))
   }
 
   update() {
-    this.bufferMaterial.uniforms.uTime.value += 0.01
-    this.material.uniforms.uTime.value += 0.01
-    this.render()
+    this.bufferMaterial.uniforms.uTime.value = this.material.uniforms.uTime.value =
+      Clock.getElapsedTime() * 0.5
   }
 
   render() {
@@ -122,9 +125,10 @@ export default class AuroreBoreale extends THREE.Object3D {
       renderer: this.renderer,
       dissipation: 0.002,
       falloff: 0.2,
+      size: 256,
     })
     this.bufferScene = new THREE.Scene()
-    this.bufferTexture = new THREE.WebGLRenderTarget(256, 256, {
+    this.bufferTexture = new THREE.WebGLRenderTarget(512, 512, {
       minFilter: THREE.LinearFilter,
       magFilter: THREE.NearestFilter,
       format: THREE.RGBFormat,
@@ -200,7 +204,7 @@ export default class AuroreBoreale extends THREE.Object3D {
           vec4 col = vec4(0);
           vec4 avgCol = vec4(0);    
         
-          for (float i=0.; i < 5.; i++) {
+          for (float i=0.; i < 10.; i++) {
               float of = 0.006*random(vUv)*smoothstep(0.,15., i);
               float pt = ((.8+pow(i,1.4)*.002)) / (rd.y * 2. + 0.4);
               pt -= of;
@@ -212,7 +216,7 @@ export default class AuroreBoreale extends THREE.Object3D {
             avgCol = mix(avgCol, col2, .5);
               col += avgCol * exp2(-i*0.065 - 2.5) * smoothstep(0., 5., i);
             }
-            col *= (clamp(rd.y*15.+.4,0.,1.)) *10.;
+            col *= (clamp(rd.y*15.+.4,0.,1.)) * 4.;
         
             return smoothstep(0.,1.1,pow(col,vec4(1.))*1.5);
         }
@@ -225,7 +229,6 @@ export default class AuroreBoreale extends THREE.Object3D {
         }
           
         void main() {
-          vec3 dUv = noise(vUv) / 10. * uTime;
           vec3 color = setSkyColor(vec3(vUv,1.0));
 
           gl_FragColor = vec4(color,1.0);

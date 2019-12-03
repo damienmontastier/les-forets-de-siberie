@@ -1,4 +1,6 @@
 import * as THREE from 'three'
+import Clock from '../utils/Clock'
+import Raf from '../utils/Raf'
 
 export default class Fire extends THREE.Object3D {
   constructor({ map, horizontalTiles, verticalTiles }) {
@@ -14,13 +16,18 @@ export default class Fire extends THREE.Object3D {
 
     this.initAnimator()
 
+    this.frameCount = 0
+
     this.yoyo = 1
 
-    setInterval(() => {
-      this.uniforms.uTime.value += 0.01
-    }, 14)
+    Raf.add('fire', this.update.bind(this))
+  }
 
-    setInterval(() => {
+  update() {
+    this.uniforms.uTime.value = Clock.getElapsedTime() * 0.5
+    this.frameCount++
+    this.frameCount = this.frameCount % 7
+    if (this.frameCount === 0) {
       this.currentTile += this.yoyo
       if (this.yoyo === 1 && this.currentTile === this.maxTile) {
         this.yoyo = -1
@@ -30,7 +37,7 @@ export default class Fire extends THREE.Object3D {
       }
 
       this.setOffset()
-    }, 100)
+    }
   }
 
   initAnimator() {

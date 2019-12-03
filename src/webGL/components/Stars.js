@@ -1,4 +1,6 @@
 import * as THREE from 'three'
+import Raf from '../utils/Raf'
+import Clock from '../utils/Clock'
 
 export default class Stars extends THREE.Object3D {
   constructor() {
@@ -7,6 +9,8 @@ export default class Stars extends THREE.Object3D {
     this.initGeometry()
     this.initMaterial()
     this.initMesh()
+
+    Raf.add('stars', this.update.bind(this))
   }
 
   initGeometry() {
@@ -17,7 +21,7 @@ export default class Stars extends THREE.Object3D {
     for (let i = 0, i2 = 0, i3 = 0; i < this.amount; i++, i2 += 2, i3 += 3) {
       const angle = Math.PI * 2 * Math.random()
       positions[i3 + 0] = Math.random() //axe X
-      positions[i3 + 1] = Math.random() * 6 //axe Y
+      positions[i3 + 1] = Math.random() * 7 //axe Y
       positions[i3 + 2] = 0 //axe Z
 
       sizes[i] = Math.random() * 3
@@ -68,7 +72,7 @@ export default class Stars extends THREE.Object3D {
 
           vec2 random = hash(vPosition.xy);
           float alpha = 1.0;
-          alpha *= sin((uTime * (random.y * 40.))  + random.x);
+          alpha *= sin((uTime * random.y * 2.)  + random.x);
           gl_FragColor = vec4(1., 1., 1., alpha);
         }
       `,
@@ -80,9 +84,9 @@ export default class Stars extends THREE.Object3D {
     this.mesh = new THREE.Points(this.geometry, this.material)
     this.add(this.mesh)
     this.mesh.position.set(-0.5, -0.5, 0)
+  }
 
-    setInterval(() => {
-      this.uniforms.uTime.value += 0.001
-    }, 14)
+  update() {
+    this.uniforms.uTime.value = Clock.getElapsedTime()
   }
 }
