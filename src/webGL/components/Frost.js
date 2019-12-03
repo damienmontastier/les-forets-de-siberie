@@ -119,7 +119,7 @@ export default class Frost extends THREE.Object3D {
       renderer: this.renderer,
       dissipation: 0.0,
       falloff: 0.1,
-      size: 128,
+      size: 512,
     })
     this.bufferScene = new THREE.Scene()
     this.bufferTexture = new THREE.WebGLRenderTarget(512, 512, {

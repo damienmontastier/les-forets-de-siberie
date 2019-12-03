@@ -9,8 +9,10 @@ class Parallax {
   }
   init() {
     Events.on('scroll', values => {
-      Object.values(this.currentLayersToParallax.children).forEach(
-        (element, index) => {
+      console.log(this.currentLayersToParallax)
+      Object.values(this.currentLayersToParallax.children)
+        .filter(element => element.parallax)
+        .forEach((element, index) => {
           let y =
             values.amountScroll / Viewport.width - this.currentPart.position.y
 
@@ -19,8 +21,7 @@ class Parallax {
           TweenMax.to(element.position, 0.8, {
             y: -y * speed,
           })
-        }
-      )
+        })
     })
   }
   add(current) {
