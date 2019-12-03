@@ -8,7 +8,7 @@ let amountScroll = 0
 
 virtualScroll.on(e => {
   amountScroll += e.deltaY / 2
-
+  amountScroll = Math.max(0, amountScroll)
   Events.emit('scroll', { amountScroll, event: e })
 })
 

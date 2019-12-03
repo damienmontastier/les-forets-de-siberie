@@ -50,6 +50,7 @@ class Avril extends THREE.Object3D {
       this.initParts()
 
       AudioManager.play('lake')
+      Parallax.add(this.parts['part1'])
 
       //LAKE REFLECT
       this.lake = new LakeReflect({
@@ -227,12 +228,19 @@ class Avril extends THREE.Object3D {
     let current = this.getObjectByName('part1')
 
     Events.on('scroll', data => {
-      this.amountScroll = data.amountScroll
+      this.amountScroll = Math.max(0, data.amountScroll)
 
       gsap.to(this.position, {
-        y: Math.min(0, -this.amountScroll),
+        y: -this.amountScroll,
         duration: 1,
       })
+
+      if (this.amountScroll <= 0) {
+        Parallax.disable = true
+        console.log('disable paralalax')
+      } else {
+        Parallax.disable = false
+      }
 
       if (current != this.currentPart && this.currentPart != undefined) {
         this.currentPartChanged({ current: this.currentPart, last: current })
