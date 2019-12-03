@@ -9,6 +9,8 @@ import Fire from '../components/Fire'
 import Stars from '../components/Stars'
 import Events from '../../plugins/events'
 
+import Renderer from '../renderer'
+
 import Parallax from '@/webGL/utils/Parallax'
 import VirtualScroll from '../../plugins/virtual-scroll'
 import AudioManager from '../../plugins/audio-manager'
@@ -166,20 +168,27 @@ class Avril extends THREE.Object3D {
       })
       this.add(this.background)
       this.background.position.z = -0.5
+
       //BACKGROUND
+
+      //HeatWave
+      Renderer.isComposerEnabled = true
+      setTimeout(() => {
+        Renderer.HeatWaveEffect.uniforms.get('amplitude').value = 0.09
+      }, 2000)
+
+      //heatwave
+
       this.handleEvents()
     })
   }
   handleEvents() {
     Events.on('scroll', data => {
       this.amountScroll = data.amountScroll
-      console.log(this.amountScroll)
       gsap.to(this.position, {
         y: -this.amountScroll,
         duration: 1,
       })
-      //console.log(this.currentPart)
-      console.log(this.currentPart.name)
     })
   }
   loadAssets() {
