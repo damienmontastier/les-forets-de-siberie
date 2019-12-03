@@ -7,7 +7,7 @@ import GUI from '@/plugins/dat-gui.js'
 export default class Part extends THREE.Object3D {
   constructor({ name, texture, mesh }) {
     super()
-    console.log(name)
+
     this.namePart = name
     this.layersData = texture
     this._layers = {}

@@ -216,7 +216,7 @@ class Avril extends THREE.Object3D {
   }
 
   addPart({ part, name, mesh, y }) {
-    GUI.addFolder(part)
+    let folder = GUI.addFolder(part)
 
     this.parts[part] = new Part({
       name: part,
@@ -224,6 +224,9 @@ class Avril extends THREE.Object3D {
     })
 
     this.parts[part].position.y = positions[part].y
+
+    folder.add(this.parts[part].position, 'y').name('position y part')
+    folder.add(this.parts[part], 'visible')
 
     this.parts[part].boundingBox = this.getBoudingBoxPart(this.parts[part])
     this.add(this.parts[part])
