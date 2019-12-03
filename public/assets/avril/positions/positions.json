@@ -1,6 +1,6 @@
 {
   "part1": {
-    "y": 0,
+    "y": -0.1,
     "sprites": {
       "Part1_Layer0_eau.png": {
         "y": 0,
@@ -24,27 +24,27 @@
     "y": 8
   },
   "part3": {
-    "y": 13,
+    "y": 11,
     "sprites": {
       "Part3_Layer0.png": {
-        "y": -1.6,
+        "y": -1.8,
         "fullwidth": false,
         "anchor": "right"
       },
       "Part3_Layer1.png": {
-        "y": -1.25,
+        "y": -1.4,
         "fullwidth": false,
         "anchor": "left"
       },
       "Part3_Layer2.png": {
-        "y": -0.8,
+        "y": -0.85,
         "fullwidth": false,
         "anchor": "right"
       }
     }
   },
   "part6": {
-    "y": 16,
+    "y": 13.5,
     "sprites": {
       "Part6_Layer0.png": {
         "y": 0.25,
@@ -77,9 +77,18 @@
     }
   },
   "auroreBoreal": {
-    "y": 6
+    "y": 5
   },
   "stars": {
-    "y": 4.5
+    "y": 3
+  },
+  "fire": {
+    "y": 1.8
+  },
+  "frost": {
+    "y": 17.1
+  },
+  "sun": {
+    "y": 13.5
   }
 }

@@ -94,6 +94,7 @@ export default class Sun extends THREE.Object3D {
       size: this.map._size,
       material: this.material,
     })
+    this.scale.setScalar(0.5)
     this.add(this.sprite)
   }
 }

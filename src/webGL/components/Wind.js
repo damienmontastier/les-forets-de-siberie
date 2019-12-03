@@ -1,5 +1,7 @@
 import * as THREE from 'three'
 import Sprite from '../utils/Sprite'
+import Raf from '../utils/Raf'
+import Clock from '../utils/Clock'
 
 export default class Wind extends THREE.Object3D {
   constructor({ map }) {
@@ -55,8 +57,10 @@ export default class Wind extends THREE.Object3D {
     })
     this.add(this.sprite)
 
-    setInterval(() => {
-      this.uniforms.uTime.value += 0.008
-    }, 14)
+    Raf.add('wind', this.update.bind(this))
+  }
+
+  update() {
+    this.uniforms.uTime.value = Clock.getElapsedTime() * 0.5
   }
 }

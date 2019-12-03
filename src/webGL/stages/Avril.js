@@ -49,7 +49,6 @@ class Avril extends THREE.Object3D {
 
       this.initParts()
 
-      Parallax.add(this.parts['part1'])
       AudioManager.play('lake')
 
       //LAKE REFLECT
@@ -77,6 +76,7 @@ class Avril extends THREE.Object3D {
         indexLayer: 0,
         mesh: this.wind,
         fullwidth: true,
+        parallax: false,
       })
       this.parts['wind'].boundingBox = this.getBoudingBoxPart(
         this.parts['wind']
@@ -94,28 +94,37 @@ class Avril extends THREE.Object3D {
         })
         this.fire.name = 'Fire'
 
-        this.parts['part1'].addToLayer({
-          indexLayer: 0.1,
+        this.parts['fire'] = new Part({ name: 'fire' })
+        this.parts['fire'].position.y = this.getPositionY('fire')
+        this.add(this.parts['fire'])
+        this.addGUIPart(GUI.__folders['fire'], this.parts['fire'])
+        this.parts['fire'].addToLayer({
+          indexLayer: 0,
           mesh: this.fire,
         })
-        this.fire.position.y = 1.5
-        this.fire.scale.set(2, 4, 1)
+        this.parts['fire'].boundingBox = this.getBoudingBoxPart(
+          this.parts['fire']
+        )
+        this.fire.scale.set(2, 3, 1)
+        this.fire.position.z = -0.2
       })
 
       // STARS
       this.stars = new Stars()
       this.stars.name = 'Stars'
-      this.parts['stars'] = new Part({ name: 'stars' })
+      this.parts['stars'] = new Part({ name: 'stars', interact: false })
       this.parts['stars'].position.y = this.getPositionY('stars')
       this.add(this.parts['stars'])
       this.addGUIPart(GUI.__folders['stars'], this.parts['stars'])
       this.parts['stars'].addToLayer({
         indexLayer: 0,
         mesh: this.stars,
+        parallax: false,
       })
       this.parts['stars'].boundingBox = this.getBoudingBoxPart(
         this.parts['stars']
       )
+
       // STARS
 
       // AURORE
@@ -131,6 +140,7 @@ class Avril extends THREE.Object3D {
       this.parts['auroreBoreal'].addToLayer({
         indexLayer: 0,
         mesh: this.auroreBoreale,
+        parallax: false,
       })
       this.parts['auroreBoreal'].boundingBox = this.getBoudingBoxPart(
         this.parts['auroreBoreal']
@@ -139,7 +149,21 @@ class Avril extends THREE.Object3D {
 
       loader.load('/assets/avril/textures/frost.jpg', texture => {
         this.frost = new Frost({ renderer: this.renderer, map: texture })
-        //this.add(this.frost)
+        this.frost.name = 'frost'
+        this.parts['frost'] = new Part({ name: 'frost' })
+
+        this.parts['frost'].position.y = this.getPositionY('frost')
+
+        this.add(this.parts['frost'])
+        this.addGUIPart(GUI.__folders['frost'], this.parts['frost'])
+        this.parts['frost'].addToLayer({
+          indexLayer: 0,
+          mesh: this.frost,
+          parallax: false,
+        })
+        this.parts['frost'].boundingBox = this.getBoudingBoxPart(
+          this.parts['frost']
+        )
       })
 
       //WATER
@@ -147,6 +171,7 @@ class Avril extends THREE.Object3D {
       this.parts['part3'].addToLayer({
         indexLayer: 4,
         mesh: this.water,
+        parallax: false,
       })
       //WATER
 
@@ -155,7 +180,18 @@ class Avril extends THREE.Object3D {
         map: this.utilsTextures['utils_sun-red'].texture,
         map2: this.utilsTextures['utils_sun-yellow'].texture,
       })
-      //this.add(this.sun)
+      this.sun.position.z = -0.1
+      this.parts['sun'] = new Part({ name: 'sun', interact: false })
+      this.parts['sun'].position.y = this.getPositionY('sun')
+      this.add(this.parts['sun'])
+      this.addGUIPart(GUI.__folders['sun'], this.parts['sun'])
+      this.parts['sun'].addToLayer({
+        indexLayer: 0,
+        mesh: this.sun,
+        parallax: false,
+      })
+      this.parts['sun'].boundingBox = this.getBoudingBoxPart(this.parts['sun'])
+
       //SUN
 
       let backgroundTextures = []
@@ -173,7 +209,7 @@ class Avril extends THREE.Object3D {
       })
       this.add(this.background)
       this.background.position.z = -1
-      this.background.position.y = 10
+      this.background.position.y = 8
       //BACKGROUND
 
       //HeatWave
@@ -194,11 +230,11 @@ class Avril extends THREE.Object3D {
       this.amountScroll = data.amountScroll
 
       gsap.to(this.position, {
-        y: -this.amountScroll,
+        y: Math.min(0, -this.amountScroll),
         duration: 1,
       })
 
-      if (current != this.currentPart) {
+      if (current != this.currentPart && this.currentPart != undefined) {
         this.currentPartChanged({ current: this.currentPart, last: current })
       }
 
@@ -209,7 +245,7 @@ class Avril extends THREE.Object3D {
   }
 
   currentPartChanged({ current, last }) {
-    console.log(current, last, this.currentPart)
+    // console.log(current, last, this.currentPart)
 
     AudioManager.stop()
     AudioManager.play(current.name)
@@ -292,8 +328,7 @@ class Avril extends THREE.Object3D {
     let downParts = Object.values(this.parts)
       .filter(part => {
         let partY = part.boundingBox.min.y * Viewport.width
-        // console.log(part.name, partY)
-        return partY < this.amountScroll
+        return partY < this.amountScroll && part.interact
       })
       .sort((a, b) => {
         return a.boundingBox.min.y - b.boundingBox.min.y

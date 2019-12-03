@@ -10,12 +10,12 @@ class AudioManager {
         src: sounds,
         sprite: {
           lake: [0, 4000],
-          part1: [5000, 9000],
+          fire: [5000, 9200],
           auroreBoreal: [15000, 11000],
-          part2: [27000, 9000],
+          wind: [27000, 9000],
           part3: [38000, 12000],
-          part4: [52000, 8600],
-          part6: [61200, 5000],
+          part6: [52000, 8600],
+          frost: [61200, 12000],
         },
 
         onload: () => {
