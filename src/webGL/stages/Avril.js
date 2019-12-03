@@ -97,13 +97,11 @@ class Avril extends THREE.Object3D {
         })
         this.fire.name = 'Fire'
         this.parts['part1'].addToLayer({
-          indexLayer: 0,
+          indexLayer: 0.1,
           mesh: this.fire,
         })
-        // this.fire.position.y = 1.5
-        // this.fire.scale.set(2, 1.5, 1)
-
-        //this.add(this.fire)
+        this.fire.position.y = 1
+        this.fire.scale.set(2, 2.5, 1)
       })
 
       this.stars = new Stars()
@@ -218,10 +216,10 @@ class Avril extends THREE.Object3D {
   }
 
   addPart({ part, name, mesh, y }) {
-    GUI.addFolder(name)
+    GUI.addFolder(part)
 
     this.parts[part] = new Part({
-      name: name,
+      name: part,
       mesh: mesh,
     })
 

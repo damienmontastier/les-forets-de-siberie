@@ -7,6 +7,7 @@ import GUI from '@/plugins/dat-gui.js'
 export default class Part extends THREE.Object3D {
   constructor({ name, texture, mesh }) {
     super()
+    console.log(name)
     this.namePart = name
     this.layersData = texture
     this._layers = {}
@@ -16,8 +17,6 @@ export default class Part extends THREE.Object3D {
   }
 
   init() {
-    console.log(this.layersData)
-
     Object.values(this.layersData).forEach((layers, key) => {
       let sprite = new Sprite({
         texture: layers.texture,
@@ -36,7 +35,7 @@ export default class Part extends THREE.Object3D {
     })
   }
 
-  addToLayer({ indexLayer, mesh, fullwidth = false }) {
+  addToLayer({ indexLayer, mesh, part, fullwidth = false }) {
     let layerFolder
     let layer = this._layers[indexLayer]
 
