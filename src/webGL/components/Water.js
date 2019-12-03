@@ -1,5 +1,7 @@
 import * as THREE from 'three'
 import Sprite from '../utils/Sprite'
+import Clock from '../utils/Clock'
+import Raf from '../utils/Raf'
 
 export default class Water extends THREE.Object3D {
   constructor({ map }) {
@@ -72,7 +74,7 @@ export default class Water extends THREE.Object3D {
         }
 
         void main() {
-          float noise = snoise(vUv + vec2(0.,uTime)) * 0.01;
+          float noise = snoise(vUv + vec2(0.,uTime)) * 0.015;
           vec2 dUv = vUv * uMapRepeat  + uMapOffset;
           dUv.x += noise;
           vec4 color = texture2D(uMap,dUv );
@@ -88,8 +90,12 @@ export default class Water extends THREE.Object3D {
     this.add(this.sprite)
     this.sprite.fullwidth(true)
 
-    setInterval(() => {
-      this.uniforms.uTime.value += 0.01
-    }, 14)
+    this.scale.setScalar(1.05)
+
+    Raf.add('water', this.update.bind(this))
+  }
+
+  update() {
+    this.uniforms.uTime.value = Clock.getElapsedTime() * 0.5
   }
 }

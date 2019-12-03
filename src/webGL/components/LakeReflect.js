@@ -1,5 +1,7 @@
 import * as THREE from 'three'
 import Sprite from '../utils/Sprite'
+import Raf from '../utils/Raf'
+import Clock from '../utils/Clock'
 
 export default class LakeReflect extends THREE.Object3D {
   constructor({ map, alphaMap }) {
@@ -98,12 +100,10 @@ export default class LakeReflect extends THREE.Object3D {
     })
     this.add(this.sprite)
 
-    setInterval(() => {
-      this.uniforms.uTime.value += 0.01
-    }, 14)
+    Raf.add('lake', this.update.bind(this))
   }
 
-  update(time) {
-    this.uniforms.uTime.value = time
+  update() {
+    this.uniforms.uTime.value = Clock.getElapsedTime() * 0.5
   }
 }

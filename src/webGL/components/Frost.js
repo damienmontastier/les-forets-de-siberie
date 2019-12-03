@@ -31,8 +31,6 @@ export default class Frost extends THREE.Object3D {
   }
 
   update() {
-    this.bufferMaterial.uniforms.uTime.value += 0.01
-    this.material.uniforms.uTime.value += 0.01
     this.render()
   }
 
