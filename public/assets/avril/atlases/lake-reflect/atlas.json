@@ -1,0 +1,28 @@
+{"frames": [
+
+{
+	"filename": "Utils_Montagne-Reflet-Alpha.png",
+	"frame": {"x":418,"y":1,"w":415,"h":661},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":415,"h":661},
+	"sourceSize": {"w":415,"h":661}
+},
+{
+	"filename": "Utils_Montagne-Reflet.png",
+	"frame": {"x":1,"y":1,"w":415,"h":662},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":415,"h":662},
+	"sourceSize": {"w":415,"h":662}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "Utils_Montagne-Reflet.png",
+	"format": "RGBA8888",
+	"size": {"w":1024,"h":1024},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:2beff8e1084aba2b3dcbb3e166cadf59:ffda12ff650fcbb4b03c1ae9d84b4c69:960905263e822ac422e64e78722d405a$"
+}
+}

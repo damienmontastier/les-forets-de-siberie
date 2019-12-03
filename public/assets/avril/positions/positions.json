@@ -1,0 +1,85 @@
+{
+  "part1": {
+    "y": 0,
+    "sprites": {
+      "Part1_Layer0_eau.png": {
+        "y": 0,
+        "fullwidth": true
+      },
+      "Part1_Layer1.png": {
+        "y": 0.6,
+        "fullwidth": false
+      },
+      "Part1_Layer2.png": {
+        "y": 0.2,
+        "fullwidth": true
+      },
+      "Part1_Layer3.png": {
+        "y": 1.0,
+        "fullwidth": false
+      }
+    }
+  },
+  "wind": {
+    "y": 8
+  },
+  "part3": {
+    "y": 13,
+    "sprites": {
+      "Part3_Layer0.png": {
+        "y": -1.6,
+        "fullwidth": false,
+        "anchor": "right"
+      },
+      "Part3_Layer1.png": {
+        "y": -1.25,
+        "fullwidth": false,
+        "anchor": "left"
+      },
+      "Part3_Layer2.png": {
+        "y": -0.8,
+        "fullwidth": false,
+        "anchor": "right"
+      }
+    }
+  },
+  "part6": {
+    "y": 16,
+    "sprites": {
+      "Part6_Layer0.png": {
+        "y": 0.25,
+        "fullwidth": true
+      },
+      "Part6_Layer1.png": {
+        "y": 0,
+        "fullwidth": true
+      },
+      "Part6_Layer2.png": {
+        "y": 0.75,
+        "fullwidth": true
+      },
+      "Part6_Layer3.png": {
+        "y": 1.25,
+        "fullwidth": true
+      },
+      "Part6_Layer4.png": {
+        "y": 1.5,
+        "fullwidth": true
+      },
+      "Part6_Layer5.png": {
+        "y": 0.5,
+        "fullwidth": true
+      },
+      "Part6_Layer6.png": {
+        "y": 1,
+        "fullwidth": true
+      }
+    }
+  },
+  "auroreBoreal": {
+    "y": 6
+  },
+  "stars": {
+    "y": 4.5
+  }
+}

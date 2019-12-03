@@ -1,0 +1,69 @@
+{
+  "frames": [
+    {
+      "filename": "Part6_Layer0.png",
+      "frame": { "x": 1, "y": 94, "w": 321, "h": 101 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 321, "h": 101 },
+      "sourceSize": { "w": 321, "h": 101 }
+    },
+    {
+      "filename": "Part6_Layer1.png",
+      "frame": { "x": 1, "y": 1, "w": 346, "h": 91 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 346, "h": 91 },
+      "sourceSize": { "w": 346, "h": 91 }
+    },
+    {
+      "filename": "Part6_Layer2.png",
+      "frame": { "x": 1, "y": 197, "w": 317, "h": 65 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 317, "h": 65 },
+      "sourceSize": { "w": 317, "h": 65 }
+    },
+    {
+      "filename": "Part6_Layer3.png",
+      "frame": { "x": 214, "y": 324, "w": 286, "h": 72 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 286, "h": 72 },
+      "sourceSize": { "w": 286, "h": 72 }
+    },
+    {
+      "filename": "Part6_Layer4.png",
+      "frame": { "x": 1, "y": 264, "w": 211, "h": 80 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 211, "h": 80 },
+      "sourceSize": { "w": 211, "h": 80 }
+    },
+    {
+      "filename": "Part6_Layer5.png",
+      "frame": { "x": 214, "y": 264, "w": 290, "h": 58 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 290, "h": 58 },
+      "sourceSize": { "w": 290, "h": 58 }
+    },
+    {
+      "filename": "Part6_Layer6.png",
+      "frame": { "x": 1, "y": 398, "w": 303, "h": 47 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 303, "h": 47 },
+      "sourceSize": { "w": 303, "h": 47 }
+    }
+  ],
+  "meta": {
+    "app": "https://www.codeandweb.com/texturepacker",
+    "version": "1.0",
+    "image": "Part6.png",
+    "format": "RGBA8888",
+    "size": { "w": 512, "h": 512 },
+    "scale": "0.9375",
+    "smartupdate": "$TexturePacker:SmartUpdate:f0f82be7f43a251b4402246bae8868b9:d81c44a25af45dc0537a81f75b92ec09:676e9241891df2df45687616584a3190$"
+  }
+}

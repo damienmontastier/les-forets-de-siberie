@@ -1,38 +1,39 @@
 import TweenMax, { Power4 } from 'gsap'
+import VirtualScroll from '../../plugins/virtual-scroll'
+import Events from '../../plugins/events'
+import Viewport from './Viewport'
 
-export default class Parallax {
-  constructor({ layers }) {
-    this.layers = layers
-
-    this.init()
+class Parallax {
+  constructor() {
+    this.currentPart
   }
   init() {
-    document.addEventListener('touchstart', this.handleTouchStart.bind(this))
-    document.addEventListener('touchend', this.handleTouchEnd.bind(this))
-    document.addEventListener('touchmove', this.handleTouchMove.bind(this))
-  }
-  handleTouchStart(e) {
-    let touches = e.touches[0] // measure start values
+    Events.on('scroll', values => {
+      Object.values(this.currentLayersToParallax.children).forEach(
+        (element, index) => {
+          let y =
+            values.amountScroll / Viewport.width - this.currentPart.position.y
 
-    this.startPosition = {
-      x: touches.pageX,
-      y: touches.pageY,
-    }
-  }
-  handleTouchEnd(e) {}
+          const speed = index == 0 ? 1 * 0.08 : element.position.z * 0.5
 
-  handleTouchMove(e) {
-    if (e.touches.length > 1 || (e.scale && e.scale !== 1)) return
-    let touches = event.touches[0]
-
-    this.delta = touches.pageY - this.startPosition.y
-
-    Object.values(this.layers.children).forEach((element, index) => {
-      let speed = index + 1
-      TweenMax.to(element.position, 0.8, {
-        y: '+=' + (this.delta / 100) * speed,
-        ease: Power4.easeOut,
-      })
+          TweenMax.to(element.position, 0.8, {
+            y: -y * speed,
+          })
+        }
+      )
     })
   }
+  add(current) {
+    this.currentPart = current
+    this.init()
+  }
+  remove() {
+    this.currentPart = null
+  }
+
+  get currentLayersToParallax() {
+    return this.currentPart
+  }
 }
+
+export default new Parallax()
