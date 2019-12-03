@@ -202,7 +202,7 @@ class Avril extends THREE.Object3D {
       //BACKGROUND
 
       //HeatWave
-      // Renderer.isComposerEnabled = true
+      //Renderer.isComposerEnabled = true
       // setTimeout(() => {
       //   Renderer.HeatWaveEffect.uniforms.get('amplitude').value = 0.09
       // }, 2000)

@@ -23,7 +23,6 @@ class Renderer {
 
   initRenderer() {
     this.renderer = new THREE.WebGLRenderer({
-      antialias: true,
       canvas: this.canvas,
       alpha: true,
     })

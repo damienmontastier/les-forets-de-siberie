@@ -7,18 +7,22 @@ uniform float frequency;
 uniform float amplitude;
 
 void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor) {
-  float distortion=sin(uv.y*frequency + (time*10.))*amplitude;
+  float distortion=sin(uv.y*frequency - (time*10.))*amplitude;
 
-  //float noise = fbm(vUv + vec2(0.,time)) * 0.1;
-  outputColor = texture2D(inputBuffer, uv + vec2(distortion,0.));
+  float distance = distance(vUv,vec2(0.5));
+  float alpha = distance * 0.5;
+  distortion *= alpha;
+  vec4 color = texture2D(inputBuffer, uv + vec2(distortion,0.));
+  //color.rgb = vec3(alpha);
+  outputColor = color;
 }
 `
 
 export default class HeatWave extends Effect {
   constructor({
     blendFunction = BlendFunction.NORMAL,
-    frequency = 50.0,
-    amplitude = 0.009,
+    frequency = 300.0,
+    amplitude = 0.018,
   } = {}) {
     super('BadTVEffect', fragment, {
       blendFunction,
