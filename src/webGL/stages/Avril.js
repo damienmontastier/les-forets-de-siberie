@@ -114,12 +114,20 @@ class Avril extends THREE.Object3D {
       this.auroreBoreale = new AuroreBoreale({ renderer: this.renderer })
       this.auroreBoreale.position.z = 0.001
       this.auroreBoreale.name = 'Aurore Boreale'
-      this.auroreBoreale.fullwidth = true
-      this.addPart({
-        part: 'part7',
-        name: this.auroreBoreale.name,
+      this.parts['part7'] = new Part({ name: 'part7' })
+
+      this.parts['part7'].boundingBox = this.getBoudingBoxPart(
+        this.parts['part7']
+      )
+
+      this.parts['part7'].position.y = positions['part7'].y
+
+      this.add(this.parts['part7'])
+      this.addGUIPart(GUI.__folders['part7'], this.parts['part7'])
+
+      this.parts['part7'].addToLayer({
+        indexLayer: 0,
         mesh: this.auroreBoreale,
-        y: 20,
       })
 
       loader.load('/assets/avril/textures/frost.jpg', texture => {
@@ -164,7 +172,7 @@ class Avril extends THREE.Object3D {
 
     Events.on('scroll', data => {
       this.amountScroll = data.amountScroll
-      // console.log(this.amountScroll)
+
       gsap.to(this.position, {
         y: -this.amountScroll,
         duration: 1,
@@ -173,8 +181,6 @@ class Avril extends THREE.Object3D {
       if (current != this.currentPart) {
         this.currentPartChanged({ current: this.currentPart, last: current })
       }
-
-      console.log(this.currentPart)
 
       current = this.currentPart
 
@@ -215,21 +221,9 @@ class Avril extends THREE.Object3D {
     })
   }
 
-  addPart({ part, name, mesh, y }) {
-    let folder = GUI.addFolder(part)
-
-    this.parts[part] = new Part({
-      name: part,
-      mesh: mesh,
-    })
-
-    this.parts[part].position.y = positions[part].y
-
-    folder.add(this.parts[part].position, 'y').name('position y part')
-    folder.add(this.parts[part], 'visible')
-
-    this.parts[part].boundingBox = this.getBoudingBoxPart(this.parts[part])
-    this.add(this.parts[part])
+  addGUIPart(folder, part) {
+    folder.add(part.position, 'y').name('position y part')
+    folder.add(part, 'visible')
   }
 
   initParts() {
@@ -238,19 +232,18 @@ class Avril extends THREE.Object3D {
 
     Object.entries(this.partedTextures).forEach(partedTextures => {
       let name = partedTextures[0]
-      let texture = partedTextures[1]
+      let textures = partedTextures[1]
 
-      folder = GUI.addFolder(name)
+      // folder = GUI.addFolder(name)
 
-      let part = new Part({ name, texture })
+      let part = new Part({ name, textures })
 
       part.updateMatrixWorld()
 
       let positionY = positions[name] ? positions[name].y : 0
       part.position.y = positionY
 
-      folder.add(part.position, 'y').name('position y part')
-      folder.add(part, 'visible')
+      this.addGUIPart(GUI.__folders[name], part)
 
       part.name = name
       this.parts[name] = part
