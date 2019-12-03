@@ -2,7 +2,10 @@
 @import 'variables';
 
 body {
-  background: black;
+  background: url('/assets/intro/background.png'), white;
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
   width: 100vw;
   height: 100vh;
   overscroll-behavior-y: contain;
@@ -15,7 +18,7 @@ canvas.webGLScene {
   position: absolute;
   top: 0px;
   left: 0px;
-  // pointer-events: none;
+  pointer-events: none;
   // width: 100%;
   // height: 100%;
 }

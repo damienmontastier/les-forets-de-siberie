@@ -11,13 +11,12 @@
 <script>
 import Vue from 'vue'
 import WebGLScene from '@/components/WebGLScene'
-
 import Events from '@/plugins/events.js'
-
 import { isMobile } from 'mobile-device-detect'
 
 export default {
   name: 'app',
+  mounted() {},
   data() {
     return {
       isMobile: isMobile,

@@ -22,7 +22,26 @@ import Sun from '../components/Sun'
 import Background from '../components/Background'
 
 let positions = require('../../../public/assets/avril/positions/positions')
-let avril_sprites = require('../../../public/sounds/avril_sprites.mp3')
+let avril_voix = require('../../../public/sounds/avril_voix.mp3')
+let avril_bruitages = require('../../../public/sounds/avril_bruitages.mp3')
+
+let timecodes_voix = {
+  lake: [0, 4000],
+  fire: [5000, 9200],
+  auroreBoreal: [15000, 11000],
+  wind: [27000, 9000],
+  part3: [38000, 12000],
+  part6: [52000, 8600],
+  frost: [61200, 12000],
+}
+
+let timecodes_bruitages = {
+  fire: [0, 15000],
+  wind: [20000, 20000],
+  part3: [45000, 12000],
+  part6: [62000, 7000],
+  part6: [74000, 13000],
+}
 
 const pathesArray = [
   '/assets/avril/atlases/part1/',
@@ -48,8 +67,8 @@ class Avril extends THREE.Object3D {
       this.textures = response.textures
 
       this.initParts()
-
-      AudioManager.play('lake')
+      AudioManager.play(this.sprites_voice, 'lake')
+      AudioManager.play(this.sprites_bruitages, 'wind')
       Parallax.add(this.parts['part1'])
 
       //LAKE REFLECT
@@ -237,7 +256,6 @@ class Avril extends THREE.Object3D {
 
       if (this.amountScroll <= 0) {
         Parallax.disable = true
-        console.log('disable paralalax')
       } else {
         Parallax.disable = false
       }
@@ -253,20 +271,29 @@ class Avril extends THREE.Object3D {
   }
 
   currentPartChanged({ current, last }) {
-    // console.log(current, last, this.currentPart)
-
-    AudioManager.stop()
-    AudioManager.play(current.name)
+    AudioManager.stop(this.sprites_voice)
+    AudioManager.stop(this.sprites_bruitages)
+    AudioManager.play(this.sprites_voice, current.name)
+    AudioManager.play(this.sprites_bruitages, current.name)
     Parallax.remove(last)
     Parallax.add(current)
   }
 
   loadAssets() {
     let promises = []
-    let sounds = new Promise((resolve, reject) => {
-      AudioManager.add(avril_sprites).then(() => {
-        resolve({ name: 'sounds', data: null })
+    let voices = new Promise((resolve, reject) => {
+      AudioManager.addSprite(avril_voix, 0.5, timecodes_voix).then(sounds => {
+        this.sprites_voice = sounds
+        resolve({ name: sounds })
       })
+    })
+    let bruitages = new Promise((resolve, reject) => {
+      AudioManager.addSprite(avril_bruitages, 0.3, timecodes_bruitages).then(
+        sounds => {
+          this.sprites_bruitages = sounds
+          resolve({ name: sounds })
+        }
+      )
     })
 
     let atlases = new Promise((resolve, reject) => {
@@ -275,8 +302,9 @@ class Avril extends THREE.Object3D {
       })
     })
 
-    promises.push(sounds)
     promises.push(atlases)
+    promises.push(voices)
+    promises.push(bruitages)
 
     return new Promise((resolve, reject) => {
       Promise.all(promises).then(data => {

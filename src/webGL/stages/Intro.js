@@ -1,22 +1,23 @@
 import * as THREE from 'three'
 import TextureAtlas from '../utils/TextureAtlas'
-import atlasJSON from '../../../public/assets/intro/atlas/intro_branches_sprite'
+import atlasJSON from '../../../public/assets/intro/atlas/intro_branche.json'
 import Sprite from '../utils/Sprite'
 import Viewport from '../utils/Viewport'
-import Viewsize from '../utils/Viewsize'
 import Camera from '../utils/Camera'
 import VirtualScroll from '../../plugins/virtual-scroll'
 import gsap from 'gsap'
+import loadTextureAtlasFromPath from '@/webGL/utils/loadTextureAtlasFromPath'
 
 class Intro extends THREE.Object3D {
   constructor() {
     super()
+
+    this.scale.setScalar(Viewport.width + Viewport.width * 0.06)
   }
 
   init() {
     this.animationPlayed = false
     console.log('viewport : ', Viewport)
-    console.log('viewsize : ', Viewsize)
 
     this.loadAssets().then(this.start.bind(this))
     document.addEventListener('touchstart', this.handleTouchStart.bind(this))
@@ -38,15 +39,15 @@ class Intro extends THREE.Object3D {
     const dirPosition = this.children.map(sprite => {
       return new THREE.Vector2(sprite.position.x, sprite.position.y)
         .normalize()
-        .multiplyScalar(Viewsize.height)
+        .multiplyScalar(Viewport.height)
     })
 
     gsap
       .to(position, {
-        duration: 0.5,
-        ease: 'power4.in',
+        duration: 1,
+        ease: 'power4.inOut',
         stagger: {
-          amount: 3,
+          amount: 2,
         },
         x: index => dirPosition[index].x,
         y: index => dirPosition[index].y,
@@ -60,8 +61,8 @@ class Intro extends THREE.Object3D {
     return new Promise((resolve, reject) => {
       let loader = new THREE.TextureLoader()
 
-      loader.load('/assets/intro/atlas/intro_branches_sprite.png', texture => {
-        this.textureAtlas = new TextureAtlas(atlasJSON, texture.image)
+      loader.load('/assets/intro/atlas/intro_branche.png', texture => {
+        this.textureAtlas = new TextureAtlas(atlasJSON.frames, texture.image)
         resolve()
       })
     })
@@ -80,40 +81,46 @@ class Intro extends THREE.Object3D {
         size: this.textureAtlas.getSize(element[0]),
       })
 
-      sprite.scale.set(4, 4, 4)
+      let mesh = sprite.children[0]
+
+      // mesh.scale.setScalar(1)
 
       let spritePosition = new THREE.Vector3()
       let x, y
 
       if (Math.round(Math.random())) {
-        x = this.randomBetweenTwoValues(-Viewsize.width, Viewsize.width)
-        y = this.faceToFace(Viewsize.height)
+        x = this.randomBetweenTwoValues(-Viewport.width, Viewport.width)
+        y = this.faceToFace(Viewport.height)
       } else {
-        x = this.faceToFace(Viewsize.width)
-        y = this.randomBetweenTwoValues(-Viewsize.height, Viewsize.height)
+        x = this.faceToFace(Viewport.width)
+        y = this.randomBetweenTwoValues(-Viewport.height, Viewport.height)
       }
 
-      spritePosition.x = x / 2
-      spritePosition.y = y / 2
+      // spritePosition.x = 0
+      // spritePosition.y = 0
+      // spritePosition.z = -1
+
+      spritePosition.x = x * 0.0006
+      spritePosition.y = y * 0.0006
       spritePosition.z = 0
 
-      sprite.position.copy(spritePosition)
+      mesh.position.copy(spritePosition)
 
-      this.add(sprite)
+      this.add(mesh)
 
       let angleToTheCenter =
         this.findAngle(
           new THREE.Vector3(0, 0, 0),
-          sprite.position,
-          new THREE.Vector3(sprite.position.x, 0, 0)
-        ) * Math.sign(sprite.position.x)
+          mesh.position,
+          new THREE.Vector3(mesh.position.x, 0, 0)
+        ) * Math.sign(mesh.position.x)
 
-      if (sprite.position.y > 0) {
+      if (mesh.position.y > 0) {
         const radian = this.flipRadian(angleToTheCenter)
-        sprite.rotation.set(0, 0, -radian)
-      } else sprite.rotation.set(0, 0, angleToTheCenter)
+        mesh.rotation.set(0, 0, -radian)
+      } else mesh.rotation.set(0, 0, angleToTheCenter)
 
-      sprite.renderOrder = index
+      mesh.renderOrder = index
     })
   }
 

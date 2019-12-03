@@ -1,5 +1,4 @@
 import * as THREE from 'three'
-const OrbitControls = require('three-orbitcontrols')
 import Camera from './utils/Camera'
 import Viewport from './utils/Viewport'
 
