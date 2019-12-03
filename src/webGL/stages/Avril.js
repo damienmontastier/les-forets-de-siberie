@@ -100,8 +100,8 @@ class Avril extends THREE.Object3D {
           indexLayer: 0.1,
           mesh: this.fire,
         })
-        this.fire.position.y = 1
-        this.fire.scale.set(2, 2.5, 1)
+        this.fire.position.y = 1.5
+        this.fire.scale.set(2, 3.5, 1)
       })
 
       this.stars = new Stars()
@@ -137,7 +137,10 @@ class Avril extends THREE.Object3D {
 
       //WATER
       this.water = new Water({ map: this.utilsTextures['utils_water'].texture })
-      //this.add(this.water)
+      this.parts['part3'].addToLayer({
+        indexLayer: 4,
+        mesh: this.water,
+      })
       //WATER
 
       //SUN
@@ -163,6 +166,7 @@ class Avril extends THREE.Object3D {
       })
       this.add(this.background)
       this.background.position.z = -0.5
+      this.background.position.y = 12
       //BACKGROUND
       this.handleEvents()
     })

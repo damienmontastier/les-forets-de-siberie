@@ -21,7 +21,7 @@
     }
   },
   "part2": {
-    "y": 5,
+    "y": 8,
     "sprites": {
       "Part2_Layer1.png": {
         "y": 0,
@@ -30,20 +30,20 @@
     }
   },
   "part3": {
-    "y": 10,
+    "y": 11.5,
     "sprites": {
       "Part3_Layer0.png": {
-        "y": 0,
+        "y": -1.8,
         "fullwidth": false,
         "anchor": "right"
       },
       "Part3_Layer1.png": {
-        "y": 0.25,
+        "y": -1,
         "fullwidth": false,
         "anchor": "left"
       },
       "Part3_Layer2.png": {
-        "y": 0.75,
+        "y": -0.5,
         "fullwidth": false,
         "anchor": "right"
       }
