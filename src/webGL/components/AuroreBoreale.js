@@ -124,7 +124,7 @@ export default class AuroreBoreale extends THREE.Object3D {
       falloff: 0.2,
     })
     this.bufferScene = new THREE.Scene()
-    this.bufferTexture = new THREE.WebGLRenderTarget(256, 256, {
+    this.bufferTexture = new THREE.WebGLRenderTarget(512, 512, {
       minFilter: THREE.LinearFilter,
       magFilter: THREE.NearestFilter,
       format: THREE.RGBFormat,
@@ -200,7 +200,7 @@ export default class AuroreBoreale extends THREE.Object3D {
           vec4 col = vec4(0);
           vec4 avgCol = vec4(0);    
         
-          for (float i=0.; i < 5.; i++) {
+          for (float i=0.; i < 8.; i++) {
               float of = 0.006*random(vUv)*smoothstep(0.,15., i);
               float pt = ((.8+pow(i,1.4)*.002)) / (rd.y * 2. + 0.4);
               pt -= of;
@@ -212,7 +212,7 @@ export default class AuroreBoreale extends THREE.Object3D {
             avgCol = mix(avgCol, col2, .5);
               col += avgCol * exp2(-i*0.065 - 2.5) * smoothstep(0., 5., i);
             }
-            col *= (clamp(rd.y*15.+.4,0.,1.)) *10.;
+            col *= (clamp(rd.y*15.+.4,0.,1.)) *8.;
         
             return smoothstep(0.,1.1,pow(col,vec4(1.))*1.5);
         }
