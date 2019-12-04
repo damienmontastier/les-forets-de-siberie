@@ -17,7 +17,7 @@ class Intro extends THREE.Object3D {
   }
 
   init() {
-    this.animationPlayed = false
+    this.canClick = false
     console.log('viewport : ', Viewport)
 
     this.loadAssets().then(this.start.bind(this))
@@ -25,39 +25,48 @@ class Intro extends THREE.Object3D {
 
     setTimeout(() => {
       this.startLoadingAnimation()
-    }, 5000)
-
-    // VirtualScroll.on(e => {
-    //   console.log('event', e.originalEvent)
-    // })
+    }, 2000)
   }
 
   startLoadingAnimation() {
-    gsap.to(this.getPositionMeshes, {
-      duration: 1,
-      ease: 'power4.inOut',
-      stagger: {
-        amount: 2,
-      },
-      x: index => this.children[index].centerPosition.x,
-      y: index => this.children[index].centerPosition.y,
-    })
+    let loader = document.querySelector('.loader')
+    let introTitle = document.querySelector('.introTitle')
+
+    gsap
+      .timeline()
+      .to(this.getPositionMeshes, {
+        duration: 1.5,
+        ease: 'power4.inOut',
+        stagger: {
+          amount: 2,
+        },
+
+        x: index => this.children[index].centerPosition.x,
+        y: index => this.children[index].centerPosition.y,
+      })
+      .to(loader, {
+        duration: 1,
+        opacity: 0,
+        display: 'none',
+      })
+      .to(introTitle, {
+        duration: 1,
+        opacity: 1,
+        onComplete: () => {
+          this.canClick = true
+        },
+      })
   }
 
   handleTouchStart(e) {
-    if (this.animationPlayed) return
-
-    this.animationPlayed = true
+    if (!this.canClick) return
 
     gsap
       .to(this.getPositionMeshes, {
         duration: 1,
         ease: 'power4.inOut',
         stagger: {
-          amount: 2,
-        },
-        onComplete: () => {
-          this.finish()
+          amount: 1.5,
         },
         x: index => this.children[index].finalPositon.x,
         y: index => this.children[index].finalPositon.y,
@@ -93,7 +102,7 @@ class Intro extends THREE.Object3D {
 
       let mesh = sprite.children[0]
 
-      mesh.scale.multiplyScalar(1.5)
+      mesh.scale.multiplyScalar(1.6)
 
       mesh.centerPosition = this.getCenterPosition
 
@@ -128,11 +137,11 @@ class Intro extends THREE.Object3D {
     let x, y
 
     if (Math.round(Math.random())) {
-      x = this.randomBetweenTwoValues(-0.4, 0.4)
-      y = this.faceToFace(0.4)
+      x = this.randomBetweenTwoValues(-0.3, 0.3)
+      y = this.faceToFace(0.3)
     } else {
-      x = this.faceToFace(0.4)
-      y = this.randomBetweenTwoValues(-0.4, 0.4)
+      x = this.faceToFace(0.3)
+      y = this.randomBetweenTwoValues(-0.3, 0.3)
     }
     this.centerPosition.push({ x, y })
     return new THREE.Vector2(x, y)

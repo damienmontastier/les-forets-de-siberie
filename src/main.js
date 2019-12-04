@@ -7,7 +7,7 @@ import AudioManager from '@/plugins/audio-manager'
 
 const bande_sonore = require('../public/sounds/bande_sonore.mp3')
 
-AudioManager.add({ path: bande_sonore, volume: 0.05 }).then(sound => {
+AudioManager.add({ path: bande_sonore, volume: 0.1 }).then(sound => {
   sound.play()
 
   if (router.app._route.path != '/avril') {

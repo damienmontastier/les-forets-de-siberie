@@ -1,16 +1,21 @@
 <template>
   <div class="home">
     <div class="loader"></div>
-    <div class="intro"></div>
+    <div class="intro">
+      <Title></Title>
+    </div>
   </div>
 </template>
 
 <script>
 import Intro from '@/webGL/stages/Intro'
+import Title from '@/components/svg/IntroTitle'
 
 export default {
   name: 'intro',
-  components: {},
+  components: {
+    Title,
+  },
   mounted() {
     this.$nextTick(() => {
       this.$webgl.add('intro', Intro)
@@ -31,12 +36,17 @@ export default {
     background-position: center;
     background-size: 100%;
     width: 100%;
-    z-index: 999;
     height: 100%;
     position: absolute;
   }
 
   .intro {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: block;
+    width: 250px;
     svg {
       width: 100%;
     }
