@@ -20,7 +20,6 @@ class Parallax {
 
           TweenMax.to(element.position, 0.8, {
             y: -y * speed,
-            ease: 'power4.inout',
           })
         })
     })

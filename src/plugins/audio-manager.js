@@ -2,7 +2,7 @@ import { Howl, Howler } from 'howler'
 
 class AudioManager {
   constructor() {}
-  addSprite(path, volume, timecodes) {
+  addSprite(path, volume = 1.0, timecodes = null) {
     return new Promise((resolve, reject) => {
       let sounds = new Howl({
         src: path,

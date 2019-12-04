@@ -71,9 +71,21 @@ class Avril extends THREE.Object3D {
       this.textures = response.textures
 
       this.initParts()
-      AudioManager.play(this.sprites_voice, 'lake')
-      AudioManager.play(this.sprites_bruitages, 'wind')
+
+      Parallax.disable = true
+      this.titleChapterAsDone = false
+      this.sprites_voice.play('lake')
+      this.sprites_voice.fade(0, 0.5, 800)
+
+      this.sprites_bruitages.play('wind')
+      this.sprites_bruitages.fade(0, 0.3, 1500)
+
       Parallax.add(this.parts['part1'])
+      this.sprites_bruitages.play('fire')
+
+      this.sprites_voice.once('end', () => {
+        this.titleChapterAsDone = true
+      })
 
       //LAKE REFLECT
       this.lake = new LakeReflect({
@@ -249,9 +261,10 @@ class Avril extends THREE.Object3D {
   }
   handleEvents() {
     let current = this.getObjectByName('part1')
-
     Events.on('scroll', data => {
       this.amountScroll = Math.max(0, data.amountScroll)
+
+      if (!this.titleChapterAsDone) return
 
       gsap.to(this.position, {
         y: -this.amountScroll,
@@ -366,10 +379,15 @@ class Avril extends THREE.Object3D {
   }
 
   currentPartChanged({ current, last }) {
-    AudioManager.stop(this.sprites_voice)
-    AudioManager.stop(this.sprites_bruitages)
-    AudioManager.play(this.sprites_voice, current.name)
-    AudioManager.play(this.sprites_bruitages, current.name)
+    this.sprites_voice.stop()
+    this.sprites_bruitages.stop()
+
+    this.sprites_voice.play(current.name)
+    this.sprites_voice.fade(0, 0.5, 1500)
+
+    this.sprites_bruitages.play(current.name)
+    this.sprites_bruitages.fade(0, 0.3, 1500)
+
     Parallax.remove(last)
     Parallax.add(current)
   }
