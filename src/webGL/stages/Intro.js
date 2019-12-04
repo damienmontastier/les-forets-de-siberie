@@ -6,6 +6,7 @@ import Viewport from '../utils/Viewport'
 import gsap from 'gsap'
 import Vue from 'vue'
 import router from '../../router'
+import Events from '../../plugins/events'
 
 class Intro extends THREE.Object3D {
   constructor() {
@@ -98,7 +99,8 @@ class Intro extends THREE.Object3D {
   }
 
   endIntro() {
-    router.push('/avril')
+    Events.emit('intro end')
+    //router.push('/avril')
     this.visible = false
   }
 

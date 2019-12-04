@@ -333,7 +333,7 @@ class Avril extends THREE.Object3D {
 
       setTimeout(() => {
         virtualScroll.disabled = false
-      }, 9000)
+      }, 9500)
     }
   }
 
