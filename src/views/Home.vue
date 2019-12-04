@@ -8,7 +8,11 @@
         <HeadphonesText />
       </div>
     </div>
-    <video src="/videos/intro.mp4" ref="intro"></video>
+    <video
+      src="/videos/intro.mp4"
+      ref="intro"
+      style="transform: scale(1.05);"
+    ></video>
     <video src="/videos/pied.mp4" ref="pied"></video>
   </div>
 </template>
