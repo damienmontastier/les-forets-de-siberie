@@ -2,6 +2,8 @@ import * as THREE from 'three'
 import Viewport from '../utils/Viewport'
 import { Flowmap } from './FlowMap'
 import Mouse from '../../plugins/Mouse'
+import gsap from 'gsap'
+import Events from '../../plugins/events'
 
 export default class Frost extends THREE.Object3D {
   constructor({ renderer, map }) {
@@ -30,6 +32,18 @@ export default class Frost extends THREE.Object3D {
     }, 14)
   }
 
+  fadeIn() {
+    gsap.to(this.bufferMaterial.uniforms.uFrostyness, 3, {
+      value: 5,
+      onComplete: () => {
+        this.enabled = true
+        setTimeout(() => {
+          Events.emit('video fin')
+        }, 4000)
+      },
+    })
+  }
+
   update() {
     this.render()
   }
@@ -37,9 +51,10 @@ export default class Frost extends THREE.Object3D {
   render() {
     this.flowmap.velocity.copy(new THREE.Vector2(1, 1))
 
-    this.flowmap.mouse.copy(Mouse.normalized)
-
-    this.flowmap.update()
+    if (this.enabled) {
+      this.flowmap.mouse.copy(Mouse.normalized)
+      this.flowmap.update()
+    }
 
     this.renderer.setRenderTarget(this.bufferTexture)
     this.renderer.render(this.bufferScene, this.camera)
@@ -90,14 +105,6 @@ export default class Frost extends THREE.Object3D {
           // B value is the velocity length
           vec3 flow = texture2D(uFlow, vUv).rgb;
 
-          // Use flow to adjust the uv lookup of a texture
-          //vec2 uv = gl_FragCoord.xy / 600.0;
-          //vec2 uv = vUv;
-          //uv += flow.xy * 0.15;
-          //vec3 tex = texture2D(uMap, uv).rgb;
-
-          // tex = mix(tex, flow * 0.5 + 0.5, smoothstep( -0.3, 0.7, sin(uTime)));
-
           vec4 texture = texture2D(uMap, vUv);
 
           gl_FragColor = vec4(texture.rgb,min(1.-flow.b,texture.r));
@@ -117,7 +124,7 @@ export default class Frost extends THREE.Object3D {
       renderer: this.renderer,
       dissipation: 0.0,
       falloff: 0.1,
-      size: 512,
+      size: 1024,
     })
     this.bufferScene = new THREE.Scene()
     this.bufferTexture = new THREE.WebGLRenderTarget(512, 512, {
@@ -130,6 +137,9 @@ export default class Frost extends THREE.Object3D {
         uTime: { value: 0 },
         uMap: {
           value: this.map,
+        },
+        uFrostyness: {
+          value: 0,
         },
       },
       vertexShader: `
@@ -148,9 +158,11 @@ export default class Frost extends THREE.Object3D {
         uniform float uTime;
         uniform sampler2D uMap;
 
-        #define FROSTYNESS 5.0
+        #define FROSTYNESS 1.0
         #define COLORIZE   1.0
         #define COLOR_RGB  0.7,1.0,1.0
+
+        uniform float uFrostyness;
 
         float rand(vec2 uv) {
         
@@ -164,7 +176,8 @@ export default class Frost extends THREE.Object3D {
         void main() {
           vec4 frost = texture2D(uMap, vUv);
           vec2 rnd = vec2(rand(vUv+frost.r*.05), rand(vUv+frost.b*.05));
-          rnd *= .025+frost.rg*FROSTYNESS;
+          float distance = distance(vUv,vec2(0.5));
+          rnd *= .025+frost.rg*uFrostyness* (1.-distance);
           gl_FragColor = vec4(rnd.r);
         }
       `,

@@ -20,6 +20,7 @@ import Frost from '../components/Frost'
 import Water from '../components/Water'
 import Sun from '../components/Sun'
 import Background from '../components/Background'
+import virtualScroll from '../../plugins/virtual-scroll'
 
 let positions = require('../../../public/assets/avril/positions/positions')
 let avril_voix = require('../../../public/sounds/avril_voix.mp3')
@@ -53,6 +54,9 @@ const pathesArray = [
   '/assets/avril/atlases/sun/',
   '/assets/avril/atlases/background/',
 ]
+
+const map = (value, x1, y1, x2, y2) =>
+  ((value - x1) * (y2 - x2)) / (y1 - x1) + x2
 
 class Avril extends THREE.Object3D {
   constructor() {
@@ -252,6 +256,9 @@ class Avril extends THREE.Object3D {
       gsap.to(this.position, {
         y: -this.amountScroll,
         duration: 1,
+        onUpdate: () => {
+          this.detectSun()
+        },
       })
 
       if (this.amountScroll <= 0) {
@@ -267,7 +274,95 @@ class Avril extends THREE.Object3D {
       current = this.currentPart
 
       this.doesCurrentStepChanged = current
+
+      this.detectAuroreBoreale()
+
+      this.detectFrost()
     })
+  }
+
+  detectFrost() {
+    if (this.amountScroll > 17.7 * Viewport.width) {
+      gsap.to(this.position, 1, {
+        y: -18.1 * Viewport.width,
+        onStart: () => {
+          this.frost.fadeIn()
+        },
+      })
+      virtualScroll.disabled = true
+    }
+  }
+
+  detectAuroreBoreale() {
+    if (this.parts['auroreBoreal'].done) return
+    let boundingBox = this.parts['auroreBoreal'].boundingBox
+    let y = boundingBox.min.y * Viewport.width
+    let height = boundingBox.max.y - boundingBox.min.y
+    height *= Viewport.width
+    if (this.amountScroll > y) {
+      this.parts['auroreBoreal'].done = true
+      virtualScroll.disabled = true
+
+      virtualScroll.amountScroll = this.amountScroll + height / 2 + 100
+
+      gsap.to(this.position, 1, {
+        y: -(y + height / 2 + 100),
+      })
+
+      setTimeout(() => {
+        virtualScroll.disabled = false
+      }, 5000)
+    }
+  }
+
+  detectSun() {
+    let boundingBox = this.parts['sun'].boundingBox
+    let height = boundingBox.max.y - boundingBox.min.y
+    let y = (boundingBox.min.y + height - 0.1 + height / 2) * Viewport.width
+
+    if (-(this.position.y + 599) > y) {
+      Renderer.isComposerEnabled = false
+      this.parts['sun'].sticky = false
+      return
+    }
+
+    let deltaY = -this.position.y - y
+    // console.log(deltaY)
+    let mappedValue = map(deltaY, 0, 600, 0, 1)
+
+    // console.log(mappedValue)
+    let amplitude = 1 - mappedValue
+
+    if (-this.position.y > y) {
+      Renderer.HeatWaveEffect.uniforms.get('amplitude').value = amplitude * 0.1
+      this.sun.uniforms.uProgress.value = mappedValue
+    }
+
+    if (this.parts['sun'].sticky) {
+      this.parts['sun'].position.y =
+        boundingBox.min.y + height / 2 + deltaY / Viewport.width
+      // console.log(this.parts['sun'].position.y)
+      return
+    }
+
+    if (-this.position.y > y) {
+      this.parts['sun'].sticky = true
+
+      Renderer.isComposerEnabled = true
+      Renderer.HeatWaveEffect.uniforms.get('amplitude').value = 0.1
+
+      gsap.fromTo(
+        Renderer.HeatWaveEffect.uniforms.get('amplitude'),
+        1,
+        {
+          value: 0,
+        },
+        {
+          value: 0.1,
+          ease: 'power4.out',
+        }
+      )
+    }
   }
 
   currentPartChanged({ current, last }) {
