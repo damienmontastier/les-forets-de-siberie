@@ -68,9 +68,13 @@ class Avril extends THREE.Object3D {
   init({ renderer }) {
     this.renderer = renderer
 
-    let avrilTitle = document.querySelector('.avrilTitle')
+    this.avrilTitle = document.querySelector('.avrilTitle')
 
     this.loadAssets().then(response => {
+      gsap.set(this.avrilTitle, {
+        opacity: 1,
+      })
+
       this.textures = response.textures
 
       this.initParts()
@@ -86,11 +90,13 @@ class Avril extends THREE.Object3D {
       Parallax.add(this.parts['part1'])
 
       this.sprites_voice.once('end', () => {
-        gsap.to(avrilTitle, {
+        gsap.to(this.avrilTitle, {
           duration: 1,
           display: 'none',
           opacity: 0,
           onComplete: () => {
+            Parallax.disable = false
+
             this.titleChapterAsDone = true
           },
         })
@@ -297,7 +303,7 @@ class Avril extends THREE.Object3D {
 
       this.doesCurrentStepChanged = current
 
-      this.detectAuroreBoreale()
+      // this.detectAuroreBoreale()
 
       this.detectFrost()
     })
@@ -356,7 +362,7 @@ class Avril extends THREE.Object3D {
     let amplitude = 1 - mappedValue
 
     if (-this.position.y > y) {
-      Renderer.HeatWaveEffect.uniforms.get('amplitude').value = amplitude * 0.1
+      Renderer.HeatWaveEffect.uniforms.get('amplitude').value = amplitude * 0.2
       this.sun.uniforms.uProgress.value = mappedValue
     }
 
@@ -395,7 +401,7 @@ class Avril extends THREE.Object3D {
     this.sprites_voice.fade(0, 0.5, 1500)
 
     this.sprites_bruitages.play(current.name)
-    this.sprites_bruitages.fade(0, 0.5, 1500)
+    this.sprites_bruitages.fade(0, 0.5, 800)
 
     Parallax.remove(last)
     Parallax.add(current)

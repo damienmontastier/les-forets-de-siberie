@@ -21,7 +21,7 @@ void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor)
 export default class HeatWave extends Effect {
   constructor({
     blendFunction = BlendFunction.NORMAL,
-    frequency = 300.0,
+    frequency = 200.0,
     amplitude = 0.018,
   } = {}) {
     super('BadTVEffect', fragment, {
