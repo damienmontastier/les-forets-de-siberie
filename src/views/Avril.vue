@@ -1,14 +1,20 @@
 <template>
   <div>
     <video ref="video" src="/videos/FIN.mp4"></video>
+    <avrilTitle></avrilTitle>
   </div>
 </template>
 
 <script>
 import Avril from '@/webGL/stages/Avril'
 import Events from '@/plugins/events'
+import AvrilTitle from '@/components/svg/AvrilTitle'
+
 export default {
   name: 'avril',
+  components: {
+    AvrilTitle,
+  },
   mounted() {
     this.$nextTick(() => {
       this.$webgl.add('avril', Avril)
@@ -21,7 +27,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 video {
   width: 100%;
   height: 100%;

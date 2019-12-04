@@ -99,6 +99,7 @@ class Intro extends THREE.Object3D {
 
   endIntro() {
     router.push('/avril')
+    this.visible = false
   }
 
   start() {

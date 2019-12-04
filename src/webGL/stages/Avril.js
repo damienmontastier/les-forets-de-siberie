@@ -78,10 +78,9 @@ class Avril extends THREE.Object3D {
       this.sprites_voice.fade(0, 0.5, 800)
 
       this.sprites_bruitages.play('wind')
-      this.sprites_bruitages.fade(0, 0.3, 1500)
+      this.sprites_bruitages.fade(0, 0.5, 1500)
 
       Parallax.add(this.parts['part1'])
-      this.sprites_bruitages.play('fire')
 
       this.sprites_voice.once('end', () => {
         this.titleChapterAsDone = true
@@ -386,7 +385,7 @@ class Avril extends THREE.Object3D {
     this.sprites_voice.fade(0, 0.5, 1500)
 
     this.sprites_bruitages.play(current.name)
-    this.sprites_bruitages.fade(0, 0.3, 1500)
+    this.sprites_bruitages.fade(0, 0.5, 1500)
 
     Parallax.remove(last)
     Parallax.add(current)
