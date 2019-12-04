@@ -1,5 +1,4 @@
-import TweenMax, { Power4 } from 'gsap'
-import VirtualScroll from '../../plugins/virtual-scroll'
+import gsap from 'gsap'
 import Events from '../../plugins/events'
 import Viewport from './Viewport'
 
@@ -18,8 +17,9 @@ class Parallax {
 
           const speed = index == 0 ? 1 * 0.08 : element.position.z * 1
 
-          TweenMax.to(element.position, 0.8, {
+          gsap.to(element.position, {
             y: -y * speed,
+            duration: 0.8,
           })
         })
     })

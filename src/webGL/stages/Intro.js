@@ -69,6 +69,9 @@ class Intro extends THREE.Object3D {
       },
       x: index => this.children[index].finalPositon.x,
       y: index => this.children[index].finalPositon.y,
+      onStart: () => {
+        this.canClick = false
+      },
     })
     gsap
       .to(this.getPositionMeshes, {

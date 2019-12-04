@@ -95,6 +95,8 @@ class Avril extends THREE.Object3D {
           display: 'none',
           opacity: 0,
           onComplete: () => {
+            Parallax.disable = false
+
             this.titleChapterAsDone = true
           },
         })
