@@ -58,6 +58,7 @@ export default {
   fill: #fff;
 }
 .avrilTitle {
+  opacity: 0;
   position: absolute;
   width: 30%;
   z-index: 999;
