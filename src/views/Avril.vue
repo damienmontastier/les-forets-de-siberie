@@ -1,6 +1,10 @@
 <template>
   <div>
-    <video ref="video" src="/videos/FIN.mp4"></video>
+    <video
+      ref="video"
+      src="/videos/FIN.mp4"
+      style="transform: scale(1.05);"
+    ></video>
     <avrilTitle></avrilTitle>
   </div>
 </template>

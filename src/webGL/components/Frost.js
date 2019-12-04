@@ -39,7 +39,7 @@ export default class Frost extends THREE.Object3D {
         this.enabled = true
         setTimeout(() => {
           Events.emit('video fin')
-        }, 4000)
+        }, 10000)
       },
     })
   }
@@ -123,7 +123,7 @@ export default class Frost extends THREE.Object3D {
     this.flowmap = new Flowmap({
       renderer: this.renderer,
       dissipation: 0.0,
-      falloff: 0.1,
+      falloff: 0.05,
       size: 1024,
     })
     this.bufferScene = new THREE.Scene()
