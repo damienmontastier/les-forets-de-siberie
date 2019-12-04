@@ -23,9 +23,25 @@ class Intro extends THREE.Object3D {
     this.loadAssets().then(this.start.bind(this))
     document.addEventListener('touchstart', this.handleTouchStart.bind(this))
 
+    setTimeout(() => {
+      this.startLoadingAnimation()
+    }, 5000)
+
     // VirtualScroll.on(e => {
     //   console.log('event', e.originalEvent)
     // })
+  }
+
+  startLoadingAnimation() {
+    gsap.to(this.getPositionMeshes, {
+      duration: 1,
+      ease: 'power4.inOut',
+      stagger: {
+        amount: 2,
+      },
+      x: index => this.children[index].centerPosition.x,
+      y: index => this.children[index].centerPosition.y,
+    })
   }
 
   handleTouchStart(e) {
@@ -33,21 +49,18 @@ class Intro extends THREE.Object3D {
 
     this.animationPlayed = true
 
-    const mesh = this.children
-      .sort((a, b) => b.renderOrder - a.renderOrder)
-      .map(sprite => sprite.position)
-
-    console.log(this.children)
-
     gsap
-      .to(mesh, {
+      .to(this.getPositionMeshes, {
         duration: 1,
         ease: 'power4.inOut',
         stagger: {
           amount: 2,
         },
-        x: index => this.children[index].centerPosition.x,
-        y: index => this.children[index].centerPosition.y,
+        onComplete: () => {
+          this.finish()
+        },
+        x: index => this.children[index].finalPositon.x,
+        y: index => this.children[index].finalPositon.y,
       })
       .then(() => {
         this.endIntro()
@@ -80,9 +93,7 @@ class Intro extends THREE.Object3D {
 
       let mesh = sprite.children[0]
 
-      // mesh.scale.setScalar(1)
-
-      let spritePosition = new THREE.Vector3()
+      mesh.scale.multiplyScalar(1.5)
 
       mesh.centerPosition = this.getCenterPosition
 
@@ -91,8 +102,6 @@ class Intro extends THREE.Object3D {
       let loadingPosition = this.getFinalPosition(
         mesh.centerPosition
       ).multiplyScalar(2)
-
-      console.log(loadingPosition)
 
       mesh.position.x = loadingPosition.x
       mesh.position.y = loadingPosition.y
@@ -119,18 +128,25 @@ class Intro extends THREE.Object3D {
     let x, y
 
     if (Math.round(Math.random())) {
-      x = this.randomBetweenTwoValues(-Viewport.width, Viewport.width)
-      y = this.faceToFace(Viewport.height)
+      x = this.randomBetweenTwoValues(-0.4, 0.4)
+      y = this.faceToFace(0.4)
     } else {
-      x = this.faceToFace(Viewport.width)
-      y = this.randomBetweenTwoValues(-Viewport.height, Viewport.height)
+      x = this.faceToFace(0.4)
+      y = this.randomBetweenTwoValues(-0.4, 0.4)
     }
     this.centerPosition.push({ x, y })
     return new THREE.Vector2(x, y)
   }
 
   getFinalPosition({ x, y }) {
-    return new THREE.Vector2(x, y).normalize().multiplyScalar(0.8)
+    return new THREE.Vector2(x, y).normalize().multiplyScalar(1.25)
+  }
+
+  get getPositionMeshes() {
+    let a = this.children
+      .sort((a, b) => b.renderOrder - a.renderOrder)
+      .map(sprite => sprite.position)
+    return a
   }
 
   faceToFace = width => {
