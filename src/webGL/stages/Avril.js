@@ -312,7 +312,7 @@ class Avril extends THREE.Object3D {
     let y = boundingBox.min.y * Viewport.width
     let height = boundingBox.max.y - boundingBox.min.y
     height *= Viewport.width
-    if (this.amountScroll > y) {
+    if (this.amountScroll > 4.7 * Viewport.width) {
       this.parts['auroreBoreal'].done = true
       virtualScroll.disabled = true
 
