@@ -67,6 +67,9 @@ class Avril extends THREE.Object3D {
 
   init({ renderer }) {
     this.renderer = renderer
+
+    let avrilTitle = document.querySelector('.avrilTitle')
+
     this.loadAssets().then(response => {
       this.textures = response.textures
 
@@ -83,7 +86,14 @@ class Avril extends THREE.Object3D {
       Parallax.add(this.parts['part1'])
 
       this.sprites_voice.once('end', () => {
-        this.titleChapterAsDone = true
+        gsap.to(avrilTitle, {
+          duration: 1,
+          display: 'none',
+          opacity: 0,
+          onComplete: () => {
+            this.titleChapterAsDone = true
+          },
+        })
       })
 
       //LAKE REFLECT
