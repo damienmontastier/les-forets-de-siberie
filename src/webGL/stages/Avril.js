@@ -476,8 +476,7 @@ class Avril extends THREE.Object3D {
 
     let downParts = Object.values(this.parts)
       .filter(part => {
-        let partY =
-          part.boundingBox.min.y * Viewport.width + 0.5 * Viewport.width
+        let partY = part.boundingBox.min.y * Viewport.width
         return partY < this.amountScroll && part.interact
       })
       .sort((a, b) => {

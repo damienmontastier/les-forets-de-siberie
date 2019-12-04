@@ -3,10 +3,9 @@ import TextureAtlas from '../utils/TextureAtlas'
 import atlasJSON from '../../../public/assets/intro/atlas/intro_branche.json'
 import Sprite from '../utils/Sprite'
 import Viewport from '../utils/Viewport'
-import Camera from '../utils/Camera'
-import VirtualScroll from '../../plugins/virtual-scroll'
 import gsap from 'gsap'
-import loadTextureAtlasFromPath from '@/webGL/utils/loadTextureAtlasFromPath'
+import Vue from 'vue'
+import router from '../../router'
 
 class Intro extends THREE.Object3D {
   constructor() {
@@ -25,6 +24,7 @@ class Intro extends THREE.Object3D {
 
     setTimeout(() => {
       this.startLoadingAnimation()
+      // Delete this dans la scene
     }, 2000)
   }
 
@@ -47,29 +47,39 @@ class Intro extends THREE.Object3D {
       .to(loader, {
         duration: 1,
         opacity: 0,
-        display: 'none',
-      })
-      .to(introTitle, {
-        duration: 1,
-        opacity: 1,
         onComplete: () => {
           this.canClick = true
         },
+        display: 'none',
+      })
+      .to(introTitle, {
+        duration: 0.1,
+        opacity: 1,
       })
   }
 
   handleTouchStart(e) {
     if (!this.canClick) return
 
+    gsap.to(this.getPositionMeshes, {
+      duration: 1,
+      ease: 'power4.inOut',
+      stagger: {
+        amount: 1.5,
+      },
+      x: index => this.children[index].finalPositon.x,
+      y: index => this.children[index].finalPositon.y,
+    })
     gsap
       .to(this.getPositionMeshes, {
         duration: 1,
+        delay: 3,
         ease: 'power4.inOut',
         stagger: {
           amount: 1.5,
         },
-        x: index => this.children[index].finalPositon.x,
-        y: index => this.children[index].finalPositon.y,
+        x: index => this.children[index].finalPositon.x * 5,
+        y: index => this.children[index].finalPositon.y * 5,
       })
       .then(() => {
         this.endIntro()
@@ -88,7 +98,7 @@ class Intro extends THREE.Object3D {
   }
 
   endIntro() {
-    console.log('intro animation is finish')
+    router.push('/avril')
   }
 
   start() {
