@@ -39,7 +39,7 @@ class Intro extends THREE.Object3D {
     const dirPosition = this.children.map(sprite => {
       return new THREE.Vector2(sprite.position.x, sprite.position.y)
         .normalize()
-        .multiplyScalar(Viewport.height)
+        .multiplyScalar(0.8)
     })
 
     gsap

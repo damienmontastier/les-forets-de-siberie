@@ -36,11 +36,11 @@ let timecodes_voix = {
 }
 
 let timecodes_bruitages = {
-  fire: [0, 15000],
-  wind: [20000, 20000],
-  part3: [45000, 12000],
-  part6: [62000, 7000],
-  part6: [74000, 13000],
+  fire: [0, 10050],
+  wind: [10060, 9900],
+  part3: [20070, 9970],
+  part6: [30060, 7800],
+  part6: [37190, 10000],
 }
 
 const pathesArray = [
@@ -363,7 +363,8 @@ class Avril extends THREE.Object3D {
 
     let downParts = Object.values(this.parts)
       .filter(part => {
-        let partY = part.boundingBox.min.y * Viewport.width
+        let partY =
+          part.boundingBox.min.y * Viewport.width + 0.5 * Viewport.width
         return partY < this.amountScroll && part.interact
       })
       .sort((a, b) => {
