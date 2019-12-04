@@ -11,17 +11,34 @@
 <script>
 import Vue from 'vue'
 import WebGLScene from '@/components/WebGLScene'
-
 import Events from '@/plugins/events.js'
-
 import { isMobile } from 'mobile-device-detect'
 
 export default {
   name: 'app',
+  mounted() {
+    //window.addEventListener('click', this.openFullscreen.bind(this))
+  },
   data() {
     return {
       isMobile: isMobile,
     }
+  },
+  methods: {
+    openFullscreen() {
+      if (document.body.requestFullscreen) {
+        document.body.requestFullscreen()
+      } else if (document.body.mozRequestFullScreen) {
+        /* Firefox */
+        document.body.mozRequestFullScreen()
+      } else if (document.body.webkitRequestFullscreen) {
+        /* Chrome, Safari and Opera */
+        document.body.webkitRequestFullscreen()
+      } else if (document.body.msRequestFullscreen) {
+        /* IE/Edge */
+        document.body.msRequestFullscreen()
+      }
+    },
   },
   components: {
     WebGLScene,

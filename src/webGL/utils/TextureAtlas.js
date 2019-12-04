@@ -6,7 +6,7 @@ export default class TextureAtlas {
     let texture = new THREE.Texture(image)
     texture.needsUpdate = true
 
-    Object.keys(json).forEach((key, i) => {
+    Object.keys(json).forEach(key => {
       let frame = json[key]
       let t = texture.clone()
       let data = frame.frame

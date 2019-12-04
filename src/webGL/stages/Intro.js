@@ -1,55 +1,89 @@
 import * as THREE from 'three'
 import TextureAtlas from '../utils/TextureAtlas'
-import atlasJSON from '../../../public/assets/intro/atlas/intro_branches_sprite'
+import atlasJSON from '../../../public/assets/intro/atlas/intro_branche.json'
 import Sprite from '../utils/Sprite'
 import Viewport from '../utils/Viewport'
-import Viewsize from '../utils/Viewsize'
-import Camera from '../utils/Camera'
-import VirtualScroll from '../../plugins/virtual-scroll'
 import gsap from 'gsap'
+import Vue from 'vue'
+import router from '../../router'
+import Events from '../../plugins/events'
 
 class Intro extends THREE.Object3D {
   constructor() {
     super()
+
+    this.centerPosition = []
+    this.scale.setScalar(Viewport.width + Viewport.width * 0.06)
   }
 
   init() {
-    this.animationPlayed = false
+    this.canClick = false
     console.log('viewport : ', Viewport)
-    console.log('viewsize : ', Viewsize)
 
     this.loadAssets().then(this.start.bind(this))
     document.addEventListener('touchstart', this.handleTouchStart.bind(this))
 
-    // VirtualScroll.on(e => {
-    //   console.log('event', e.originalEvent)
-    // })
+    setTimeout(() => {
+      this.startLoadingAnimation()
+      // Delete this dans la scene
+    }, 2000)
+  }
+
+  startLoadingAnimation() {
+    let loader = document.querySelector('.loader')
+    let introTitle = document.querySelector('.introTitle')
+
+    gsap
+      .timeline()
+      .to(this.getPositionMeshes, {
+        duration: 1.5,
+        ease: 'power4.inOut',
+        stagger: {
+          amount: 2,
+        },
+
+        x: index => this.children[index].centerPosition.x,
+        y: index => this.children[index].centerPosition.y,
+      })
+      .to(loader, {
+        duration: 1,
+        opacity: 0,
+        onComplete: () => {
+          this.canClick = true
+        },
+        display: 'none',
+      })
+      .to(introTitle, {
+        duration: 0.1,
+        opacity: 1,
+      })
   }
 
   handleTouchStart(e) {
-    if (this.animationPlayed) return
+    if (!this.canClick) return
 
-    this.animationPlayed = true
-
-    const position = this.children
-      .sort((a, b) => b.renderOrder - a.renderOrder)
-      .map(sprite => sprite.position)
-
-    const dirPosition = this.children.map(sprite => {
-      return new THREE.Vector2(sprite.position.x, sprite.position.y)
-        .normalize()
-        .multiplyScalar(Viewsize.height)
+    gsap.to(this.getPositionMeshes, {
+      duration: 1,
+      ease: 'power4.inOut',
+      stagger: {
+        amount: 1.5,
+      },
+      x: index => this.children[index].finalPositon.x,
+      y: index => this.children[index].finalPositon.y,
+      onStart: () => {
+        this.canClick = false
+      },
     })
-
     gsap
-      .to(position, {
-        duration: 0.5,
-        ease: 'power4.in',
+      .to(this.getPositionMeshes, {
+        duration: 1,
+        delay: 3,
+        ease: 'power4.inOut',
         stagger: {
-          amount: 3,
+          amount: 1.5,
         },
-        x: index => dirPosition[index].x,
-        y: index => dirPosition[index].y,
+        x: index => this.children[index].finalPositon.x * 5,
+        y: index => this.children[index].finalPositon.y * 5,
       })
       .then(() => {
         this.endIntro()
@@ -60,15 +94,17 @@ class Intro extends THREE.Object3D {
     return new Promise((resolve, reject) => {
       let loader = new THREE.TextureLoader()
 
-      loader.load('/assets/intro/atlas/intro_branches_sprite.png', texture => {
-        this.textureAtlas = new TextureAtlas(atlasJSON, texture.image)
+      loader.load('/assets/intro/atlas/intro_branche.png', texture => {
+        this.textureAtlas = new TextureAtlas(atlasJSON.frames, texture.image)
         resolve()
       })
     })
   }
 
   endIntro() {
-    console.log('intro animation is finish')
+    Events.emit('intro end')
+    //router.push('/avril')
+    this.visible = false
   }
 
   start() {
@@ -80,41 +116,62 @@ class Intro extends THREE.Object3D {
         size: this.textureAtlas.getSize(element[0]),
       })
 
-      sprite.scale.set(4, 4, 4)
+      let mesh = sprite.children[0]
 
-      let spritePosition = new THREE.Vector3()
-      let x, y
+      mesh.scale.multiplyScalar(1.6)
 
-      if (Math.round(Math.random())) {
-        x = this.randomBetweenTwoValues(-Viewsize.width, Viewsize.width)
-        y = this.faceToFace(Viewsize.height)
-      } else {
-        x = this.faceToFace(Viewsize.width)
-        y = this.randomBetweenTwoValues(-Viewsize.height, Viewsize.height)
-      }
+      mesh.centerPosition = this.getCenterPosition
 
-      spritePosition.x = x / 2
-      spritePosition.y = y / 2
-      spritePosition.z = 0
+      mesh.finalPositon = this.getFinalPosition(mesh.centerPosition)
 
-      sprite.position.copy(spritePosition)
+      let loadingPosition = this.getFinalPosition(
+        mesh.centerPosition
+      ).multiplyScalar(2)
 
-      this.add(sprite)
+      mesh.position.x = loadingPosition.x
+      mesh.position.y = loadingPosition.y
+
+      this.add(mesh)
 
       let angleToTheCenter =
         this.findAngle(
           new THREE.Vector3(0, 0, 0),
-          sprite.position,
-          new THREE.Vector3(sprite.position.x, 0, 0)
-        ) * Math.sign(sprite.position.x)
+          mesh.position,
+          new THREE.Vector3(mesh.position.x, 0, 0)
+        ) * Math.sign(mesh.position.x)
 
-      if (sprite.position.y > 0) {
+      if (mesh.position.y > 0) {
         const radian = this.flipRadian(angleToTheCenter)
-        sprite.rotation.set(0, 0, -radian)
-      } else sprite.rotation.set(0, 0, angleToTheCenter)
+        mesh.rotation.set(0, 0, -radian)
+      } else mesh.rotation.set(0, 0, angleToTheCenter)
 
-      sprite.renderOrder = index
+      mesh.renderOrder = index
     })
+  }
+
+  get getCenterPosition() {
+    let x, y
+
+    if (Math.round(Math.random())) {
+      x = this.randomBetweenTwoValues(-0.3, 0.3)
+      y = this.faceToFace(0.3)
+    } else {
+      x = this.faceToFace(0.3)
+      y = this.randomBetweenTwoValues(-0.3, 0.3)
+    }
+    this.centerPosition.push({ x, y })
+    return new THREE.Vector2(x, y)
+  }
+
+  getFinalPosition({ x, y }) {
+    return new THREE.Vector2(x, y).normalize().multiplyScalar(1.25)
+  }
+
+  get getPositionMeshes() {
+    let a = this.children
+      .sort((a, b) => b.renderOrder - a.renderOrder)
+      .map(sprite => sprite.position)
+    return a
   }
 
   faceToFace = width => {

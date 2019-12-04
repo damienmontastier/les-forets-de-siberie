@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Intro from '../views/Intro.vue'
+import Home from '../views/Home.vue'
 import Avril from '../views/Avril.vue'
 import events from '@/plugins/events'
 
@@ -9,8 +9,8 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'intro',
-    component: Intro,
+    name: 'Home',
+    component: Home,
   },
   {
     path: '/about',

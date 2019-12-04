@@ -20,9 +20,29 @@ import Frost from '../components/Frost'
 import Water from '../components/Water'
 import Sun from '../components/Sun'
 import Background from '../components/Background'
+import virtualScroll from '../../plugins/virtual-scroll'
 
 let positions = require('../../../public/assets/avril/positions/positions')
-let avril_sprites = require('../../../public/sounds/avril_sprites.mp3')
+let avril_voix = require('../../../public/sounds/avril_voix.mp3')
+let avril_bruitages = require('../../../public/sounds/avril_bruitages.mp3')
+
+let timecodes_voix = {
+  lake: [0, 4000],
+  fire: [5000, 9200],
+  auroreBoreal: [15000, 11000],
+  wind: [27000, 9000],
+  part3: [38000, 12000],
+  part6: [52000, 8600],
+  frost: [61200, 12000],
+}
+
+let timecodes_bruitages = {
+  fire: [0, 10050],
+  wind: [10060, 9900],
+  part3: [20070, 9970],
+  part6: [30060, 7800],
+  part6: [37190, 10000],
+}
 
 const pathesArray = [
   '/assets/avril/atlases/part1/',
@@ -35,6 +55,9 @@ const pathesArray = [
   '/assets/avril/atlases/background/',
 ]
 
+const map = (value, x1, y1, x2, y2) =>
+  ((value - x1) * (y2 - x2)) / (y1 - x1) + x2
+
 class Avril extends THREE.Object3D {
   constructor() {
     super()
@@ -44,12 +67,40 @@ class Avril extends THREE.Object3D {
 
   init({ renderer }) {
     this.renderer = renderer
+
+    this.avrilTitle = document.querySelector('.avrilTitle')
+
     this.loadAssets().then(response => {
+      gsap.set(this.avrilTitle, {
+        opacity: 1,
+      })
+
       this.textures = response.textures
 
       this.initParts()
 
-      AudioManager.play('lake')
+      Parallax.disable = true
+      this.titleChapterAsDone = false
+      this.sprites_voice.play('lake')
+      this.sprites_voice.fade(0, 0.5, 800)
+
+      this.sprites_bruitages.play('wind')
+      this.sprites_bruitages.fade(0, 0.5, 1500)
+
+      Parallax.add(this.parts['part1'])
+
+      this.sprites_voice.once('end', () => {
+        gsap.to(this.avrilTitle, {
+          duration: 1,
+          display: 'none',
+          opacity: 0,
+          onComplete: () => {
+            Parallax.disable = false
+
+            this.titleChapterAsDone = true
+          },
+        })
+      })
 
       //LAKE REFLECT
       this.lake = new LakeReflect({
@@ -213,7 +264,7 @@ class Avril extends THREE.Object3D {
       //BACKGROUND
 
       //HeatWave
-      // Renderer.isComposerEnabled = true
+      //Renderer.isComposerEnabled = true
       // setTimeout(() => {
       //   Renderer.HeatWaveEffect.uniforms.get('amplitude').value = 0.09
       // }, 2000)
@@ -225,14 +276,24 @@ class Avril extends THREE.Object3D {
   }
   handleEvents() {
     let current = this.getObjectByName('part1')
-
     Events.on('scroll', data => {
-      this.amountScroll = data.amountScroll
+      this.amountScroll = Math.max(0, data.amountScroll)
+
+      if (!this.titleChapterAsDone) return
 
       gsap.to(this.position, {
-        y: Math.min(0, -this.amountScroll),
+        y: -this.amountScroll,
         duration: 1,
+        onUpdate: () => {
+          this.detectSun()
+        },
       })
+
+      if (this.amountScroll <= 0) {
+        Parallax.disable = true
+      } else {
+        Parallax.disable = false
+      }
 
       if (current != this.currentPart && this.currentPart != undefined) {
         this.currentPartChanged({ current: this.currentPart, last: current })
@@ -241,24 +302,126 @@ class Avril extends THREE.Object3D {
       current = this.currentPart
 
       this.doesCurrentStepChanged = current
+
+      this.detectAuroreBoreale()
+
+      this.detectFrost()
     })
   }
 
-  currentPartChanged({ current, last }) {
-    // console.log(current, last, this.currentPart)
+  detectFrost() {
+    if (this.amountScroll > 17.7 * Viewport.width) {
+      gsap.to(this.position, 1, {
+        y: -18.1 * Viewport.width,
+        onStart: () => {
+          this.frost.fadeIn()
+        },
+      })
+      virtualScroll.disabled = true
+    }
+  }
 
-    AudioManager.stop()
-    AudioManager.play(current.name)
+  detectAuroreBoreale() {
+    if (this.parts['auroreBoreal'].done) return
+    let boundingBox = this.parts['auroreBoreal'].boundingBox
+    let y = boundingBox.min.y * Viewport.width
+    let height = boundingBox.max.y - boundingBox.min.y
+    height *= Viewport.width
+    if (this.amountScroll > 4.7 * Viewport.width) {
+      this.parts['auroreBoreal'].done = true
+      virtualScroll.disabled = true
+
+      virtualScroll.amountScroll = this.amountScroll + height / 2 + 100
+
+      gsap.to(this.position, 1, {
+        y: -(y + height / 2 + 100),
+      })
+
+      setTimeout(() => {
+        virtualScroll.disabled = false
+      }, 9500)
+    }
+  }
+
+  detectSun() {
+    let boundingBox = this.parts['sun'].boundingBox
+    let height = boundingBox.max.y - boundingBox.min.y
+    let y = (boundingBox.min.y + height - 0.1 + height / 2) * Viewport.width
+
+    if (-(this.position.y + 599) > y) {
+      Renderer.isComposerEnabled = false
+      this.parts['sun'].sticky = false
+      return
+    }
+
+    let deltaY = -this.position.y - y
+    // console.log(deltaY)
+    let mappedValue = map(deltaY, 0, 600, 0, 1)
+
+    // console.log(mappedValue)
+    let amplitude = 1 - mappedValue
+
+    if (-this.position.y > y) {
+      Renderer.HeatWaveEffect.uniforms.get('amplitude').value = amplitude * 0.2
+      this.sun.uniforms.uProgress.value = mappedValue
+    }
+
+    if (this.parts['sun'].sticky) {
+      this.parts['sun'].position.y =
+        boundingBox.min.y + height / 2 + deltaY / Viewport.width
+      // console.log(this.parts['sun'].position.y)
+      return
+    }
+
+    if (-this.position.y > y) {
+      this.parts['sun'].sticky = true
+
+      Renderer.isComposerEnabled = true
+      Renderer.HeatWaveEffect.uniforms.get('amplitude').value = 0.1
+
+      gsap.fromTo(
+        Renderer.HeatWaveEffect.uniforms.get('amplitude'),
+        1,
+        {
+          value: 0,
+        },
+        {
+          value: 0.1,
+          ease: 'power4.out',
+        }
+      )
+    }
+  }
+
+  currentPartChanged({ current, last }) {
+    this.sprites_voice.stop()
+    this.sprites_bruitages.stop()
+
+    this.sprites_voice.play(current.name)
+    this.sprites_voice.fade(0, 0.5, 1500)
+
+    this.sprites_bruitages.play(current.name)
+    this.sprites_bruitages.fade(0, 0.5, 800)
+
     Parallax.remove(last)
     Parallax.add(current)
   }
 
   loadAssets() {
     let promises = []
-    let sounds = new Promise((resolve, reject) => {
-      AudioManager.add(avril_sprites).then(() => {
-        resolve({ name: 'sounds', data: null })
+    let voices = new Promise((resolve, reject) => {
+      AudioManager.addSprite(avril_voix, 0.5, timecodes_voix).then(sounds => {
+        this.sprites_voice = sounds
+        resolve({ name: sounds })
       })
+    })
+    let bruitages = new Promise((resolve, reject) => {
+      AudioManager.addSprite(avril_bruitages, 0.3, timecodes_bruitages).then(
+        sounds => {
+          this.sprites_bruitages = sounds
+          resolve({ name: sounds })
+        }
+      )
     })
 
     let atlases = new Promise((resolve, reject) => {
@@ -267,8 +430,9 @@ class Avril extends THREE.Object3D {
       })
     })
 
-    promises.push(sounds)
     promises.push(atlases)
+    promises.push(voices)
+    promises.push(bruitages)
 
     return new Promise((resolve, reject) => {
       Promise.all(promises).then(data => {

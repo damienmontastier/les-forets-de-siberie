@@ -1,5 +1,4 @@
 import * as THREE from 'three'
-const OrbitControls = require('three-orbitcontrols')
 import Camera from './utils/Camera'
 import Viewport from './utils/Viewport'
 
@@ -39,7 +38,7 @@ export default class WebGL {
     this.mouse = new THREE.Vector2()
 
     //axes
-    this.scene.add(new THREE.AxesHelper(Viewport.width / 2))
+    // this.scene.add(new THREE.AxesHelper(Viewport.width / 2))
 
     //clock
     this.clock = new THREE.Clock()

@@ -1,34 +1,36 @@
 import { Howl, Howler } from 'howler'
 
-let sounds = require('../../public/sounds/avril_sprites.mp3')
-
 class AudioManager {
   constructor() {}
-  add(sounds) {
+  addSprite(path, volume = 1.0, timecodes = null) {
     return new Promise((resolve, reject) => {
-      this.sprite = new Howl({
-        src: sounds,
-        sprite: {
-          lake: [0, 4000],
-          fire: [5000, 9200],
-          auroreBoreal: [15000, 11000],
-          wind: [27000, 9000],
-          part3: [38000, 12000],
-          part6: [52000, 8600],
-          frost: [61200, 12000],
-        },
-
+      let sounds = new Howl({
+        src: path,
+        sprite: timecodes,
+        volume: volume,
         onload: () => {
-          resolve()
+          resolve(sounds)
         },
       })
     })
   }
-  play(id) {
-    this.sprite.play(id)
+  add({ path, volume = 1.0 }) {
+    return new Promise((resolve, reject) => {
+      let sound = new Howl({
+        src: path,
+        loop: true,
+        volume: volume,
+        onload: () => {
+          resolve(sound)
+        },
+      })
+    })
   }
-  stop() {
-    this.sprite.stop()
+  play(sound, name) {
+    sound.play(name)
+  }
+  stop(sound) {
+    sound.stop()
   }
 }
 

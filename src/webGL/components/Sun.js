@@ -11,10 +11,10 @@ export default class Sun extends THREE.Object3D {
     this.initMaterial()
     this.initMesh()
 
-    setInterval(() => {
-      this.uniforms.uTime.value += 0.01
-      this.uniforms.uProgress.value = Math.sin(this.uniforms.uTime.value)
-    }, 14)
+    // setInterval(() => {
+    //   this.uniforms.uTime.value += 0.01
+    //   this.uniforms.uProgress.value = Math.sin(this.uniforms.uTime.value)
+    // }, 14)
   }
 
   initMaterial() {
