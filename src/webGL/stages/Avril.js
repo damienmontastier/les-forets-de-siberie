@@ -303,7 +303,7 @@ class Avril extends THREE.Object3D {
 
       this.doesCurrentStepChanged = current
 
-      // this.detectAuroreBoreale()
+      this.detectAuroreBoreale()
 
       this.detectFrost()
     })
