@@ -32,7 +32,7 @@ let timecodes_voix = {
   auroreBoreal: [15000, 11000],
   wind: [27000, 9000],
   part3: [38000, 12000],
-  part6: [52000, 8600],
+  part6: [52000, 9800],
   frost: [61200, 12000],
 }
 
