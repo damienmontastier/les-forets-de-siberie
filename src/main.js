@@ -8,7 +8,6 @@ import AudioManager from '@/plugins/audio-manager'
 const bande_sonore = require('../public/sounds/bande_sonore.mp3')
 
 document.addEventListener('touchstart', () => {
-  console.log('yere')
   if (!document.fullscreenElement) {
     document.documentElement.requestFullscreen()
   }
