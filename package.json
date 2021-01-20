@@ -17,7 +17,7 @@
     "core-js": "^3.3.2",
     "dat.gui": "^0.7.6",
     "events": "^3.0.0",
-    "gsap": "^3.0.1",
+    "gsap": "^3.6.0",
     "howler": "^2.1.2",
     "mobile-detect": "^1.4.4",
     "mobile-device-detect": "^0.3.3",
