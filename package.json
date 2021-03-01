@@ -22,7 +22,7 @@
     "mobile-detect": "^1.4.4",
     "mobile-device-detect": "^0.3.3",
     "postprocessing": "^6.8.9",
-    "three": "^0.110.0",
+    "three": "^0.125.0",
     "three-orbitcontrols": "^2.110.1",
     "virtual-scroll": "^1.5.1",
     "vue": "^2.6.10",
